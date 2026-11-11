@@ -1,4 +1,3 @@
-
 ---
 layout: home
 title: 2e Lab Brasil
