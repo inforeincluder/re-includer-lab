@@ -13,24 +13,31 @@ Nosso objetivo é aproximar a produção científica das pessoas, famílias e pr
 ## Nossos eixos de investigação
 
 ### Dupla excepcionalidade e altas habilidades
+
 Altas habilidades associadas ao autismo, TDAH, dislexia e outras condições.
 
 ### Múltipla excepcionalidade
+
 Pessoas com múltiplas condições do neurodesenvolvimento e diferentes perfis de habilidades.
 
 ### Neurodiversidade
+
 Autismo, TDAH, dislexia, dispraxia, Tourette e outras formas de neurodivergência.
 
 ### Neurociência e desenvolvimento
+
 Cognição, funções executivas, aprendizagem e desenvolvimento humano.
 
 ### Saúde e diagnóstico
+
 Avaliação, diagnóstico tardio, coexistência de condições e saúde mental.
 
 ### Educação e inclusão
+
 Famílias, escolas, profissionais, políticas públicas e práticas educacionais.
 
 ### Tecnologia assistiva e inteligência artificial
+
 Acessibilidade, ferramentas digitais e tecnologias para apoiar aprendizagem, autonomia e participação.
 
 ---
