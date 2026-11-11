@@ -4,8 +4,6 @@ title: Sobre o 2e Lab Brasil
 permalink: /sobre/
 ---
 
-# Sobre o 2e Lab Brasil
-
 O 2e Lab Brasil é um observatório independente dedicado à investigação, interpretação e disseminação de conhecimento científico sobre dupla excepcionalidade, múltipla excepcionalidade, altas habilidades, neurodiversidade e desenvolvimento humano.
 
 Nosso propósito é aproximar a ciência das pessoas que precisam compreendê-la e utilizá-la: indivíduos neurodivergentes, famílias, profissionais de saúde, educadores, pesquisadores e gestores.
