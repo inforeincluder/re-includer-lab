@@ -1,0 +1,25 @@
+
+title: "2e Lab Brasil"
+description: "Ciência, neurodiversidade e múltipla excepcionalidade."
+author: "2e Lab Brasil"
+
+url: "https://inforeincluder.github.io"
+baseurl: "/re-includer-lab"
+
+lang: "pt-BR"
+timezone: "America/Recife"
+
+theme: minima
+
+markdown: kramdown
+permalink: /:categories/:title/
+
+header_pages:
+  - sobre.md
+  - pesquisa.md
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+show_excerpts: true
