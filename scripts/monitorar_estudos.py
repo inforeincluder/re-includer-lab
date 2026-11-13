@@ -154,8 +154,9 @@ def main():
             print(f"Falha ao processar '{title}': {exc}", file=sys.stderr)
             continue
         today = dt.date.today().isoformat()
+        post_date = clean(article.get("firstPublicationDate"))[:10] or today
         digest = hashlib.sha1(identifier.encode("utf-8")).hexdigest()[:8]
-        filename = f"{today}-{slugify(title)}-{digest}.md"
+        filename = f"{post_date}-{slugify(title)}-{digest}.md"
         tags = summary.get("termos", [])
         tag_text = ", ".join(yaml_quote(tag) for tag in tags[:6] if clean(tag))
         content = f'''---
