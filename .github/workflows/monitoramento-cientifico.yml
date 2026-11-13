@@ -1,0 +1,55 @@
+name: Monitoramento científico
+
+on:
+  schedule:
+    - cron: "30 11 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: monitoramento-cientifico
+  cancel-in-progress: false
+
+jobs:
+  buscar-e-preparar-rascunhos:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Buscar estudos e gerar rascunhos
+        env:
+          GEMINI_API_KEY: ${{ secrets.reincluder_lab }}
+          GEMINI_MODEL: gemini-flash-latest
+          MAX_ARTICLES: "3"
+        run: python scripts/monitorar_estudos.py
+
+      - name: Abrir Pull Request para revisão humana
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: automacao/rascunhos-cientificos
+          delete-branch: true
+          commit-message: "Adiciona rascunhos de estudos científicos"
+          title: "Rascunhos científicos para revisão editorial"
+          body: |
+            A automação encontrou estudos recentes e preparou rascunhos com auxílio de IA.
+
+            **Antes de publicar:**
+            - Conferir a publicação original e a referência.
+            - Validar amostra, métodos, resultados e limitações.
+            - Revisar a classificação editorial da evidência.
+            - Corrigir ou rejeitar qualquer afirmação não sustentada pelo artigo.
+
+            Este Pull Request é uma etapa de revisão humana. Nada será publicado no site até a aprovação e mesclagem deste PR.
+          labels: |
+            revisão editorial
+            rascunho científico
