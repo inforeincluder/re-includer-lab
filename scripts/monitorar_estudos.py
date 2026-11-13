@@ -26,24 +26,28 @@ TERMS = [
     'TITLE_ABS:("assistive technology" OR "inclusive education" OR neurodevelopment)',
 ]
 
+def open_with_retry(req, timeout, service):
+    for attempt in range(5):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as response:
+                return response.read()
+        except urllib.error.HTTPError as exc:
+            if exc.code not in (429, 500, 502, 503, 504) or attempt == 4:
+                raise RuntimeError(f"{service}: HTTP {exc.code} após {attempt + 1} tentativa(s).") from exc
+            delay = 3 * (2 ** attempt)
+            print(f"{service}: HTTP {exc.code}; nova tentativa em {delay}s.", flush=True)
+            time.sleep(delay)
+        except urllib.error.URLError as exc:
+            if attempt == 4:
+                raise RuntimeError(f"{service}: falha de conexão após 5 tentativas: {exc}") from exc
+            delay = 3 * (2 ** attempt)
+            print(f"{service}: falha temporária de conexão; nova tentativa em {delay}s.", flush=True)
+            time.sleep(delay)
+
 def get_json(url, headers=None):
     req = urllib.request.Request(url, headers=headers or {"User-Agent": "2e-Lab-Brasil/1.0"})
-    for attempt in range(4):
-        try:
-            with urllib.request.urlopen(req, timeout=45) as response:
-                return json.loads(response.read().decode("utf-8"))
-        except urllib.error.HTTPError as exc:
-            if exc.code not in (429, 500, 502, 503, 504) or attempt == 3:
-                raise
-            delay = 2 ** (attempt + 1)
-            print(f"Europe PMC respondeu HTTP {exc.code}; nova tentativa em {delay}s.")
-            time.sleep(delay)
-        except urllib.error.URLError:
-            if attempt == 3:
-                raise
-            delay = 2 ** (attempt + 1)
-            print(f"Falha temporária de conexão; nova tentativa em {delay}s.")
-            time.sleep(delay)
+    raw = open_with_retry(req, 45, "Europe PMC")
+    return json.loads(raw.decode("utf-8"))
 
 def gemini_json(prompt):
     if not API_KEY:
@@ -62,8 +66,8 @@ def gemini_json(prompt):
         headers={"Content-Type": "application/json", "x-goog-api-key": API_KEY},
         method="POST"
     )
-    with urllib.request.urlopen(req, timeout=120) as response:
-        data = json.loads(response.read().decode("utf-8"))
+    raw = open_with_retry(req, 120, "Gemini API")
+    data = json.loads(raw.decode("utf-8"))
     text = data["candidates"][0]["content"]["parts"][0]["text"]
     return json.loads(text)
 
