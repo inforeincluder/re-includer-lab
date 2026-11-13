@@ -6,8 +6,10 @@ import json
 import os
 import re
 import sys
+import urllib.error
 import urllib.parse
 import urllib.request
+import time
 from pathlib import Path
 
 ROOT = Path(".")
@@ -26,8 +28,22 @@ TERMS = [
 
 def get_json(url, headers=None):
     req = urllib.request.Request(url, headers=headers or {"User-Agent": "2e-Lab-Brasil/1.0"})
-    with urllib.request.urlopen(req, timeout=45) as response:
-        return json.loads(response.read().decode("utf-8"))
+    for attempt in range(4):
+        try:
+            with urllib.request.urlopen(req, timeout=45) as response:
+                return json.loads(response.read().decode("utf-8"))
+        except urllib.error.HTTPError as exc:
+            if exc.code not in (429, 500, 502, 503, 504) or attempt == 3:
+                raise
+            delay = 2 ** (attempt + 1)
+            print(f"Europe PMC respondeu HTTP {exc.code}; nova tentativa em {delay}s.")
+            time.sleep(delay)
+        except urllib.error.URLError:
+            if attempt == 3:
+                raise
+            delay = 2 ** (attempt + 1)
+            print(f"Falha temporária de conexão; nova tentativa em {delay}s.")
+            time.sleep(delay)
 
 def gemini_json(prompt):
     if not API_KEY:
