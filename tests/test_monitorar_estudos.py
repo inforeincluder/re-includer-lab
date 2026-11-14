@@ -200,7 +200,7 @@ class MonitoramentoTests(unittest.TestCase):
     @patch.object(monitor, "open_with_retry")
     @patch.object(monitor, "API_KEY", "test-key")
     @patch.object(monitor, "MODEL", "model-indisponivel")
-    def test_gemini_uses_configured_fallback_model(self, _model, _api_key, open_with_retry):
+    def test_gemini_uses_configured_fallback_model(self, open_with_retry):
         response = {
             "candidates": [{
                 "content": {
