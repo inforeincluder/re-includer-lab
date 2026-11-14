@@ -1,21 +1,56 @@
 name: Monitoramento científico
 
 on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - main
   schedule:
     - cron: "30 11 * * 1"
   workflow_dispatch:
 
-permissions:
-  contents: write
-  pull-requests: write
-
 concurrency:
-  group: monitoramento-cientifico
+  group: monitoramento-cientifico-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
-  buscar-e-preparar-rascunhos:
+  validar:
+    name: Validar código e workflows
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Compilar script e executar testes
+        run: |
+          python -m py_compile scripts/monitorar_estudos.py tests/test_monitorar_estudos.py
+          python -m unittest discover -s tests -v
+
+      - name: Validar sintaxe YAML
+        run: |
+          ruby -e 'require "yaml"; ARGV.each { |file| YAML.load_file(file, aliases: true); puts "YAML válido: #{file}" }' \
+            _config.yml \
+            .github/workflows/monitoramento-cientifico.yml \
+            .github/workflows/jekyll-gh-pages.yml
+
+  buscar-e-preparar-rascunhos:
+    name: Buscar estudos e preparar rascunhos
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    needs: validar
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - name: Baixar repositório
         uses: actions/checkout@v4
@@ -29,27 +64,28 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.reincluder_lab }}
           GEMINI_MODEL: gemini-flash-latest
+          GEMINI_FALLBACK_MODELS: gemini-2.5-flash,gemini-2.5-flash-lite
           MAX_ARTICLES: "3"
         run: python scripts/monitorar_estudos.py
 
-      - name: Abrir Pull Request para revisão humana
+      - name: Abrir ou atualizar Pull Request para revisão humana
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: automacao/rascunhos-cientificos
           delete-branch: true
-          commit-message: "Adiciona rascunhos de estudos científicos"
+          commit-message: "Adiciona rascunhos científicos para revisão"
           title: "Rascunhos científicos para revisão editorial"
           body: |
             A automação encontrou estudos recentes e preparou rascunhos com auxílio de IA.
 
+            **Os arquivos ficam em `_drafts/` e não são publicados pelo Jekyll.**
+
             **Antes de publicar:**
             - Conferir a publicação original e a referência.
-            - Validar amostra, métodos, resultados e limitações.
+            - Validar população, amostra, métodos, resultados e limitações.
             - Revisar a classificação editorial da evidência.
-            - Corrigir ou rejeitar qualquer afirmação não sustentada pelo artigo.
+            - Corrigir ou rejeitar afirmações não sustentadas pelo artigo.
+            - Somente após aprovação editorial, mover os arquivos selecionados de `_drafts/` para `_posts/`.
 
-            Este Pull Request é uma etapa de revisão humana. Nada será publicado no site até a aprovação e mesclagem deste PR.
-          labels: |
-            revisão editorial
-            rascunho científico
+            A mesclagem deste PR, sem mover os arquivos para `_posts/`, não publica os artigos.
