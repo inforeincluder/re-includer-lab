@@ -44,7 +44,7 @@ jobs:
 
   buscar-e-preparar-rascunhos:
     name: Buscar estudos e preparar rascunhos
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/teste/integracao-monitoramento-real-2')
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.head_ref == 'teste/integracao-monitoramento-pr') || (github.event_name == 'push' && github.ref == 'refs/heads/teste/integracao-monitoramento-real-2')
     needs: validar
     runs-on: ubuntu-latest
     timeout-minutes: 20
