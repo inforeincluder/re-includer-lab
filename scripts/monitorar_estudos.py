@@ -498,6 +498,17 @@ def render_draft(
     filename = f"{file_date}-{slugify(title)}-{digest}.md"
     tags = ", ".join(yaml_quote(tag) for tag in summary["termos"][:6])
 
+    ai_generated = summary.get("status_geracao") != "sem_ia"
+    editorial_status = (
+        "aguardando revisão humana"
+        if ai_generated else "triagem bibliográfica — síntese IA pendente"
+    )
+    draft_notice = (
+        "> **Rascunho editorial — não publicado.** Texto preparado com auxílio de IA a partir do resumo bibliográfico. Confira o artigo original antes de aprovar."
+        if ai_generated else
+        "> **FICHA DE TRIAGEM — NÃO É UM RESUMO EDITORIAL.** A IA estava indisponível. O conteúdo exige síntese e revisão humana antes de qualquer uso."
+    )
+
     content = f'''---
 layout: post
 title: {yaml_quote(title)}
@@ -511,10 +522,10 @@ doi: {yaml_quote(doi)}
 pmid: {yaml_quote(pmid)}
 source_url: {yaml_quote(source_url)}
 evidence_level: {yaml_quote(summary["classificacao_editorial"])}
-editorial_status: "aguardando revisão humana"
+editorial_status: {yaml_quote(editorial_status)}
 ---
 
-> **Rascunho editorial — não publicado.** Texto preparado com auxílio de IA a partir do resumo bibliográfico. Confira o artigo original antes de aprovar.
+{draft_notice}
 
 ## O que o estudo investigou
 
@@ -591,6 +602,7 @@ def fallback_summary_without_ai(article: dict[str, Any]) -> dict[str, Any]:
         ),
         "classificacao_editorial": "hipótese — triagem sem avaliação de evidência",
         "termos": ["neurodiversidade", "pesquisa científica", "revisão pendente"],
+        "status_geracao": "sem_ia",
     }
 
 
