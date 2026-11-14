@@ -188,5 +188,38 @@ class MonitoramentoTests(unittest.TestCase):
         self.assertEqual(open_with_retry.call_count, 1)
 
 
+    def test_fallback_summary_marks_content_as_not_ai_generated(self):
+        summary = monitor.fallback_summary_without_ai(sample_article())
+        self.assertEqual(summary["status_geracao"], "sem_ia")
+        self.assertIn("não foi gerada", summary["resumo_acessivel"])
+        filename, content = monitor.render_draft(sample_article(), summary)
+        self.assertIn("FICHA DE TRIAGEM — NÃO É UM RESUMO EDITORIAL", content)
+        self.assertIn("síntese IA pendente", content)
+        self.assertNotIn("Texto preparado com auxílio de IA", content)
+
+    @patch.object(monitor, "open_with_retry")
+    def test_gemini_uses_configured_fallback_model(self, open_with_retry):
+        monitor.API_KEY = "test-key"
+        monitor.MODEL = "model-indisponivel"
+        response = {
+            "candidates": [{
+                "content": {
+                    "parts": [{
+                        "text": '{"resumo_acessivel":"ok"}'
+                    }]
+                }
+            }]
+        }
+        open_with_retry.side_effect = [
+            monitor.TemporaryServiceError("503"),
+            __import__("json").dumps(response).encode("utf-8"),
+        ]
+        with patch.dict("os.environ", {"GEMINI_FALLBACK_MODELS": "modelo-alternativo"}):
+            result = monitor.gemini_json("prompt")
+        self.assertEqual(result["resumo_acessivel"], "ok")
+        self.assertEqual(open_with_retry.call_count, 2)
+        self.assertEqual(open_with_retry.call_args_list[1].kwargs["max_attempts"], 2)
+
+
 if __name__ == "__main__":
     unittest.main()
