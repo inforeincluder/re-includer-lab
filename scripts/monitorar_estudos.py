@@ -12,6 +12,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+import xml.etree.ElementTree as ET
 from email.utils import parsedate_to_datetime
 from pathlib import Path
 from typing import Any
@@ -192,6 +193,153 @@ def existing_identifiers(*directories: Path) -> set[str]:
     return identifiers
 
 
+
+def pubmed_search_term() -> str:
+    terms = [
+        'autism[Title/Abstract]', 'autistic[Title/Abstract]',
+        '"autism spectrum"[Title/Abstract]',
+        '"attention deficit"[Title/Abstract]', 'ADHD[Title/Abstract]',
+        '"executive function"[Title/Abstract]',
+        'dyslexia[Title/Abstract]', 'dyscalculia[Title/Abstract]',
+        'dyspraxia[Title/Abstract]', 'Tourette[Title/Abstract]',
+        '"twice exceptional"[Title/Abstract]', 'giftedness[Title/Abstract]',
+        '"high ability"[Title/Abstract]', 'neurodiversity[Title/Abstract]',
+        '"assistive technology"[Title/Abstract]',
+        '"inclusive education"[Title/Abstract]',
+        'neurodevelopment[Title/Abstract]',
+    ]
+    return "(" + " OR ".join(terms) + ")"
+
+
+def pubmed_date(article: ET.Element) -> str:
+    date_node = article.find(".//Article/ArticleDate")
+    if date_node is None:
+        date_node = article.find(".//JournalIssue/PubDate")
+    if date_node is None:
+        return ""
+
+    year = clean(date_node.findtext("Year"))
+    month = clean(date_node.findtext("Month"))
+    day = clean(date_node.findtext("Day"))
+    if not year:
+        medline_date = clean(date_node.findtext("MedlineDate"))
+        match = re.search(r"\\b(19|20)\\d{2}\\b", medline_date)
+        return match.group(0) if match else ""
+
+    month_map = {
+        name.lower(): f"{number:02d}"
+        for number, name in enumerate(
+            ("January", "February", "March", "April", "May", "June",
+             "July", "August", "September", "October", "November", "December"),
+            start=1,
+        )
+    }
+    month_map.update({name[:3].lower(): value for name, value in month_map.items()})
+    month_num = month_map.get(month.lower(), month if month.isdigit() else "")
+    if month_num and day.isdigit():
+        return f"{year}-{int(month_num):02d}-{int(day):02d}"
+    if month_num:
+        return f"{year}-{int(month_num):02d}"
+    return year
+
+
+def parse_pubmed_xml(raw: bytes) -> list[dict[str, Any]]:
+    try:
+        root = ET.fromstring(raw)
+    except ET.ParseError as exc:
+        raise RuntimeError("PubMed E-utilities: XML inválido.") from exc
+
+    articles: list[dict[str, Any]] = []
+    for node in root.findall(".//PubmedArticle"):
+        article_node = node.find(".//Article")
+        if article_node is None:
+            continue
+
+        def text_at(path: str) -> str:
+            found = article_node.find(path)
+            return clean("".join(found.itertext())) if found is not None else ""
+
+        pmid = clean(node.findtext(".//PMID"))
+        title = text_at("ArticleTitle")
+        abstract_parts = []
+        for part in article_node.findall("./Abstract/AbstractText"):
+            label = clean(part.attrib.get("Label", ""))
+            value = clean("".join(part.itertext()))
+            if value:
+                abstract_parts.append(f"{label}: {value}" if label else value)
+
+        authors = []
+        for author in article_node.findall("./AuthorList/Author"):
+            collective = clean(author.findtext("CollectiveName"))
+            if collective:
+                authors.append(collective)
+                continue
+            last = clean(author.findtext("LastName"))
+            initials = clean(author.findtext("Initials"))
+            name = " ".join(part for part in (last, initials) if part)
+            if name:
+                authors.append(name)
+
+        doi = ""
+        for identifier in node.findall(".//ArticleId"):
+            if identifier.attrib.get("IdType", "").lower() == "doi":
+                doi = clean("".join(identifier.itertext()))
+                break
+        if not doi:
+            for identifier in article_node.findall(".//ELocationID"):
+                if identifier.attrib.get("EIdType", "").lower() == "doi":
+                    doi = clean("".join(identifier.itertext()))
+                    break
+
+        journal = clean(article_node.findtext("./Journal/Title"))
+        articles.append({
+            "id": pmid,
+            "pmid": pmid,
+            "doi": doi,
+            "title": title,
+            "authorString": ", ".join(authors),
+            "journalTitle": journal,
+            "firstPublicationDate": pubmed_date(node),
+            "abstractText": " ".join(abstract_parts),
+        })
+    return articles
+
+
+def search_pubmed(start: dt.date, end: dt.date) -> list[dict[str, Any]]:
+    params = urllib.parse.urlencode({
+        "db": "pubmed",
+        "term": pubmed_search_term(),
+        "retmode": "json",
+        "retmax": "25",
+        "sort": "pub+date",
+        "datetype": "pdat",
+        "mindate": start.strftime("%Y/%m/%d"),
+        "maxdate": end.strftime("%Y/%m/%d"),
+    })
+    search_url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?" + params
+    data = get_json(search_url, service="PubMed ESearch")
+    try:
+        ids = data["esearchresult"]["idlist"]
+    except (KeyError, TypeError) as exc:
+        raise RuntimeError("PubMed ESearch: resposta sem lista de PMIDs.") from exc
+    if not isinstance(ids, list):
+        raise RuntimeError("PubMed ESearch: lista de PMIDs em formato inesperado.")
+    ids = [clean(value) for value in ids if clean(value)]
+    if not ids:
+        return []
+
+    fetch_params = urllib.parse.urlencode({
+        "db": "pubmed",
+        "id": ",".join(ids),
+        "retmode": "xml",
+    })
+    fetch_url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?" + fetch_params
+    request = urllib.request.Request(
+        fetch_url, headers={"User-Agent": "2e-Lab-Brasil/1.0"}
+    )
+    return parse_pubmed_xml(open_with_retry(request, 45, "PubMed EFetch"))
+
+
 def search_articles() -> list[dict[str, Any]]:
     end = dt.datetime.now(dt.timezone.utc).date()
     start = end - dt.timedelta(days=14)
@@ -207,12 +355,18 @@ def search_articles() -> list[dict[str, Any]]:
         "sort": "FIRST_PDATE_D",
     })
     url = "https://www.ebi.ac.uk/europepmc/webservices/rest/search?" + params
-    data = get_json(url)
-    results = data.get("resultList", {}).get("result", [])
-    if not isinstance(results, list):
-        raise RuntimeError("Europe PMC: lista de resultados em formato inesperado.")
-    return [item for item in results if isinstance(item, dict)]
-
+    try:
+        data = get_json(url)
+        results = data.get("resultList", {}).get("result", [])
+        if not isinstance(results, list):
+            raise RuntimeError("Europe PMC: lista de resultados em formato inesperado.")
+        return [item for item in results if isinstance(item, dict)]
+    except (TemporaryServiceError, RuntimeError) as exc:
+        LOGGER.warning(
+            "Europe PMC indisponível (%s); acionando fonte alternativa PubMed.",
+            exc,
+        )
+        return search_pubmed(start, end)
 
 def make_prompt(article: dict[str, Any]):
     abstract = clean(article.get("abstractText"))
