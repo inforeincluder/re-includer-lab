@@ -311,7 +311,7 @@ def search_pubmed(start: dt.date, end: dt.date) -> list[dict[str, Any]]:
         "term": pubmed_search_term(),
         "retmode": "json",
         "retmax": "25",
-        "sort": "pub+date",
+        "sort": "pub date",
         "datetype": "pdat",
         "mindate": start.strftime("%Y/%m/%d"),
         "maxdate": end.strftime("%Y/%m/%d"),
