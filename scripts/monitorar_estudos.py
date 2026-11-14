@@ -223,7 +223,7 @@ def pubmed_date(article: ET.Element) -> str:
     day = clean(date_node.findtext("Day"))
     if not year:
         medline_date = clean(date_node.findtext("MedlineDate"))
-        match = re.search(r"\\b(19|20)\\d{2}\\b", medline_date)
+        match = re.search(r"\b(19|20)\d{2}\b", medline_date)
         return match.group(0) if match else ""
 
     month_map = {
