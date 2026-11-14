@@ -73,7 +73,7 @@ def open_with_retry(
     request: urllib.request.Request, timeout: int, service: str,
     max_attempts: int | None = None,
 ) -> bytes:
-    attempts = max_attempts or RETRY_ATTEMPTS
+    attempts = max_attempts if max_attempts is not None else RETRY_ATTEMPTS
     for attempt in range(attempts):
         try:
             with urllib.request.urlopen(request, timeout=timeout) as response:
@@ -95,7 +95,7 @@ def open_with_retry(
         except (urllib.error.URLError, TimeoutError, OSError) as exc:
             if attempt == attempts - 1:
                 raise TemporaryServiceError(
-                    f"{service}: falha de rede após {RETRY_ATTEMPTS} tentativas "
+                    f"{service}: falha de rede após {attempts} tentativas "
                     f"({type(exc).__name__})."
                 ) from exc
             delay = retry_delay(attempt)
