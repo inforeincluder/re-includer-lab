@@ -132,5 +132,61 @@ class MonitoramentoTests(unittest.TestCase):
         self.assertEqual(monitor.retry_delay(0, "0"), 0.0)
 
 
+    def test_parse_pubmed_xml_normalizes_article_metadata(self):
+        xml = b"""<PubmedArticleSet>
+          <PubmedArticle>
+            <MedlineCitation>
+              <PMID>987654</PMID>
+              <Article>
+                <Journal><Title>Journal of Example</Title>
+                  <JournalIssue><PubDate><Year>2026</Year><Month>Oct</Month><Day>2</Day></PubDate></JournalIssue>
+                </Journal>
+                <ArticleTitle>Study of neurodiversity</ArticleTitle>
+                <AuthorList><Author><LastName>Silva</LastName><Initials>AB</Initials></Author></AuthorList>
+                <Abstract><AbstractText Label="BACKGROUND">A sufficiently detailed abstract for testing.</AbstractText></Abstract>
+              </Article>
+            </MedlineCitation>
+            <PubmedData><ArticleIdList>
+              <ArticleId IdType="pubmed">987654</ArticleId>
+              <ArticleId IdType="doi">10.5555/example.2026</ArticleId>
+            </ArticleIdList></PubmedData>
+          </PubmedArticle>
+        </PubmedArticleSet>"""
+        articles = monitor.parse_pubmed_xml(xml)
+        self.assertEqual(len(articles), 1)
+        self.assertEqual(articles[0]["pmid"], "987654")
+        self.assertEqual(articles[0]["doi"], "10.5555/example.2026")
+        self.assertEqual(articles[0]["firstPublicationDate"], "2026-10-02")
+        self.assertIn("BACKGROUND:", articles[0]["abstractText"])
+        self.assertEqual(articles[0]["authorString"], "Silva AB")
+
+    @patch.object(monitor, "open_with_retry")
+    @patch.object(monitor, "get_json")
+    def test_search_articles_falls_back_to_pubmed_when_europe_pmc_is_unavailable(
+        self, get_json, open_with_retry
+    ):
+        get_json.side_effect = [
+            monitor.TemporaryServiceError("Europe PMC HTTP 503"),
+            {"esearchresult": {"idlist": ["987654"]}},
+        ]
+        open_with_retry.return_value = b"""<PubmedArticleSet>
+          <PubmedArticle>
+            <MedlineCitation><PMID>987654</PMID><Article>
+              <Journal><Title>Journal of Example</Title>
+                <JournalIssue><PubDate><Year>2026</Year><Month>Oct</Month><Day>2</Day></PubDate></JournalIssue>
+              </Journal>
+              <ArticleTitle>Study of neurodiversity</ArticleTitle>
+              <Abstract><AbstractText>Abstract long enough for downstream processing.</AbstractText></Abstract>
+            </Article></MedlineCitation>
+            <PubmedData><ArticleIdList><ArticleId IdType="doi">10.5555/example.2026</ArticleId></ArticleIdList></PubmedData>
+          </PubmedArticle>
+        </PubmedArticleSet>"""
+        articles = monitor.search_articles()
+        self.assertEqual(len(articles), 1)
+        self.assertEqual(articles[0]["pmid"], "987654")
+        self.assertEqual(get_json.call_count, 2)
+        self.assertEqual(open_with_retry.call_count, 1)
+
+
 if __name__ == "__main__":
     unittest.main()
