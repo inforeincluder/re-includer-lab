@@ -70,28 +70,30 @@ def retry_delay(attempt: int, retry_after: str | None = None) -> float:
 
 
 def open_with_retry(
-    request: urllib.request.Request, timeout: int, service: str
+    request: urllib.request.Request, timeout: int, service: str,
+    max_attempts: int | None = None,
 ) -> bytes:
-    for attempt in range(RETRY_ATTEMPTS):
+    attempts = max_attempts or RETRY_ATTEMPTS
+    for attempt in range(attempts):
         try:
             with urllib.request.urlopen(request, timeout=timeout) as response:
                 return response.read()
         except urllib.error.HTTPError as exc:
             if exc.code not in RETRYABLE_STATUS_CODES:
                 raise RuntimeError(f"{service}: HTTP {exc.code} (erro não retentável).") from exc
-            if attempt == RETRY_ATTEMPTS - 1:
+            if attempt == attempts - 1:
                 raise TemporaryServiceError(
-                    f"{service}: HTTP {exc.code} após {RETRY_ATTEMPTS} tentativas."
+                    f"{service}: HTTP {exc.code} após {attempts} tentativas."
                 ) from exc
             retry_after = exc.headers.get("Retry-After") if exc.headers else None
             delay = retry_delay(attempt, retry_after)
             LOGGER.warning(
                 "%s: HTTP %s; tentativa %s/%s em %.1fs.",
-                service, exc.code, attempt + 2, RETRY_ATTEMPTS, delay,
+                service, exc.code, attempt + 2, attempts, delay,
             )
             time.sleep(delay)
         except (urllib.error.URLError, TimeoutError, OSError) as exc:
-            if attempt == RETRY_ATTEMPTS - 1:
+            if attempt == attempts - 1:
                 raise TemporaryServiceError(
                     f"{service}: falha de rede após {RETRY_ATTEMPTS} tentativas "
                     f"({type(exc).__name__})."
@@ -99,7 +101,7 @@ def open_with_retry(
             delay = retry_delay(attempt)
             LOGGER.warning(
                 "%s: falha de rede; tentativa %s/%s em %.1fs.",
-                service, attempt + 2, RETRY_ATTEMPTS, delay,
+                service, attempt + 2, attempts, delay,
             )
             time.sleep(delay)
     raise AssertionError("O ciclo de tentativas terminou inesperadamente.")
@@ -122,11 +124,14 @@ def get_json(url: str, service: str = "Europe PMC") -> dict[str, Any]:
 def gemini_json(prompt: str) -> dict[str, Any]:
     if not API_KEY:
         raise RuntimeError("A variável GEMINI_API_KEY não foi configurada.")
-    model = urllib.parse.quote(MODEL, safe="-")
-    url = (
-        "https://generativelanguage.googleapis.com/v1beta/models/"
-        f"{model}:generateContent"
-    )
+
+    configured_models = [
+        item.strip() for item in os.getenv("GEMINI_FALLBACK_MODELS", "").split(",")
+        if item.strip()
+    ]
+    models = list(dict.fromkeys([MODEL, *configured_models]))
+    failures: list[str] = []
+
     body = {
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {
@@ -134,27 +139,50 @@ def gemini_json(prompt: str) -> dict[str, Any]:
             "responseMimeType": "application/json",
         },
     }
-    request = urllib.request.Request(
-        url,
-        data=json.dumps(body).encode("utf-8"),
-        headers={
-            "Content-Type": "application/json",
-            "x-goog-api-key": API_KEY,
-        },
-        method="POST",
+
+    for model_name in models:
+        model = urllib.parse.quote(model_name, safe="-")
+        url = (
+            "https://generativelanguage.googleapis.com/v1beta/models/"
+            f"{model}:generateContent"
+        )
+        request = urllib.request.Request(
+            url,
+            data=json.dumps(body).encode("utf-8"),
+            headers={
+                "Content-Type": "application/json",
+                "x-goog-api-key": API_KEY,
+            },
+            method="POST",
+        )
+        try:
+            raw = open_with_retry(
+                request, 45, f"Gemini API ({model_name})", max_attempts=2
+            )
+            try:
+                response = json.loads(raw.decode("utf-8"))
+                text = response["candidates"][0]["content"]["parts"][0]["text"]
+                summary = json.loads(text)
+            except (UnicodeDecodeError, json.JSONDecodeError, KeyError, IndexError, TypeError) as exc:
+                raise RuntimeError(
+                    f"Gemini API ({model_name}): resposta vazia ou fora do formato JSON esperado."
+                ) from exc
+            if not isinstance(summary, dict):
+                raise RuntimeError(
+                    f"Gemini API ({model_name}): o resumo retornado não é um objeto JSON."
+                )
+            LOGGER.info("Resumo gerado com o modelo Gemini %s.", model_name)
+            return summary
+        except TemporaryServiceError as exc:
+            failures.append(str(exc))
+            LOGGER.warning(
+                "Modelo Gemini %s indisponível; tentando o próximo modelo.", model_name
+            )
+
+    raise TemporaryServiceError(
+        "Todos os modelos Gemini configurados estão indisponíveis: "
+        + " | ".join(failures)
     )
-    raw = open_with_retry(request, 120, "Gemini API")
-    try:
-        response = json.loads(raw.decode("utf-8"))
-        text = response["candidates"][0]["content"]["parts"][0]["text"]
-        summary = json.loads(text)
-    except (UnicodeDecodeError, json.JSONDecodeError, KeyError, IndexError, TypeError) as exc:
-        raise RuntimeError(
-            "Gemini API: resposta vazia ou fora do formato JSON esperado."
-        ) from exc
-    if not isinstance(summary, dict):
-        raise RuntimeError("Gemini API: o resumo retornado não é um objeto JSON.")
-    return summary
 
 
 def clean(value: Any) -> str:
@@ -537,6 +565,35 @@ editorial_status: "aguardando revisão humana"
     return filename, content
 
 
+def fallback_summary_without_ai(article: dict[str, Any]) -> dict[str, Any]:
+    """Cria ficha de triagem sem fingir que houve síntese por IA."""
+    abstract = clean(article.get("abstractText"))
+    return {
+        "resumo_acessivel": (
+            "A síntese em linguagem acessível não foi gerada porque os modelos de IA "
+            "estavam indisponíveis durante esta execução. O resumo abaixo é o texto "
+            "original fornecido pela base bibliográfica, sem tradução ou interpretação."
+        ),
+        "tipo_estudo": "Pendente de extração e conferência no artigo original.",
+        "populacao_amostra": "Pendente de extração e conferência no artigo original.",
+        "metodos": "Pendente de síntese; consultar o texto original.",
+        "resultados": (
+            "Resumo original da base bibliográfica (não traduzido): " + abstract
+        ),
+        "limitacoes": "Pendente de avaliação no texto original.",
+        "relevancia": (
+            "Triagem bibliográfica automática. A pertinência temática ainda precisa "
+            "ser avaliada por um revisor."
+        ),
+        "cautela": (
+            "Este arquivo NÃO contém síntese científica gerada por IA nem avaliação "
+            "de evidência. Não usar como conteúdo editorial até completar a revisão."
+        ),
+        "classificacao_editorial": "hipótese — triagem sem avaliação de evidência",
+        "termos": ["neurodiversidade", "pesquisa científica", "revisão pendente"],
+    }
+
+
 def main() -> int:
     DRAFTS.mkdir(parents=True, exist_ok=True)
     seen = existing_identifiers(DRAFTS, POSTS)
@@ -559,7 +616,14 @@ def main() -> int:
             continue
 
         eligible += 1
-        summary = validate_summary(gemini_json(prompt_data[0]))
+        try:
+            summary = validate_summary(gemini_json(prompt_data[0]))
+        except TemporaryServiceError as exc:
+            LOGGER.warning(
+                "IA indisponível para '%s'; criando ficha de triagem sem síntese: %s",
+                clean(article.get("title")), exc,
+            )
+            summary = fallback_summary_without_ai(article)
         filename, content = render_draft(article, summary)
         path = DRAFTS / filename
         if path.exists():
