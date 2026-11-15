@@ -162,11 +162,12 @@ class MonitoramentoTests(unittest.TestCase):
 
     @patch.object(monitor, "search_crossref", return_value=[])
     @patch.object(monitor, "search_openalex", return_value=[])
+    @patch.object(monitor, "search_lilacs_bvs", return_value=[])
     @patch.object(monitor, "search_scielo", return_value=[])
     @patch.object(monitor, "open_with_retry")
     @patch.object(monitor, "get_json")
     def test_search_articles_uses_pubmed_when_europe_pmc_is_unavailable(
-        self, get_json, open_with_retry, _scielo, _openalex, _crossref
+        self, get_json, open_with_retry, _scielo, _lilacs, _openalex, _crossref
     ):
         get_json.side_effect = [
             monitor.TemporaryServiceError("Europe PMC HTTP 503"),
@@ -254,6 +255,25 @@ class MonitoramentoTests(unittest.TestCase):
             result = monitor.gemini_json("prompt")
         self.assertTrue(result["ok"])
         self.assertEqual(open_with_retry.call_count, 2)
+
+
+    @patch.object(monitor, "open_with_retry")
+    def test_search_lilacs_bvs_parses_rss_records(self, open_with_retry):
+        xml = b"""<?xml version="1.0"?>
+        <rss><channel><item>
+          <title>Autismo e educação inclusiva</title>
+          <link>https://example.org/artigo</link>
+          <description>Resumo bibliográfico de teste.</description>
+          <pubDate>Mon, 02 Nov 2026 00:00:00 GMT</pubDate>
+        </item></channel></rss>"""
+        open_with_retry.return_value = xml
+        articles = monitor.search_lilacs_bvs(
+            monitor.dt.date(2026, 11, 1), monitor.dt.date(2026, 11, 15)
+        )
+        self.assertEqual(len(articles), 1)
+        self.assertEqual(articles[0]["source_database"], "LILACS/BVS")
+        self.assertEqual(articles[0]["title"], "Autismo e educação inclusiva")
+        self.assertEqual(articles[0]["source_url"], "https://example.org/artigo")
 
 
 if __name__ == "__main__":
