@@ -621,7 +621,7 @@ def search_eric(start: dt.date, end: dt.date) -> list[dict[str, Any]]:
         raw_date = clean(item.get("publicationdate") or item.get("publicationDate"))
         # Para a janela curta do monitoramento, não presumir que um registro
         # publicado em algum momento do ano seja recente. Exige data completa.
-        date_match = re.search(r"((?:19|20)\\d{2})[-/](\\d{1,2})[-/](\\d{1,2})", raw_date)
+        date_match = re.search(r"((?:19|20)\d{2})[-/](\d{1,2})[-/](\d{1,2})", raw_date)
         if not date_match:
             continue
         try:
