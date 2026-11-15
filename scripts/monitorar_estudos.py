@@ -367,7 +367,14 @@ def search_pubmed(start: dt.date, end: dt.date) -> list[dict[str, Any]]:
     request = urllib.request.Request(
         fetch_url, headers={"User-Agent": "2e-Lab-Brasil/1.0"}
     )
-    return parse_pubmed_xml(open_with_retry(request, 45, "PubMed EFetch"))
+    articles = parse_pubmed_xml(open_with_retry(request, 45, "PubMed EFetch"))
+    for article in articles:
+        article["source_database"] = "PubMed"
+        article["source_url"] = (
+            f"https://pubmed.ncbi.nlm.nih.gov/{article['pmid']}/"
+            if article.get("pmid") else ""
+        )
+    return articles
 
 
 
