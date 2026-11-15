@@ -449,7 +449,15 @@ def openalex_abstract(index: Any) -> str:
 
 
 def search_openalex(start: dt.date, end: dt.date) -> list[dict[str, Any]]:
-    terms = "autism ADHD neurodiversity dyslexia dyscalculia giftedness twice exceptional executive function assistive technology inclusive education neurodevelopment"
+    # OpenAlex combina palavras sem operador com AND. Usar OR evita exigir
+    # que um mesmo registro mencione todos os eixos do portal.
+    terms = (
+        '(autism OR autistic OR ADHD OR TDAH OR neurodiversity OR neurodiversidade '
+        'OR dyslexia OR dyscalculia OR giftedness OR "high abilities" '
+        'OR "twice exceptional" OR "dupla excepcionalidade" '
+        'OR "executive function" OR "assistive technology" '
+        'OR "inclusive education" OR neurodevelopment)'
+    )
     params = urllib.parse.urlencode({
         "search": terms,
         "filter": f"from_publication_date:{start.isoformat()},to_publication_date:{end.isoformat()},type:article",
@@ -578,6 +586,74 @@ def search_semantic_scholar(start: dt.date, end: dt.date) -> list[dict[str, Any]
             clean(value) for value in item.get("publicationTypes", [])
             if clean(value)
         )
+        articles.append(article)
+    return articles
+
+
+
+def search_eric(start: dt.date, end: dt.date) -> list[dict[str, Any]]:
+    """Busca literatura educacional no ERIC; tipos não-jornal são identificados."""
+    terms = (
+        '"autism" OR "ADHD" OR "twice exceptional" OR "gifted" OR '
+        '"dyslexia" OR "dyscalculia" OR "neurodiversity" OR '
+        '"executive function" OR "inclusive education" OR "assistive technology"'
+    )
+    params = urllib.parse.urlencode({
+        "search": terms,
+        "format": "json",
+        "start": "0",
+        "rows": "200",
+        "fields": (
+            "id,title,author,source,publicationdate,description,"
+            "peerreviewed,publicationtype,identifier"
+        ),
+    })
+    data = get_json("https://api.ies.ed.gov/eric/?" + params, "ERIC")
+    response = data.get("response", data) if isinstance(data, dict) else {}
+    items = response.get("docs", []) if isinstance(response, dict) else []
+    if not isinstance(items, list):
+        raise RuntimeError("ERIC: resposta sem lista de registros.")
+
+    articles = []
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        raw_date = clean(item.get("publicationdate") or item.get("publicationDate"))
+        match = re.search(r"(19|20)\\d{2}", raw_date)
+        if match:
+            year = int(match.group(0))
+            if not (start.year <= year <= end.year):
+                continue
+        authors = item.get("author") or []
+        if isinstance(authors, str):
+            authors = [authors]
+        identifiers = item.get("identifier") or []
+        if isinstance(identifiers, str):
+            identifiers = [identifiers]
+        url = next(
+            (value for value in identifiers if isinstance(value, str) and value.startswith("http")),
+            "",
+        )
+        eric_id = clean(item.get("id"))
+        if not url and eric_id:
+            url = f"https://eric.ed.gov/?id={urllib.parse.quote(eric_id)}"
+        publication_type = item.get("publicationtype") or item.get("publicationType") or []
+        if isinstance(publication_type, str):
+            publication_type = [publication_type]
+        peer_reviewed = clean(item.get("peerreviewed")).lower() in {"true", "yes", "1"}
+        article = normalize_external_article(
+            source="ERIC",
+            title=item.get("title"),
+            authors=authors,
+            journal=item.get("source", ""),
+            publication_date=raw_date,
+            abstract=item.get("description", ""),
+            article_id=eric_id,
+            url=url,
+        )
+        article["publication_type"] = ", ".join(clean(x) for x in publication_type if clean(x))
+        article["peer_reviewed"] = peer_reviewed
+        article["record_id"] = eric_id
         articles.append(article)
     return articles
 
@@ -747,6 +823,7 @@ def search_articles() -> list[dict[str, Any]]:
         ("LILACS/BVS", lambda: search_lilacs_bvs(start, end)),
         ("OpenAlex", lambda: search_openalex(start, end)),
         ("Crossref", lambda: search_crossref(start, end)),
+        ("ERIC", lambda: search_eric(start, end)),
         ("Semantic Scholar", lambda: search_semantic_scholar(start, end)),
     ]
 
