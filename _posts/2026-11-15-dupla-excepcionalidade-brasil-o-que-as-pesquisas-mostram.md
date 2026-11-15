@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Dupla excepcionalidade no Brasil: o que as pesquisas mostram e como observar potencialidades e barreiras"
-date: 2026-11-15 20:30:00 -0300
+date: 2026-11-15 18:00:00 -0300
 categories: [dupla-excepcionalidade]
 tags: [2e, dupla excepcionalidade, altas habilidades, superdotacao, autismo, escola, familias]
 description: "Entenda a dupla excepcionalidade (2e), o mascaramento entre altas habilidades e dificuldades e uma ferramenta prática para organizar observações em casa e na escola."
