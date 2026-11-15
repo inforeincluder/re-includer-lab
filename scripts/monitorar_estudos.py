@@ -770,7 +770,8 @@ def search_articles() -> list[dict[str, Any]]:
                 else:
                     current = merged[key]
                     for field in ("doi", "pmid", "abstractText", "authorString",
-                                  "journalTitle", "firstPublicationDate", "source_url"):
+                                  "journalTitle", "firstPublicationDate", "source_url",
+                                  "publication_type", "peer_reviewed"):
                         if not clean(current.get(field)) and clean(article.get(field)):
                             current[field] = article[field]
                     sources = set(current.get("source_databases", [current.get("source_database", "")]))
@@ -901,6 +902,15 @@ def render_draft(
     digest = hashlib.sha1(identifier.encode("utf-8")).hexdigest()[:8]
     filename = f"{file_date}-{slugify(title)}-{digest}.md"
     tags = ", ".join(yaml_quote(tag) for tag in summary["termos"][:6])
+    source_names = article.get("source_databases") or [
+        article.get("source_database", "não informado")
+    ]
+    if isinstance(source_names, str):
+        source_names = [source_names]
+    source_names_yaml = "[" + ", ".join(
+        yaml_quote(name) for name in source_names if clean(name)
+    ) + "]"
+    publication_type = clean(article.get("publication_type")) or "não informado"
 
     ai_generated = summary.get("status_geracao") != "sem_ia"
     editorial_status = (
@@ -921,11 +931,13 @@ categories: [pesquisa, neurodiversidade]
 tags: [{tags}]
 authors: {yaml_quote(authors)}
 journal: {yaml_quote(journal)}
+publication_type: {yaml_quote(publication_type)}
 publication_date: {yaml_quote(publication_date)}
 doi: {yaml_quote(doi)}
 pmid: {yaml_quote(pmid)}
 source_url: {yaml_quote(source_url)}
 source_database: {yaml_quote(article.get("source_database", "não informado"))}
+source_databases: {source_names_yaml}
 evidence_level: {yaml_quote(summary["classificacao_editorial"])}
 editorial_status: {yaml_quote(editorial_status)}
 ---
