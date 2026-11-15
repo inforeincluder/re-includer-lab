@@ -164,39 +164,46 @@ class MonitoramentoTests(unittest.TestCase):
         self.assertIn("BACKGROUND:", articles[0]["abstractText"])
         self.assertEqual(articles[0]["authorString"], "Silva AB")
 
-    @patch.object(monitor, "search_semantic_scholar", return_value=[])
-    @patch.object(monitor, "search_eric", return_value=[])
-    @patch.object(monitor, "search_crossref", return_value=[])
     @patch.object(monitor, "search_openalex", return_value=[])
-    @patch.object(monitor, "search_lilacs_bvs", return_value=[])
-    @patch.object(monitor, "search_scielo", return_value=[])
-    @patch.object(monitor, "open_with_retry")
-    @patch.object(monitor, "get_json")
-    def test_search_articles_uses_pubmed_when_europe_pmc_is_unavailable(
-        self, get_json, open_with_retry, _scielo, _lilacs, _openalex, _crossref, _eric, _semantic_scholar
+    @patch.object(monitor, "search_pubmed")
+    def test_search_articles_uses_only_priority_sources_and_filters_relevance(
+        self, search_pubmed, _openalex
     ):
-        get_json.side_effect = [
-            monitor.TemporaryServiceError("Europe PMC HTTP 503"),
-            {"esearchresult": {"idlist": ["987654"]}},
-        ]
-        open_with_retry.return_value = b"""<PubmedArticleSet>
-          <PubmedArticle>
-            <MedlineCitation><PMID>987654</PMID><Article>
-              <Journal><Title>Journal of Example</Title>
-                <JournalIssue><PubDate><Year>2026</Year><Month>Oct</Month><Day>2</Day></PubDate></JournalIssue>
-              </Journal>
-              <ArticleTitle>Study of neurodiversity</ArticleTitle>
-              <Abstract><AbstractText>Abstract long enough for downstream processing.</AbstractText></Abstract>
-            </Article></MedlineCitation>
-            <PubmedData><ArticleIdList><ArticleId IdType="doi">10.5555/example.2026</ArticleId></ArticleIdList></PubmedData>
-          </PubmedArticle>
-        </PubmedArticleSet>"""
+        relevant = {
+            **sample_article(),
+            "title": "Autism and executive function in school-age children",
+            "source_database": "PubMed",
+        }
+        irrelevant = {
+            **sample_article(),
+            "title": "White matter injury after carbon monoxide poisoning",
+            "abstractText": "A clinical study of poisoning outcomes. " * 12,
+            "doi": "10.5555/irrelevant",
+        }
+        search_pubmed.return_value = [relevant, irrelevant]
         articles = monitor.search_articles()
         self.assertEqual(len(articles), 1)
-        self.assertEqual(articles[0]["pmid"], "987654")
-        self.assertEqual(get_json.call_count, 2)
-        self.assertEqual(open_with_retry.call_count, 1)
         self.assertEqual(articles[0]["source_database"], "PubMed")
+        self.assertGreater(articles[0]["relevance_score"], 0)
+        self.assertIn("autis", articles[0]["relevance_rationale"])
+
+    def test_relevance_filter_excludes_generic_adjacent_topics(self):
+        article = {
+            "title": "Digital cognitive behavioral therapy for chronic pain",
+            "abstractText": "A study of pain outcomes and digital therapy. " * 8,
+        }
+        score, rationale = monitor.relevance_assessment(article)
+        self.assertEqual(score, 0)
+        self.assertIn("Excluído", rationale)
+
+    def test_relevance_filter_accepts_neurodivergence_specific_studies(self):
+        article = {
+            "title": "Executive function in autistic adolescents",
+            "abstractText": "A study of executive function and learning. " * 8,
+        }
+        score, rationale = monitor.relevance_assessment(article)
+        self.assertGreater(score, 0)
+        self.assertIn("autis", rationale)
 
 
     def test_validate_summary_accepts_label_with_dash_justification(self):
