@@ -131,16 +131,16 @@ def main() -> int:
             unique.append(row)
     unique.sort(key=lambda row: parse_date(row["published"]) or dt.datetime.min.replace(tzinfo=dt.timezone.utc), reverse=True)
 
-    existing = set()
+    existing_content = []
     for folder in (DRAFTS, ROOT / "_posts"):
         if folder.exists():
             for path in folder.glob("*.md"):
-                existing.add(path.read_text(encoding="utf-8", errors="ignore"))
+                existing_content.append(path.read_text(encoding="utf-8", errors="ignore"))
     made = 0
     for item in unique:
         if made >= MAX_ITEMS:
             break
-        if item["url"] in existing:
+        if any(item["url"] in content for content in existing_content):
             continue
         prompt = f"""
 Você é editor de divulgação científica do 2e Lab Brasil. Crie um rascunho ORIGINAL em português brasileiro, claro e acessível, baseado SOMENTE no material fornecido abaixo.
@@ -174,7 +174,7 @@ FONTE: {json.dumps(item, ensure_ascii=False)}
             )
             DRAFTS.mkdir(exist_ok=True)
             (DRAFTS / filename).write_text(content, encoding="utf-8")
-            existing.add(item["url"])
+            existing_content.append(content)
             made += 1
             LOGGER.info("Rascunho criado: %s", filename)
         except Exception as exc:
