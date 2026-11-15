@@ -1,50 +1,47 @@
 ---
 layout: home
 title: 2e Lab Brasil
+description: Informação acessível, ciência e ferramentas práticas sobre neurodiversidade, dupla excepcionalidade e inclusão.
 ---
 
 # Ciência, neurodiversidade e múltipla excepcionalidade
 
-Um observatório independente de conhecimento científico sobre desenvolvimento humano, dupla excepcionalidade, altas habilidades e neurodiversidade.
+O 2e Lab Brasil aproxima pesquisas, debates e experiências práticas das pessoas neurodivergentes, famílias, educadores e profissionais.
 
-Nosso objetivo é aproximar a produção científica das pessoas, famílias e profissionais que precisam transformar conhecimento em compreensão e práticas inclusivas.
+Aqui você encontra explicações em linguagem clara, análises de assuntos atuais e ferramentas para transformar informação em observações e ações possíveis.
 
-## Nossos eixos de investigação
+## Comece por aqui
+
+- [O que é dupla excepcionalidade? Leia o guia de estreia](/re-includer-lab/dupla-excepcionalidade/dupla-excepcionalidade-brasil-o-que-as-pesquisas-mostram/)
+- [Ferramentas práticas gratuitas](/re-includer-lab/ferramentas/)
+- [Fontes e metodologia editorial](/re-includer-lab/fontes-e-metodologia/)
+- [Sobre o 2e Lab Brasil](/re-includer-lab/sobre/)
+
+## Nossos eixos
 
 ### Dupla excepcionalidade e altas habilidades
-
 Altas habilidades associadas ao autismo, TDAH, dislexia e outras condições.
 
-### Múltipla excepcionalidade
-
-Pessoas com múltiplas condições do neurodesenvolvimento e diferentes perfis de habilidades.
-
 ### Neurodiversidade
+Autismo, TDAH, AuDHD, dislexia, dispraxia, Tourette e diferentes perfis de desenvolvimento.
 
-Autismo, TDAH, dislexia, dispraxia, Tourette e outras formas de neurodivergência.
+### Família e escola
+Aprendizagem, participação, colaboração entre família e escola e práticas inclusivas.
 
-### Neurociência e desenvolvimento
-
-Cognição, funções executivas, aprendizagem e desenvolvimento humano.
-
-### Saúde e diagnóstico
-
-Avaliação, diagnóstico tardio, coexistência de condições e saúde mental.
-
-### Educação e inclusão
-
-Famílias, escolas, profissionais, políticas públicas e práticas educacionais.
+### Desenvolvimento e saúde mental
+Cognição, funções executivas, desenvolvimento, diagnóstico tardio e bem-estar, sem substituir orientação profissional.
 
 ### Tecnologia assistiva e inteligência artificial
+Acessibilidade, ferramentas digitais e tecnologias que apoiam aprendizagem, autonomia e participação.
 
-Acessibilidade, ferramentas digitais e tecnologias para apoiar aprendizagem, autonomia e participação.
+## Como trabalhamos
 
----
+- Traduzimos conhecimento técnico para linguagem acessível.
+- Conferimos fontes originais e informamos limitações.
+- Diferenciamos evidência, hipótese e incerteza.
+- Incluímos ferramentas práticas quando forem úteis.
+- Submetemos conteúdo assistido por IA à revisão humana antes da publicação.
+- Identificamos publicidade, patrocínios e links afiliados quando existirem.
 
-## Nosso compromisso científico
+## Conteúdos recentes
 
-O 2e Lab Brasil prioriza pesquisas revisadas por pares, revisões sistemáticas, metanálises, diretrizes e documentos institucionais.
-
-Diferenciamos evidências consolidadas, resultados preliminares e hipóteses.
-
-Toda publicação passa por revisão editorial humana. A presença de um estudo no nosso radar científico não significa aprovação automática para publicação.
