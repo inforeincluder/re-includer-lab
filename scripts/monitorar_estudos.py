@@ -20,7 +20,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 DRAFTS = ROOT / "_drafts"
 POSTS = ROOT / "_posts"
-MODEL = os.getenv("GEMINI_MODEL", "gemini-flash-latest")
+MODEL = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
 API_KEY = os.getenv("GEMINI_API_KEY")
 LOGGER = logging.getLogger("monitorar_estudos")
 RETRY_ATTEMPTS = 5
@@ -524,6 +524,64 @@ def search_crossref(start: dt.date, end: dt.date) -> list[dict[str, Any]]:
     return articles
 
 
+
+def search_semantic_scholar(start: dt.date, end: dt.date) -> list[dict[str, Any]]:
+    """Busca artigos e revisões no Semantic Scholar, com filtro temporal explícito."""
+    terms = (
+        "autism ADHD neurodiversity dyslexia dyscalculia giftedness "
+        "twice exceptional executive function assistive technology "
+        "inclusive education neurodevelopment"
+    )
+    params = urllib.parse.urlencode({
+        "query": terms,
+        "limit": "50",
+        "fields": (
+            "title,abstract,authors,year,publicationDate,venue,"
+            "externalIds,url,publicationTypes"
+        ),
+        "publicationDateOrYear": f"{start.isoformat()}:{end.isoformat()}",
+    })
+    data = get_json(
+        "https://api.semanticscholar.org/graph/v1/paper/search?" + params,
+        "Semantic Scholar",
+    )
+    items = data.get("data", [])
+    if not isinstance(items, list):
+        raise RuntimeError("Semantic Scholar: resposta sem lista de artigos.")
+
+    articles = []
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        external_ids = item.get("externalIds") or {}
+        authors = [
+            author.get("name", "")
+            for author in item.get("authors", [])
+            if isinstance(author, dict)
+        ]
+        publication_date = item.get("publicationDate") or (
+            str(item.get("year")) if item.get("year") else ""
+        )
+        article = normalize_external_article(
+            source="Semantic Scholar",
+            title=item.get("title"),
+            doi=external_ids.get("DOI", ""),
+            pmid=external_ids.get("PubMed", ""),
+            authors=authors,
+            journal=item.get("venue", ""),
+            publication_date=publication_date,
+            abstract=item.get("abstract", ""),
+            article_id=item.get("paperId", ""),
+            url=item.get("url", ""),
+        )
+        article["publication_type"] = ", ".join(
+            clean(value) for value in item.get("publicationTypes", [])
+            if clean(value)
+        )
+        articles.append(article)
+    return articles
+
+
 def search_scielo(start: dt.date, end: dt.date) -> list[dict[str, Any]]:
     params = urllib.parse.urlencode({
         "from": start.isoformat(),
@@ -689,6 +747,7 @@ def search_articles() -> list[dict[str, Any]]:
         ("LILACS/BVS", lambda: search_lilacs_bvs(start, end)),
         ("OpenAlex", lambda: search_openalex(start, end)),
         ("Crossref", lambda: search_crossref(start, end)),
+        ("Semantic Scholar", lambda: search_semantic_scholar(start, end)),
     ]
 
     merged: dict[str, dict[str, Any]] = {}
