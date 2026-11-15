@@ -2,7 +2,7 @@
 layout: post
 title: "O que é dupla excepcionalidade (2e)? Entenda como altas habilidades e dificuldades podem coexistir"
 date: 2026-11-15 20:00:00 -0300
-categories: [dupla-excepcionalidade, altas-habilidades]
+categories: [dupla-excepcionalidade]
 tags: [2e, dupla excepcionalidade, altas habilidades, superdotação, autismo, TDAH, educação inclusiva]
 description: "Entenda o que significa ser uma pessoa 2e, por que habilidades e dificuldades podem se mascarar e como observar necessidades e potencial sem transformar sinais em diagnóstico."
 excerpt: "Uma pessoa pode apresentar potencial elevado em algumas áreas e, ao mesmo tempo, enfrentar dificuldades importantes em outras. Essa combinação é chamada de dupla excepcionalidade."
