@@ -31,7 +31,7 @@ jobs:
 
       - name: Compilar script e executar testes
         run: |
-          python -m py_compile scripts/monitorar_estudos.py tests/test_monitorar_estudos.py
+          python -m py_compile scripts/monitorar_estudos.py scripts/monitorar_pautas.py tests/test_monitorar_estudos.py tests/test_monitorar_pautas.py
           python -m unittest discover -s tests -v
 
       - name: Validar sintaxe YAML
@@ -39,6 +39,7 @@ jobs:
           ruby -e 'require "yaml"; ARGV.each { |file| YAML.load_file(file, aliases: true); puts "YAML válido: #{file}" }' \
             _config.yml \
             .github/workflows/monitoramento-cientifico.yml \
+            .github/workflows/radar-editorial.yml \
             .github/workflows/jekyll-gh-pages.yml
 
   buscar-e-preparar-rascunhos:
