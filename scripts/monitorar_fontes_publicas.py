@@ -29,6 +29,9 @@ DAYS = int(os.getenv("PUBLIC_LOOKBACK_DAYS", "14"))
 FEEDS = [
     ("ScienceDaily — Autism", "https://www.sciencedaily.com/rss/mind_brain/autism.xml"),
     ("Child Mind Institute", "https://childmind.org/feed/"),
+    ("Agência Fiocruz", "https://agencia.fiocruz.br/rss.xml"),
+    ("Jornal da USP", "https://jornal.usp.br/feed/"),
+    ("The Conversation", "https://theconversation.com/articles.atom"),
 ]
 TERMS = (
     "autism autistic adhd attention deficit gifted giftedness twice exceptional "
