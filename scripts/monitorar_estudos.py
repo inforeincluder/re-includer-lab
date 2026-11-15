@@ -220,7 +220,7 @@ def existing_identifiers(*directories: Path) -> set[str]:
                 identifiers.add(normalize_doi(match))
             for match in re.findall(r"(?im)^pmid:\s*['\"]?([^'\"\s]+)", content):
                 identifiers.add("pmid:" + match.strip("'\"").lower())
-            for match in re.findall(r"(?im)^title:\\s*(.+?)\\s*$", content):
+            for match in re.findall(r"(?im)^title:\s*(.+?)\s*$", content):
                 raw_title = match.strip()
                 try:
                     raw_title = json.loads(raw_title)
