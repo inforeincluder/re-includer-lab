@@ -60,8 +60,8 @@ jobs:
       - name: Buscar estudos e gerar rascunhos
         env:
           GEMINI_API_KEY: ${{ secrets.reincluder_lab }}
-          GEMINI_MODEL: gemini-3.8-flash
-          GEMINI_FALLBACK_MODELS: gemini-3.1-flash-lite
+          GEMINI_MODEL: gemini-3.1-flash-lite
+          GEMINI_FALLBACK_MODELS: gemini-3.8-flash
           MAX_ARTICLES: "3"
         run: python scripts/monitorar_estudos.py
 
@@ -69,7 +69,10 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          branch: automacao/rascunhos-cientificos
+          branch: automacao/rascunhos-cientificos-${{ github.ref_name }}
+          base: ${{ github.ref_name }}
+          add-paths: |
+            _drafts/**
           delete-branch: true
           commit-message: "Adiciona rascunhos científicos para revisão"
           title: "Rascunhos científicos para revisão editorial"
