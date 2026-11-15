@@ -79,9 +79,13 @@ class MonitoramentoTests(unittest.TestCase):
             monitor.validate_summary(summary)
 
     def test_render_draft_uses_drafts_safe_filename_and_human_review(self):
-        filename, content = monitor.render_draft(
-            sample_article(), sample_summary()
-        )
+        article = sample_article()
+        article["source_database"] = "PubMed"
+        article["source_databases"] = ["PubMed", "OpenAlex"]
+        article["publication_type"] = "JournalArticle"
+        filename, content = monitor.render_draft(article, sample_summary())
+        self.assertIn('publication_type: "JournalArticle"', content)
+        self.assertIn('source_databases: ["PubMed", "OpenAlex"]', content)
         self.assertTrue(filename.endswith(".md"))
         self.assertIn("aguardando revisão humana", content)
         self.assertIn("Rascunho editorial — não publicado", content)
