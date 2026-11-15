@@ -29,7 +29,7 @@ jobs:
       - name: Validar script e testes
         run: |
           python -m py_compile scripts/monitorar_pautas.py tests/test_monitorar_pautas.py
-          python -m unittest tests.test_monitorar_pautas -v
+          python -m unittest discover -s tests -p 'test_monitorar_pautas.py' -v
 
       - name: Buscar feeds e montar relatório
         run: python scripts/monitorar_pautas.py --output radar/pautas-da-semana.md
