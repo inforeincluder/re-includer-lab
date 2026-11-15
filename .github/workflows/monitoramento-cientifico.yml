@@ -4,9 +4,6 @@ on:
   pull_request:
     branches:
       - main
-  push:
-    branches:
-      - fix/resiliencia-gemini-rascunhos
   schedule:
     - cron: "30 11 * * 1"
   workflow_dispatch:
@@ -44,7 +41,7 @@ jobs:
 
   buscar-e-preparar-rascunhos:
     name: Buscar estudos e preparar rascunhos
-    if: github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     needs: validar
     runs-on: ubuntu-latest
     timeout-minutes: 20
