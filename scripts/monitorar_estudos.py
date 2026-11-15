@@ -173,14 +173,15 @@ def gemini_json(prompt: str) -> dict[str, Any]:
                 )
             LOGGER.info("Resumo gerado com o modelo Gemini %s.", model_name)
             return summary
-        except TemporaryServiceError as exc:
+        except (TemporaryServiceError, RuntimeError) as exc:
             failures.append(str(exc))
             LOGGER.warning(
-                "Modelo Gemini %s indisponível; tentando o próximo modelo.", model_name
+                "Modelo Gemini %s indisponível ou incompatível (%s); tentando o próximo modelo.",
+                model_name, exc,
             )
 
     raise TemporaryServiceError(
-        "Todos os modelos Gemini configurados estão indisponíveis: "
+        "Todos os modelos Gemini configurados falharam: "
         + " | ".join(failures)
     )
 
@@ -204,7 +205,8 @@ def normalize_doi(value: Any) -> str:
 def article_identifier(article: dict[str, Any]) -> str:
     doi = normalize_doi(article.get("doi"))
     pmid = clean(article.get("pmid")).lower()
-    return doi or (f"pmid:{pmid}" if pmid else clean(article.get("id")).lower())
+    title = clean(article.get("title"))
+    return doi or (f"pmid:{pmid}" if pmid else normalize_title_key(title) if title else clean(article.get("id")).lower())
 
 
 def existing_identifiers(*directories: Path) -> set[str]:
@@ -368,6 +370,201 @@ def search_pubmed(start: dt.date, end: dt.date) -> list[dict[str, Any]]:
     return parse_pubmed_xml(open_with_retry(request, 45, "PubMed EFetch"))
 
 
+
+
+def normalize_title_key(value: Any) -> str:
+    title = clean(value).lower()
+    title = re.sub(r"[^a-z0-9áéíóúâêôãõç]+", " ", title)
+    return "title:" + re.sub(r"\s+", " ", title).strip()
+
+
+def article_keys(article: dict[str, Any]) -> set[str]:
+    keys = set()
+    doi = normalize_doi(article.get("doi"))
+    pmid = clean(article.get("pmid")).lower()
+    title = clean(article.get("title"))
+    if doi:
+        keys.add("doi:" + doi)
+    if pmid:
+        keys.add("pmid:" + pmid)
+    if title:
+        keys.add(normalize_title_key(title))
+    return keys
+
+
+def normalize_external_article(
+    *, source: str, title: Any, doi: Any = "", pmid: Any = "",
+    authors: Any = "", journal: Any = "", publication_date: Any = "",
+    abstract: Any = "", article_id: Any = "", url: Any = "",
+) -> dict[str, Any]:
+    title_text = clean(title)
+    doi_text = normalize_doi(doi)
+    pmid_text = clean(pmid)
+    abstract_text = clean(re.sub(r"<[^>]+>", " ", str(abstract or "")))
+    abstract_text = clean(__import__("html").unescape(abstract_text))
+    author_text = authors if isinstance(authors, str) else ", ".join(
+        clean(a) for a in (authors or []) if clean(a)
+    )
+    if not url:
+        url = (
+            f"https://doi.org/{doi_text}" if doi_text else
+            f"https://pubmed.ncbi.nlm.nih.gov/{pmid_text}/" if pmid_text else ""
+        )
+    return {
+        "id": clean(article_id) or doi_text or pmid_text or title_text,
+        "pmid": pmid_text,
+        "doi": doi_text,
+        "title": title_text,
+        "authorString": clean(author_text),
+        "journalTitle": clean(journal),
+        "firstPublicationDate": clean(publication_date),
+        "abstractText": abstract_text,
+        "source_database": source,
+        "source_url": clean(url),
+    }
+
+
+def openalex_abstract(index: Any) -> str:
+    if not isinstance(index, dict):
+        return ""
+    words = []
+    for word, positions in index.items():
+        if isinstance(positions, list):
+            words.extend((position, word) for position in positions if isinstance(position, int))
+    return " ".join(word for _, word in sorted(words))
+
+
+def search_openalex(start: dt.date, end: dt.date) -> list[dict[str, Any]]:
+    terms = "autism ADHD neurodiversity dyslexia dyscalculia giftedness twice exceptional executive function assistive technology inclusive education neurodevelopment"
+    params = urllib.parse.urlencode({
+        "search": terms,
+        "filter": f"from_publication_date:{start.isoformat()},to_publication_date:{end.isoformat()},type:article",
+        "per_page": "50",
+        "sort": "publication_date:desc",
+    })
+    data = get_json("https://api.openalex.org/works?" + params, "OpenAlex")
+    results = data.get("results", [])
+    if not isinstance(results, list):
+        raise RuntimeError("OpenAlex: resposta sem lista de resultados.")
+    articles = []
+    for item in results:
+        if not isinstance(item, dict):
+            continue
+        authors = [
+            a.get("author", {}).get("display_name", "")
+            for a in item.get("authorships", [])
+            if isinstance(a, dict) and isinstance(a.get("author"), dict)
+        ]
+        location = item.get("primary_location") or {}
+        journal = (location.get("source") or {}).get("display_name", "")
+        ids = item.get("ids") or {}
+        articles.append(normalize_external_article(
+            source="OpenAlex",
+            title=item.get("title"),
+            doi=item.get("doi") or ids.get("doi"),
+            authors=authors,
+            journal=journal,
+            publication_date=item.get("publication_date"),
+            abstract=openalex_abstract(item.get("abstract_inverted_index")),
+            article_id=item.get("id"),
+            url=item.get("doi") or item.get("id"),
+        ))
+    return articles
+
+
+def search_crossref(start: dt.date, end: dt.date) -> list[dict[str, Any]]:
+    terms = "autism ADHD neurodiversity dyslexia dyscalculia giftedness twice exceptional executive function assistive technology inclusive education neurodevelopment"
+    params = urllib.parse.urlencode({
+        "query": terms,
+        "filter": (
+            f"from-pub-date:{start.isoformat()},until-pub-date:{end.isoformat()},"
+            "type:journal-article"
+        ),
+        "rows": "50",
+        "select": "DOI,title,author,container-title,published,abstract,URL,type",
+        "sort": "published",
+        "order": "desc",
+    })
+    data = get_json("https://api.crossref.org/works?" + params, "Crossref")
+    items = data.get("message", {}).get("items", [])
+    if not isinstance(items, list):
+        raise RuntimeError("Crossref: resposta sem lista de itens.")
+    articles = []
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        date_parts = (item.get("published") or {}).get("date-parts") or [[]]
+        date_value = "-".join(str(part).zfill(2) for part in date_parts[0]) if date_parts and date_parts[0] else ""
+        authors = [
+            " ".join(filter(None, [a.get("given", ""), a.get("family", "")]))
+            for a in item.get("author", []) if isinstance(a, dict)
+        ]
+        title = (item.get("title") or [""])[0]
+        journal = (item.get("container-title") or [""])[0]
+        articles.append(normalize_external_article(
+            source="Crossref", title=title, doi=item.get("DOI"),
+            authors=authors, journal=journal, publication_date=date_value,
+            abstract=item.get("abstract"), article_id=item.get("DOI"),
+            url=item.get("URL"),
+        ))
+    return articles
+
+
+def search_scielo(start: dt.date, end: dt.date) -> list[dict[str, Any]]:
+    params = urllib.parse.urlencode({
+        "from": start.isoformat(),
+        "until": end.isoformat(),
+        "limit": "100",
+        "offset": "0",
+        "format": "json",
+    })
+    url = "https://articlemeta.scielo.org/api/v1/articles?" + params
+    data = get_json(url, "SciELO ArticleMeta")
+    items = data.get("objects", []) if isinstance(data, dict) else []
+    if not isinstance(items, list):
+        raise RuntimeError("SciELO ArticleMeta: resposta sem lista de artigos.")
+    keywords = (
+        "autis", "adhd", "tdah", "neurodiv", "dislex", "discalcul",
+        "gift", "exceptional", "função executiva", "executive function",
+        "tecnologia assistiva", "assistive technology", "inclus",
+        "neurodesenvolvimento", "neurodevelopment",
+    )
+    articles = []
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        title = item.get("title") or item.get("title_text") or ""
+        abstract = item.get("abstract") or item.get("abstract_text") or ""
+        title_text = clean(title)
+        abstract_text = clean(abstract)
+        if not any(term in (title_text + " " + abstract_text).lower() for term in keywords):
+            continue
+        doi = item.get("doi") or item.get("DOI") or ""
+        authors = item.get("authors") or item.get("author") or []
+        if isinstance(authors, list):
+            authors = [
+                a.get("name", "") if isinstance(a, dict) else str(a)
+                for a in authors
+            ]
+        date_value = (
+            item.get("publication_date") or item.get("publicationDate")
+            or item.get("date") or item.get("publication_year") or ""
+        )
+        code = item.get("code") or item.get("pid") or ""
+        collection = item.get("collection") or "scl"
+        article_url = item.get("url") or (
+            f"https://www.scielo.br/journal/?code={urllib.parse.quote(str(code))}"
+            if code else ""
+        )
+        articles.append(normalize_external_article(
+            source="SciELO", title=title_text, doi=doi, authors=authors,
+            journal=item.get("journal_title") or item.get("journal") or "",
+            publication_date=date_value, abstract=abstract_text,
+            article_id=f"scielo:{collection}:{code}", url=article_url,
+        ))
+    return articles
+
+
 def search_articles() -> list[dict[str, Any]]:
     end = dt.datetime.now(dt.timezone.utc).date()
     start = end - dt.timedelta(days=14)
@@ -376,25 +573,85 @@ def search_articles() -> list[dict[str, Any]]:
         f"FIRST_PDATE:[{start.isoformat()} TO {end.isoformat()}]"
     )
     params = urllib.parse.urlencode({
-        "query": query,
-        "format": "json",
-        "pageSize": "25",
-        "resultType": "core",
-        "sort": "FIRST_PDATE_D",
+        "query": query, "format": "json", "pageSize": "50",
+        "resultType": "core", "sort": "FIRST_PDATE_D",
     })
     url = "https://www.ebi.ac.uk/europepmc/webservices/rest/search?" + params
-    try:
-        data = get_json(url)
-        results = data.get("resultList", {}).get("result", [])
-        if not isinstance(results, list):
-            raise RuntimeError("Europe PMC: lista de resultados em formato inesperado.")
-        return [item for item in results if isinstance(item, dict)]
-    except (TemporaryServiceError, RuntimeError) as exc:
-        LOGGER.warning(
-            "Europe PMC indisponível (%s); acionando fonte alternativa PubMed.",
-            exc,
+
+    providers = [
+        ("Europe PMC", lambda: [
+            normalize_external_article(
+                source="Europe PMC",
+                title=item.get("title"),
+                doi=item.get("doi"),
+                pmid=item.get("pmid"),
+                authors=item.get("authorString"),
+                journal=item.get("journalTitle"),
+                publication_date=item.get("firstPublicationDate"),
+                abstract=item.get("abstractText"),
+                article_id=item.get("id"),
+                url=(
+                    f"https://europepmc.org/article/MED/{item.get('pmid')}"
+                    if item.get("pmid") else ""
+                ),
+            )
+            for item in get_json(url, "Europe PMC").get("resultList", {}).get("result", [])
+            if isinstance(item, dict)
+        ]),
+        ("PubMed", lambda: search_pubmed(start, end)),
+        ("SciELO", lambda: search_scielo(start, end)),
+        ("OpenAlex", lambda: search_openalex(start, end)),
+        ("Crossref", lambda: search_crossref(start, end)),
+    ]
+
+    merged: dict[str, dict[str, Any]] = {}
+    failures = []
+    successful_sources = []
+    for name, provider in providers:
+        try:
+            results = provider()
+            successful_sources.append(name)
+            LOGGER.info("%s: %s registro(s) recuperado(s).", name, len(results))
+            for article in results:
+                if not isinstance(article, dict) or not clean(article.get("title")):
+                    continue
+                keys = article_keys(article)
+                key = sorted(keys)[0] if keys else clean(article.get("id"))
+                if not key:
+                    continue
+                if key not in merged:
+                    merged[key] = article
+                else:
+                    current = merged[key]
+                    for field in ("doi", "pmid", "abstractText", "authorString",
+                                  "journalTitle", "firstPublicationDate", "source_url"):
+                        if not clean(current.get(field)) and clean(article.get(field)):
+                            current[field] = article[field]
+                    sources = set(current.get("source_databases", [current.get("source_database", "")]))
+                    sources.add(name)
+                    current["source_databases"] = sorted(source for source in sources if source)
+        except (TemporaryServiceError, RuntimeError, ValueError, KeyError, TypeError) as exc:
+            failures.append(f"{name}: {exc}")
+            LOGGER.warning("%s indisponível ou com resposta inválida: %s", name, exc)
+
+    if not successful_sources:
+        raise TemporaryServiceError(
+            "Todas as fontes bibliográficas falharam: " + " | ".join(failures)
         )
-        return search_pubmed(start, end)
+
+    # Deduplicação secundária por DOI, PMID e título, inclusive entre fontes.
+    deduplicated = []
+    seen = set()
+    for article in merged.values():
+        keys = article_keys(article)
+        if keys and keys.isdisjoint(seen):
+            deduplicated.append(article)
+            seen.update(keys)
+    LOGGER.info(
+        "Coleta concluída: %s fonte(s) funcional(is), %s falha(s), %s artigo(s) após deduplicação.",
+        len(successful_sources), len(failures), len(deduplicated),
+    )
+    return deduplicated
 
 def make_prompt(article: dict[str, Any]):
     abstract = clean(article.get("abstractText"))
@@ -407,7 +664,7 @@ def make_prompt(article: dict[str, Any]):
     publication_date = clean(article.get("firstPublicationDate"))
     doi = normalize_doi(article.get("doi"))
     pmid = clean(article.get("pmid"))
-    source_url = (
+    source_url = clean(article.get("source_url")) or (
         f"https://doi.org/{doi}" if doi else
         f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/" if pmid else
         f"https://europepmc.org/article/MED/{article.get('id', '')}"
