@@ -1,9 +1,6 @@
 name: Monitoramento científico
 
 on:
-  push:
-    branches:
-      - fix/resiliencia-gemini-rascunhos
   pull_request:
     branches:
       - main
@@ -44,7 +41,7 @@ jobs:
 
   buscar-e-preparar-rascunhos:
     name: Buscar estudos e preparar rascunhos
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.event_name == 'push'
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request'
     needs: validar
     runs-on: ubuntu-latest
     timeout-minutes: 20
