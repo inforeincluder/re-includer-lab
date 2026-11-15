@@ -307,6 +307,22 @@ class MonitoramentoTests(unittest.TestCase):
         self.assertEqual(articles[0]["source_url"], "https://eric.ed.gov/?id=EJ123456")
 
 
+    @patch.object(monitor, "get_json")
+    def test_search_eric_excludes_records_without_full_date_from_short_window(self, get_json):
+        get_json.return_value = {
+            "response": {"docs": [{
+                "id": "EJ000001",
+                "title": "Autism and education",
+                "publicationdate": "2026",
+                "description": "Abstract text long enough for a basic record.",
+            }]}
+        }
+        articles = monitor.search_eric(
+            monitor.dt.date(2026, 11, 1),
+            monitor.dt.date(2026, 11, 15),
+        )
+        self.assertEqual(articles, [])
+
     def test_normalize_external_article_preserves_source_and_metadata(self):
         article = monitor.normalize_external_article(
             source="OpenAlex", title="Título", doi="https://doi.org/10.1234/XYZ",
