@@ -43,7 +43,7 @@ jobs:
 
   buscar-e-preparar-rascunhos:
     name: Buscar estudos e preparar rascunhos
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
     needs: validar
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -68,8 +68,8 @@ jobs:
       - name: Buscar estudos e gerar rascunhos
         env:
           GEMINI_API_KEY: ${{ secrets.reincluder_lab }}
-          GEMINI_MODEL: gemini-3.1-flash-lite
-          GEMINI_FALLBACK_MODELS: gemini-3.8-flash
+          GEMINI_MODEL: gemini-2.5-flash
+          GEMINI_FALLBACK_MODELS: gemini-2.5-flash-lite
           MAX_ARTICLES: "3"
         run: python scripts/monitorar_estudos.py
 
