@@ -165,6 +165,7 @@ class MonitoramentoTests(unittest.TestCase):
         self.assertEqual(articles[0]["authorString"], "Silva AB")
 
     @patch.object(monitor, "search_semantic_scholar", return_value=[])
+    @patch.object(monitor, "search_eric", return_value=[])
     @patch.object(monitor, "search_crossref", return_value=[])
     @patch.object(monitor, "search_openalex", return_value=[])
     @patch.object(monitor, "search_lilacs_bvs", return_value=[])
@@ -172,7 +173,7 @@ class MonitoramentoTests(unittest.TestCase):
     @patch.object(monitor, "open_with_retry")
     @patch.object(monitor, "get_json")
     def test_search_articles_uses_pubmed_when_europe_pmc_is_unavailable(
-        self, get_json, open_with_retry, _scielo, _lilacs, _openalex, _crossref, _semantic_scholar
+        self, get_json, open_with_retry, _scielo, _lilacs, _openalex, _crossref, _eric, _semantic_scholar
     ):
         get_json.side_effect = [
             monitor.TemporaryServiceError("Europe PMC HTTP 503"),
@@ -275,6 +276,35 @@ class MonitoramentoTests(unittest.TestCase):
         self.assertEqual(articles[0]["journalTitle"], "Journal of Inclusive Education")
         self.assertEqual(articles[0]["publication_type"], "JournalArticle, Review")
         self.assertEqual(articles[0]["firstPublicationDate"], "2026-11-10")
+
+
+    @patch.object(monitor, "get_json")
+    def test_search_eric_normalizes_education_records_and_types(self, get_json):
+        get_json.return_value = {
+            "response": {
+                "docs": [{
+                    "id": "EJ123456",
+                    "title": "Autism and inclusive education",
+                    "author": ["Author One", "Author Two"],
+                    "source": "Journal of Inclusive Education",
+                    "publicationdate": "2026",
+                    "description": "A sufficiently detailed abstract for ERIC testing.",
+                    "peerreviewed": "true",
+                    "publicationtype": ["Journal Articles"],
+                    "identifier": ["https://eric.ed.gov/?id=EJ123456"],
+                }]
+            }
+        }
+        articles = monitor.search_eric(
+            monitor.dt.date(2026, 11, 1),
+            monitor.dt.date(2026, 11, 15),
+        )
+        self.assertEqual(len(articles), 1)
+        self.assertEqual(articles[0]["source_database"], "ERIC")
+        self.assertEqual(articles[0]["record_id"], "EJ123456")
+        self.assertEqual(articles[0]["publication_type"], "Journal Articles")
+        self.assertTrue(articles[0]["peer_reviewed"])
+        self.assertEqual(articles[0]["source_url"], "https://eric.ed.gov/?id=EJ123456")
 
 
     def test_normalize_external_article_preserves_source_and_metadata(self):
