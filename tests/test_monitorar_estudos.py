@@ -259,13 +259,13 @@ class MonitoramentoTests(unittest.TestCase):
 
     @patch.object(monitor, "open_with_retry")
     def test_search_lilacs_bvs_parses_rss_records(self, open_with_retry):
-        xml = b"""<?xml version="1.0"?>
+        xml = """<?xml version="1.0"?>
         <rss><channel><item>
           <title>Autismo e educação inclusiva</title>
           <link>https://example.org/artigo</link>
           <description>Resumo bibliográfico de teste.</description>
           <pubDate>Mon, 02 Nov 2026 00:00:00 GMT</pubDate>
-        </item></channel></rss>"""
+        </item></channel></rss>""".encode("utf-8")
         open_with_retry.return_value = xml
         articles = monitor.search_lilacs_bvs(
             monitor.dt.date(2026, 11, 1), monitor.dt.date(2026, 11, 15)
