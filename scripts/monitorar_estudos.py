@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Busca estudos no Europe PMC e prepara rascunhos em _drafts/ para revisão humana."""
+"""Busca estudos em PubMed/OpenAlex e prepara rascunhos em _drafts/ para revisão humana."""
 from __future__ import annotations
 
 import datetime as dt
@@ -793,46 +793,51 @@ def search_lilacs_bvs(start: dt.date, end: dt.date) -> list[dict[str, Any]]:
     return articles
 
 
+DIRECT_RELEVANCE_TERMS = (
+    "autis", "adhd", "tdah", "attention-deficit", "attention deficit",
+    "twice exceptional", "dupla excepcionalidade", "multiple exceptional",
+    "gifted", "giftedness", "high ability", "high abilities",
+    "neurodivers", "dyslexia", "dislexia", "dyscalculia", "discalculia",
+    "dyspraxia", "developmental coordination disorder", "tourette",
+    "specific learning disorder", "specific learning disability",
+    "transtorno do desenvolvimento", "neurodevelopmental disorder",
+)
+
+CONTEXTUAL_RELEVANCE_TERMS = (
+    "executive function", "função executiva", "cognitive profile",
+    "perfil cognitivo", "assistive technolog", "tecnologia assistiva",
+    "inclusive education", "educação inclusiva", "school inclusion",
+    "inclusão escolar", "learning", "aprendizagem", "mental health",
+    "saúde mental", "sleep", "sono", "sensory", "sensorial",
+    "communication", "comunicação", "social cognition", "cognição social",
+)
+
+def relevance_assessment(article: dict[str, Any]) -> tuple[int, str]:
+    """Exige vínculo explícito com neurodivergência/2e; evita temas apenas adjacentes."""
+    title = clean(article.get("title")).lower()
+    abstract = clean(article.get("abstractText")).lower()
+    text = f"{title} {abstract}"
+    direct = [term for term in DIRECT_RELEVANCE_TERMS if term in text]
+    contextual = [term for term in CONTEXTUAL_RELEVANCE_TERMS if term in text]
+    title_direct = [term for term in DIRECT_RELEVANCE_TERMS if term in title]
+    if not direct:
+        return 0, "Excluído: não há população ou condição neurodivergente/2e explicitamente identificada."
+    score = 5 + min(3, len(set(direct))) + (2 if title_direct else 0)
+    if contextual:
+        score += 1
+    rationale = (
+        "Incluído: menção explícita a " + ", ".join(sorted(set(direct))[:5])
+        + ("; contexto aplicado: " + ", ".join(sorted(set(contextual))[:3]) if contextual else "")
+    )
+    return score, rationale
+
+
 def search_articles() -> list[dict[str, Any]]:
     end = dt.datetime.now(dt.timezone.utc).date()
     start = end - dt.timedelta(days=14)
-    query = (
-        "(" + " OR ".join(TERMS) + ") AND "
-        f"FIRST_PDATE:[{start.isoformat()} TO {end.isoformat()}]"
-    )
-    params = urllib.parse.urlencode({
-        "query": query, "format": "json", "pageSize": "50",
-        "resultType": "core", "sort": "FIRST_PDATE_D",
-    })
-    url = "https://www.ebi.ac.uk/europepmc/webservices/rest/search?" + params
-
     providers = [
-        ("Europe PMC", lambda: [
-            normalize_external_article(
-                source="Europe PMC",
-                title=item.get("title"),
-                doi=item.get("doi"),
-                pmid=item.get("pmid"),
-                authors=item.get("authorString"),
-                journal=item.get("journalTitle"),
-                publication_date=item.get("firstPublicationDate"),
-                abstract=item.get("abstractText"),
-                article_id=item.get("id"),
-                url=(
-                    f"https://europepmc.org/article/MED/{item.get('pmid')}"
-                    if item.get("pmid") else ""
-                ),
-            )
-            for item in get_json(url, "Europe PMC").get("resultList", {}).get("result", [])
-            if isinstance(item, dict)
-        ]),
         ("PubMed", lambda: search_pubmed(start, end)),
-        ("SciELO", lambda: search_scielo(start, end)),
-        ("LILACS/BVS", lambda: search_lilacs_bvs(start, end)),
         ("OpenAlex", lambda: search_openalex(start, end)),
-        ("Crossref", lambda: search_crossref(start, end)),
-        ("ERIC", lambda: search_eric(start, end)),
-        ("Semantic Scholar", lambda: search_semantic_scholar(start, end)),
     ]
 
     merged: dict[str, dict[str, Any]] = {}
@@ -846,6 +851,12 @@ def search_articles() -> list[dict[str, Any]]:
             for article in results:
                 if not isinstance(article, dict) or not clean(article.get("title")):
                     continue
+                score, rationale = relevance_assessment(article)
+                if score == 0:
+                    LOGGER.info("Excluído por baixa aderência: %s", clean(article.get("title")))
+                    continue
+                article["relevance_score"] = score
+                article["relevance_rationale"] = rationale
                 keys = article_keys(article)
                 key = sorted(keys)[0] if keys else clean(article.get("id"))
                 if not key:
@@ -862,16 +873,18 @@ def search_articles() -> list[dict[str, Any]]:
                     sources = set(current.get("source_databases", [current.get("source_database", "")]))
                     sources.add(name)
                     current["source_databases"] = sorted(source for source in sources if source)
+                    current["relevance_score"] = max(
+                        current.get("relevance_score", 0), score
+                    )
         except (TemporaryServiceError, RuntimeError, ValueError, KeyError, TypeError) as exc:
             failures.append(f"{name}: {exc}")
             LOGGER.warning("%s indisponível ou com resposta inválida: %s", name, exc)
 
     if not successful_sources:
         raise TemporaryServiceError(
-            "Todas as fontes bibliográficas falharam: " + " | ".join(failures)
+            "As fontes científicas prioritárias falharam: " + " | ".join(failures)
         )
 
-    # Deduplicação secundária por DOI, PMID e título, inclusive entre fontes.
     deduplicated = []
     seen = set()
     for article in merged.values():
@@ -879,11 +892,24 @@ def search_articles() -> list[dict[str, Any]]:
         if keys and keys.isdisjoint(seen):
             deduplicated.append(article)
             seen.update(keys)
+
+    deduplicated.sort(
+        key=lambda item: (
+            item.get("relevance_score", 0),
+            clean(item.get("firstPublicationDate")),
+            clean(item.get("title")),
+        ),
+        reverse=True,
+    )
     LOGGER.info(
-        "Coleta concluída: %s fonte(s) funcional(is), %s falha(s), %s artigo(s) após deduplicação.",
+        "Coleta concluída: %s fonte(s) funcional(is), %s falha(s), "
+        "%s registro(s) relevantes após deduplicação.",
         len(successful_sources), len(failures), len(deduplicated),
     )
+    for failure in failures:
+        LOGGER.warning("Falha de fonte não bloqueante: %s", failure)
     return deduplicated
+
 
 def make_prompt(article: dict[str, Any]):
     abstract = clean(article.get("abstractText"))
