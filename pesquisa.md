@@ -4,39 +4,47 @@ title: Metodologia de pesquisa
 permalink: /pesquisa/
 ---
 
-O 2e Lab Brasil utiliza uma abordagem de pesquisa documental e científica para identificar, avaliar e disseminar conhecimento relevante sobre neurodiversidade, dupla excepcionalidade e desenvolvimento humano.
+O 2e Lab Brasil combina monitoramento científico com curadoria editorial de publicações acessíveis, notícias, debates públicos, políticas e dúvidas recorrentes. O objetivo é transformar informação em português claro, com rastreabilidade e utilidade prática.
 
 ## 1. Fontes de informação
 
-Priorizamos fontes primárias e repositórios científicos reconhecidos:
-
+### Pesquisa científica e fontes primárias
 - PubMed e PubMed Central.
-- Europe PMC.
-- Crossref.
-- OpenAlex.
-- SciELO.
-- Periódicos científicos revisados por pares.
+- OpenAlex e Crossref.
+- SciELO e periódicos científicos revisados por pares.
 - Repositórios de universidades e instituições de pesquisa.
-- Organizações públicas de saúde e educação.
+- CAPES, Fiocruz e instituições públicas brasileiras.
+
+### Instituições e organizações especializadas
+- Organização Mundial da Saúde (OMS/WHO).
+- Ministério da Saúde e Ministério da Educação.
+- CDC e NIH, considerando que suas orientações refletem o contexto dos Estados Unidos.
+- Universidades, hospitais universitários e centros de pesquisa.
+- Organizações especializadas em autismo, TDAH, altas habilidades, deficiência e educação inclusiva.
+
+### Divulgação e assuntos atuais
+- The Conversation.
+- ScienceDaily e veículos de jornalismo científico com referências rastreáveis.
+- Publicações de organizações de apoio, educação e saúde.
+- Notícias sobre políticas públicas, direitos, educação, tecnologia e inclusão.
+
+Veículos de divulgação e organizações podem ajudar a descobrir pautas, mas não substituem a fonte original. Uma notícia não será tratada como evidência científica apenas por citar um estudo.
 
 ## 2. Tipos de publicação
 
 Nossa seleção considera:
-
 1. Artigos originais revisados por pares.
-2. Revisões sistemáticas.
-3. Metanálises.
-4. Diretrizes clínicas e educacionais.
-5. Estudos longitudinais.
-6. Estudos observacionais.
-7. Estudos qualitativos.
-8. Documentos técnicos de instituições públicas e universidades.
+2. Revisões sistemáticas e metanálises.
+3. Diretrizes clínicas e educacionais.
+4. Estudos longitudinais, observacionais e qualitativos.
+5. Documentos técnicos de instituições públicas e universidades.
+6. Reportagens e análises jornalísticas.
+7. Entrevistas, debates e experiências, sempre identificados como tais.
+8. Legislação, políticas públicas e documentos oficiais.
 
 Preprints e trabalhos ainda não revisados por pares podem ser considerados para monitoramento, mas serão identificados explicitamente.
 
 ## 3. Campos de investigação
-
-A pesquisa contempla:
 
 - Dupla excepcionalidade e altas habilidades.
 - Múltipla excepcionalidade.
@@ -49,89 +57,91 @@ A pesquisa contempla:
 - Saúde mental e desenvolvimento.
 - Educação e inclusão.
 - Tecnologia assistiva e inteligência artificial.
+- Direitos, políticas públicas e acessibilidade.
 
-## 4. Avaliação das evidências
+## 4. Seleção de pautas
 
-Cada publicação selecionada deverá ser analisada considerando:
+Cada pauta pode ser avaliada de 0 a 5 em seis dimensões:
+- relevância para os públicos do projeto;
+- interesse público e procura potencial;
+- qualidade e verificabilidade das fontes;
+- oportunidade editorial e lacuna de conteúdo em português;
+- utilidade prática;
+- potencial de referência e atualização evergreen.
 
-- Título e autoria.
-- Ano de publicação.
-- Periódico ou instituição responsável.
-- DOI ou endereço da fonte primária.
-- Tipo e desenho do estudo.
-- População e tamanho da amostra.
-- Métodos utilizados.
-- Principais resultados.
-- Limitações identificadas pelos autores.
-- Relevância para o contexto brasileiro.
+A pontuação organiza a fila editorial, mas não substitui julgamento humano. Temas sensíveis, evidência fraca ou risco de desinformação exigem cautela adicional.
 
-## 5. Classificação editorial
+## 5. Avaliação das evidências
 
-Utilizamos quatro classificações para comunicar a força e a maturidade das evidências.
+Quando houver pesquisa, registramos:
+- título e autoria;
+- ano de publicação;
+- periódico ou instituição responsável;
+- DOI ou endereço da fonte primária;
+- tipo e desenho do estudo;
+- população e tamanho da amostra;
+- métodos utilizados;
+- principais resultados;
+- limitações identificadas pelos autores;
+- relevância e limites de aplicação ao contexto brasileiro.
+
+Para notícias e tendências, identificamos a publicação original, a data, o que foi efetivamente anunciado e o que ainda depende de confirmação.
+
+## 6. Classificação editorial
 
 ### Evidência forte
-
 Resultados sustentados por revisões sistemáticas robustas, metanálises consistentes, diretrizes bem fundamentadas ou múltiplos estudos de boa qualidade.
 
 ### Evidência moderada
-
 Resultados apoiados por estudos relevantes, mas com limitações metodológicas, heterogeneidade ou necessidade de replicação.
 
 ### Evidência preliminar
-
 Resultados de estudos iniciais, amostras pequenas, pesquisas exploratórias ou evidências ainda insuficientes para conclusões amplas.
 
 ### Hipótese
-
 Propostas teóricas, mecanismos possíveis ou interpretações ainda não demonstradas empiricamente.
 
-Essas classificações são avaliações editoriais, não uma certificação formal de qualidade da evidência.
+Essas classificações são avaliações editoriais, não uma certificação formal de qualidade da evidência. Notícias, opiniões e documentos de política não recebem automaticamente uma classificação de evidência científica.
 
-## 6. Integridade científica
+## 7. Formato dos artigos
 
-Não transformamos correlações em relações causais.
+Sempre que adequado, os artigos terão:
+- título alinhado à pergunta real do leitor;
+- resposta direta no início;
+- explicação em linguagem clara;
+- distinção entre o que sabemos e o que permanece incerto;
+- contexto brasileiro;
+- implicações para pessoas, famílias, escolas e profissionais;
+- ferramenta prática ou próximo passo seguro;
+- perguntas frequentes;
+- referências e links para fontes originais;
+- data de revisão e links internos relacionados.
 
-Não generalizamos resultados de amostras pequenas para toda a população.
+Conteúdos evergreen serão revistos quando surgirem evidências ou mudanças relevantes. Artigos de atualidade informarão a data e o contexto da notícia.
 
-Não confundimos ausência de evidência com evidência de ausência.
+## 8. SEO e mecanismos de resposta (GEO)
 
-Não apresentamos resultados isolados como consenso científico.
+A otimização busca facilitar a compreensão e a localização do conteúdo, sem prometer posições ou tráfego. Usamos títulos descritivos, definições explícitas, entidades e termos relacionados, respostas objetivas, referências rastreáveis, perguntas frequentes, links internos e metadados coerentes.
 
-Quando houver divergências entre estudos, elas serão explicitadas.
+Não produzimos páginas repetitivas apenas para capturar palavras-chave. Cada artigo deve acrescentar contexto, análise ou utilidade original.
 
-## 7. Relevância para o Brasil
+## 9. Integridade, direitos autorais e independência
 
-Sempre que possível, avaliamos:
+Não traduzimos ou republicamos integralmente textos de terceiros. Produzimos análise original, citamos fontes e respeitamos direitos autorais. Não transformamos correlações em relações causais, nem generalizamos resultados de amostras pequenas.
 
-- Aplicabilidade à população brasileira.
-- Disponibilidade de estudos nacionais.
-- Diferenças culturais, socioeconômicas e educacionais.
-- Acesso a diagnóstico e acompanhamento.
-- Implicações para famílias, escolas e serviços de saúde.
-- Relevância para políticas públicas.
+## 10. Inteligência artificial e revisão humana
 
-Resultados internacionais não serão automaticamente tratados como representativos da realidade brasileira.
+Ferramentas de inteligência artificial podem auxiliar na descoberta, organização, síntese e adaptação de conteúdos. Entretanto:
+- referências e dados devem ser verificáveis;
+- resultados devem ser conferidos nas fontes originais;
+- a interpretação deve preservar limitações;
+- nenhum conteúdo será publicado automaticamente;
+- a aprovação final depende de revisão editorial humana.
 
-## 8. Inteligência artificial e revisão humana
+## 11. Relevância para o Brasil
 
-Ferramentas de inteligência artificial podem auxiliar na descoberta, organização, síntese e adaptação de conteúdos científicos.
+Sempre que possível, avaliamos aplicabilidade à população brasileira, diferenças culturais, socioeconômicas e educacionais, acesso a serviços, implicações para famílias e escolas e relevância para políticas públicas. Resultados internacionais não serão automaticamente tratados como representativos do Brasil.
 
-Entretanto:
+## 12. Atualização e limites
 
-- As referências devem ser verificáveis.
-- Os resultados devem ser conferidos nas fontes originais.
-- A interpretação deve preservar as limitações dos estudos.
-- Nenhum conteúdo será publicado automaticamente.
-- A aprovação final depende de revisão editorial humana.
-
-## 9. Atualização
-
-A pesquisa científica é dinâmica. As informações publicadas poderão ser atualizadas quando surgirem novas evidências, correções, retratações ou diretrizes relevantes.
-
-A data de consulta e, quando possível, a data da última revisão editorial serão informadas nos conteúdos.
-
-## 10. Limites do portal
-
-O 2e Lab Brasil é um projeto independente de divulgação científica.
-
-Seu conteúdo não constitui diagnóstico, prescrição médica, recomendação terapêutica individualizada ou substituição de avaliação profissional.
+A pesquisa é dinâmica. Atualizamos informações quando surgem novas evidências, correções, retratações ou diretrizes relevantes. O portal é um projeto independente de divulgação e não oferece diagnóstico, prescrição médica, recomendação terapêutica individualizada ou substituição de avaliação profissional.
