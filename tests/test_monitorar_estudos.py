@@ -221,5 +221,36 @@ class MonitoramentoTests(unittest.TestCase):
         self.assertEqual(open_with_retry.call_args_list[1].kwargs["max_attempts"], 2)
 
 
+    def test_normalize_external_article_preserves_source_and_metadata(self):
+        article = monitor.normalize_external_article(
+            source="OpenAlex", title="Título", doi="https://doi.org/10.1234/XYZ",
+            authors=["Pessoa A"], journal="Revista", publication_date="2026-11-01",
+            abstract="<p>Resumo &amp; dados</p>", article_id="W1",
+        )
+        self.assertEqual(article["doi"], "10.1234/xyz")
+        self.assertEqual(article["source_database"], "OpenAlex")
+        self.assertEqual(article["abstractText"], "Resumo & dados")
+        self.assertEqual(article["authorString"], "Pessoa A")
+
+    def test_article_keys_support_cross_source_title_deduplication(self):
+        one = {"title": "Estudo sobre neurodiversidade", "doi": "10.1234/x"}
+        two = {"title": "Estudo sobre neurodiversidade", "id": "openalex:W1"}
+        self.assertFalse(monitor.article_keys(one).isdisjoint(monitor.article_keys(two)))
+
+    @patch.object(monitor, "open_with_retry")
+    @patch.object(monitor, "API_KEY", "test-key")
+    @patch.object(monitor, "MODEL", "model-404")
+    def test_gemini_continues_after_non_retryable_model_error(self, open_with_retry):
+        response = {"candidates": [{"content": {"parts": [{"text": '{"ok":true}'}]}}]}
+        open_with_retry.side_effect = [
+            RuntimeError("HTTP 404"),
+            __import__("json").dumps(response).encode("utf-8"),
+        ]
+        with patch.dict("os.environ", {"GEMINI_FALLBACK_MODELS": "modelo-alternativo"}):
+            result = monitor.gemini_json("prompt")
+        self.assertTrue(result["ok"])
+        self.assertEqual(open_with_retry.call_count, 2)
+
+
 if __name__ == "__main__":
     unittest.main()
