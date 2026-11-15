@@ -44,7 +44,8 @@ jobs:
 
   buscar-e-preparar-rascunhos:
     name: Buscar estudos e preparar rascunhos
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    # Gatilho de push abaixo é temporário e restrito ao branch de validação.
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/fix/resiliencia-gemini-rascunhos')
     needs: validar
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -72,7 +73,7 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          branch: automacao/rascunhos-cientificos
+          branch: teste/rascunhos-cientificos-resiliencia
           delete-branch: true
           commit-message: "Adiciona rascunhos científicos para revisão"
           title: "Rascunhos científicos para revisão editorial"
