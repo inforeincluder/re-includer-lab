@@ -77,21 +77,21 @@ def parse_feed(raw: bytes, source: str) -> list[dict[str, str]]:
         items = [node for node in root.iter() if node.tag.endswith("entry")]
     output = []
     for item in items:
-        title = clean(item.findtext("title"))
-        link = clean(item.findtext("link"))
+        def field(*suffixes: str) -> str:
+            for child in item:
+                if any(child.tag.endswith(suffix) for suffix in suffixes):
+                    return clean("".join(child.itertext()))
+            return ""
+        title = field("title")
+        link = field("link")
         if not link:
             for child in item:
                 if child.tag.endswith("link"):
                     link = clean(child.attrib.get("href") or child.text)
                     if link:
                         break
-        summary = item.findtext("description") or item.findtext("summary") or ""
-        if not summary:
-            for child in item:
-                if child.tag.endswith(("encoded", "content")):
-                    summary = "".join(child.itertext())
-                    break
-        published = item.findtext("pubDate") or item.findtext("published") or item.findtext("updated") or ""
+        summary = field("description", "summary", "encoded", "content")
+        published = field("pubDate", "published", "updated")
         output.append({
             "source": source, "title": title, "url": link,
             "summary": strip_html(summary)[:3500], "published": clean(published),
