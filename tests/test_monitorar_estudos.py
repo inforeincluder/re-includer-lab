@@ -160,6 +160,7 @@ class MonitoramentoTests(unittest.TestCase):
         self.assertIn("BACKGROUND:", articles[0]["abstractText"])
         self.assertEqual(articles[0]["authorString"], "Silva AB")
 
+    @patch.object(monitor, "search_semantic_scholar", return_value=[])
     @patch.object(monitor, "search_crossref", return_value=[])
     @patch.object(monitor, "search_openalex", return_value=[])
     @patch.object(monitor, "search_lilacs_bvs", return_value=[])
@@ -167,7 +168,7 @@ class MonitoramentoTests(unittest.TestCase):
     @patch.object(monitor, "open_with_retry")
     @patch.object(monitor, "get_json")
     def test_search_articles_uses_pubmed_when_europe_pmc_is_unavailable(
-        self, get_json, open_with_retry, _scielo, _lilacs, _openalex, _crossref
+        self, get_json, open_with_retry, _scielo, _lilacs, _openalex, _crossref, _semantic_scholar
     ):
         get_json.side_effect = [
             monitor.TemporaryServiceError("Europe PMC HTTP 503"),
@@ -224,6 +225,36 @@ class MonitoramentoTests(unittest.TestCase):
         self.assertEqual(result["resumo_acessivel"], "ok")
         self.assertEqual(open_with_retry.call_count, 2)
         self.assertEqual(open_with_retry.call_args_list[1].kwargs["max_attempts"], 2)
+
+
+
+    @patch.object(monitor, "get_json")
+    def test_search_semantic_scholar_normalizes_article_metadata(self, get_json):
+        get_json.return_value = {
+            "data": [{
+                "paperId": "paper-123",
+                "title": "Neurodiversity and inclusive education",
+                "abstract": "A sufficiently detailed abstract for testing.",
+                "authors": [{"name": "Author One"}],
+                "year": 2026,
+                "publicationDate": "2026-11-10",
+                "venue": "Journal of Inclusive Education",
+                "externalIds": {"DOI": "10.5555/semantic.2026", "PubMed": "998877"},
+                "url": "https://www.semanticscholar.org/paper/paper-123",
+                "publicationTypes": ["JournalArticle", "Review"],
+            }]
+        }
+        articles = monitor.search_semantic_scholar(
+            monitor.dt.date(2026, 11, 1),
+            monitor.dt.date(2026, 11, 15),
+        )
+        self.assertEqual(len(articles), 1)
+        self.assertEqual(articles[0]["source_database"], "Semantic Scholar")
+        self.assertEqual(articles[0]["doi"], "10.5555/semantic.2026")
+        self.assertEqual(articles[0]["pmid"], "998877")
+        self.assertEqual(articles[0]["journalTitle"], "Journal of Inclusive Education")
+        self.assertEqual(articles[0]["publication_type"], "JournalArticle, Review")
+        self.assertEqual(articles[0]["firstPublicationDate"], "2026-11-10")
 
 
     def test_normalize_external_article_preserves_source_and_metadata(self):
