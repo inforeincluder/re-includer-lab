@@ -1,6 +1,5 @@
-
 title: "2e Lab Brasil"
-description: "Ciência, neurodiversidade e múltipla excepcionalidade."
+description: "Ciência, neurodiversidade, dupla excepcionalidade e ferramentas práticas para famílias, pessoas neurodivergentes e educadores."
 author: "2e Lab Brasil"
 
 url: "https://inforeincluder.github.io"
@@ -17,6 +16,11 @@ permalink: /:categories/:title/
 header_pages:
   - sobre.md
   - pesquisa.md
+  - ferramentas.md
+  - fontes-e-metodologia.md
+  - calendario-editorial.md
+  - transparencia-comercial.md
+  - privacidade.md
 
 plugins:
   - jekyll-feed
