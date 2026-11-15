@@ -312,7 +312,7 @@ class MonitoramentoTests(unittest.TestCase):
             drafts = Path(temp) / "_drafts"
             drafts.mkdir()
             (drafts / "draft.md").write_text(
-                'title: "Estudo sobre neurodiversidade"\\n',
+                'title: "Estudo sobre neurodiversidade"\n',
                 encoding="utf-8",
             )
             self.assertIn(
