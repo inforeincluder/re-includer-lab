@@ -73,8 +73,8 @@ jobs:
       - name: Buscar estudos e gerar rascunhos
         env:
           GEMINI_API_KEY: ${{ secrets.reincluder_lab }}
-          GEMINI_MODEL: gemini-2.5-flash
-          GEMINI_FALLBACK_MODELS: gemini-2.5-flash-lite
+          GEMINI_MODEL: gemini-3.1-flash-lite
+          GEMINI_FALLBACK_MODELS: gemini-2.5-flash
           MAX_ARTICLES: "3"
         run: python scripts/monitorar_estudos.py
 
