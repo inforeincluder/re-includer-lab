@@ -220,6 +220,13 @@ def existing_identifiers(*directories: Path) -> set[str]:
                 identifiers.add(normalize_doi(match))
             for match in re.findall(r"(?im)^pmid:\s*['\"]?([^'\"\s]+)", content):
                 identifiers.add("pmid:" + match.strip("'\"").lower())
+            for match in re.findall(r"(?im)^title:\\s*(.+?)\\s*$", content):
+                raw_title = match.strip()
+                try:
+                    raw_title = json.loads(raw_title)
+                except (json.JSONDecodeError, TypeError):
+                    raw_title = raw_title.strip("'\\\"")
+                identifiers.add(normalize_title_key(raw_title))
     return identifiers
 
 
@@ -779,6 +786,7 @@ Periódico: {journal}
 Data: {publication_date}
 DOI: {doi}
 PMID: {pmid}
+Base bibliográfica: {clean(article.get("source_database"))}
 Resumo original:
 {abstract}
 """
