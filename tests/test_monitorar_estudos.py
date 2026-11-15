@@ -287,7 +287,7 @@ class MonitoramentoTests(unittest.TestCase):
                     "title": "Autism and inclusive education",
                     "author": ["Author One", "Author Two"],
                     "source": "Journal of Inclusive Education",
-                    "publicationdate": "2026",
+                    "publicationdate": "2026-11-10",
                     "description": "A sufficiently detailed abstract for ERIC testing.",
                     "peerreviewed": "true",
                     "publicationtype": ["Journal Articles"],
