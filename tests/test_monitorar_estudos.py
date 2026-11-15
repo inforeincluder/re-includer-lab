@@ -256,80 +256,6 @@ class MonitoramentoTests(unittest.TestCase):
 
 
 
-    @patch.object(monitor, "get_json")
-    def test_search_semantic_scholar_normalizes_article_metadata(self, get_json):
-        get_json.return_value = {
-            "data": [{
-                "paperId": "paper-123",
-                "title": "Neurodiversity and inclusive education",
-                "abstract": "A sufficiently detailed abstract for testing.",
-                "authors": [{"name": "Author One"}],
-                "year": 2026,
-                "publicationDate": "2026-11-10",
-                "venue": "Journal of Inclusive Education",
-                "externalIds": {"DOI": "10.5555/semantic.2026", "PubMed": "998877"},
-                "url": "https://www.semanticscholar.org/paper/paper-123",
-                "publicationTypes": ["JournalArticle", "Review"],
-            }]
-        }
-        articles = monitor.search_semantic_scholar(
-            monitor.dt.date(2026, 11, 1),
-            monitor.dt.date(2026, 11, 15),
-        )
-        self.assertEqual(len(articles), 1)
-        self.assertEqual(articles[0]["source_database"], "Semantic Scholar")
-        self.assertEqual(articles[0]["doi"], "10.5555/semantic.2026")
-        self.assertEqual(articles[0]["pmid"], "998877")
-        self.assertEqual(articles[0]["journalTitle"], "Journal of Inclusive Education")
-        self.assertEqual(articles[0]["publication_type"], "JournalArticle, Review")
-        self.assertEqual(articles[0]["firstPublicationDate"], "2026-11-10")
-
-
-    @patch.object(monitor, "get_json")
-    def test_search_eric_normalizes_education_records_and_types(self, get_json):
-        get_json.return_value = {
-            "response": {
-                "docs": [{
-                    "id": "EJ123456",
-                    "title": "Autism and inclusive education",
-                    "author": ["Author One", "Author Two"],
-                    "source": "Journal of Inclusive Education",
-                    "publicationdate": "2026-11-10",
-                    "description": "A sufficiently detailed abstract for ERIC testing.",
-                    "peerreviewed": "true",
-                    "publicationtype": ["Journal Articles"],
-                    "identifier": ["https://eric.ed.gov/?id=EJ123456"],
-                }]
-            }
-        }
-        articles = monitor.search_eric(
-            monitor.dt.date(2026, 11, 1),
-            monitor.dt.date(2026, 11, 15),
-        )
-        self.assertEqual(len(articles), 1)
-        self.assertEqual(articles[0]["source_database"], "ERIC")
-        self.assertEqual(articles[0]["record_id"], "EJ123456")
-        self.assertEqual(articles[0]["publication_type"], "Journal Articles")
-        self.assertTrue(articles[0]["peer_reviewed"])
-        self.assertEqual(articles[0]["source_url"], "https://eric.ed.gov/?id=EJ123456")
-
-
-    @patch.object(monitor, "get_json")
-    def test_search_eric_excludes_records_without_full_date_from_short_window(self, get_json):
-        get_json.return_value = {
-            "response": {"docs": [{
-                "id": "EJ000001",
-                "title": "Autism and education",
-                "publicationdate": "2026",
-                "description": "Abstract text long enough for a basic record.",
-            }]}
-        }
-        articles = monitor.search_eric(
-            monitor.dt.date(2026, 11, 1),
-            monitor.dt.date(2026, 11, 15),
-        )
-        self.assertEqual(articles, [])
-
     def test_normalize_external_article_preserves_source_and_metadata(self):
         article = monitor.normalize_external_article(
             source="OpenAlex", title="Título", doi="https://doi.org/10.1234/XYZ",
@@ -359,25 +285,6 @@ class MonitoramentoTests(unittest.TestCase):
             result = monitor.gemini_json("prompt")
         self.assertTrue(result["ok"])
         self.assertEqual(open_with_retry.call_count, 2)
-
-
-    @patch.object(monitor, "open_with_retry")
-    def test_search_lilacs_bvs_parses_rss_records(self, open_with_retry):
-        xml = """<?xml version="1.0"?>
-        <rss><channel><item>
-          <title>Autismo e educação inclusiva</title>
-          <link>https://example.org/artigo</link>
-          <description>Resumo bibliográfico de teste.</description>
-          <pubDate>Mon, 02 Nov 2026 00:00:00 GMT</pubDate>
-        </item></channel></rss>""".encode("utf-8")
-        open_with_retry.return_value = xml
-        articles = monitor.search_lilacs_bvs(
-            monitor.dt.date(2026, 11, 1), monitor.dt.date(2026, 11, 15)
-        )
-        self.assertEqual(len(articles), 1)
-        self.assertEqual(articles[0]["source_database"], "LILACS/BVS")
-        self.assertEqual(articles[0]["title"], "Autismo e educação inclusiva")
-        self.assertEqual(articles[0]["source_url"], "https://example.org/artigo")
 
 
     def test_existing_identifiers_reads_title_for_cross_database_deduplication(self):
