@@ -198,6 +198,22 @@ class MonitoramentoTests(unittest.TestCase):
         self.assertEqual(articles[0]["source_database"], "PubMed")
 
 
+    def test_validate_summary_accepts_label_with_dash_justification(self):
+        summary = sample_summary()
+        summary["classificacao_editorial"] = "moderada — evidência observacional"
+        validated = monitor.validate_summary(summary)
+        self.assertEqual(validated["classificacao_editorial"], "moderada — evidência observacional")
+
+    def test_validate_summary_downgrades_unknown_label_without_aborting(self):
+        summary = sample_summary()
+        summary["classificacao_editorial"] = "evidência forte — resultado da IA"
+        validated = monitor.validate_summary(summary)
+        self.assertTrue(validated["classificacao_editorial"].startswith("hipótese —"))
+        self.assertEqual(
+            validated["classificacao_editorial_original_ia"],
+            "evidência forte — resultado da IA",
+        )
+
     def test_fallback_summary_marks_content_as_not_ai_generated(self):
         summary = monitor.fallback_summary_without_ai(sample_article())
         self.assertEqual(summary["status_geracao"], "sem_ia")
