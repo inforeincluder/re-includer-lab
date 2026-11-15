@@ -90,3 +90,9 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
   .a11y-panel .a11y-options button, .a11y-share .a11y-options a, .a11y-share .a11y-options button { flex: 1 1 auto; text-align: center; }
 }
 @media print { .a11y-widget, .a11y-share { display: none !important; } }
+
+/* Complementos para elementos tipográficos do tema Minima */
+.post-meta, .rss-subscribe, .site-description { color: var(--a11y-muted) !important; }
+code, pre, .highlight { color: var(--a11y-text); background: var(--a11y-surface); border-color: var(--a11y-border); }
+input, textarea, select { color: var(--a11y-text); background: var(--a11y-bg); }
+table { color: var(--a11y-text); }
