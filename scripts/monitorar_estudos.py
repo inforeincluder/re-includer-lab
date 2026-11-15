@@ -778,6 +778,7 @@ publication_date: {yaml_quote(publication_date)}
 doi: {yaml_quote(doi)}
 pmid: {yaml_quote(pmid)}
 source_url: {yaml_quote(source_url)}
+source_database: {yaml_quote(article.get("source_database", "não informado"))}
 evidence_level: {yaml_quote(summary["classificacao_editorial"])}
 editorial_status: {yaml_quote(editorial_status)}
 ---
@@ -887,7 +888,7 @@ def main() -> int:
         eligible += 1
         try:
             summary = validate_summary(gemini_json(prompt_data[0]))
-        except TemporaryServiceError as exc:
+        except (TemporaryServiceError, RuntimeError) as exc:
             LOGGER.warning(
                 "IA indisponível para '%s'; criando ficha de triagem sem síntese: %s",
                 clean(article.get("title")), exc,
