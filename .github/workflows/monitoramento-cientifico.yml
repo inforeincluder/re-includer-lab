@@ -5,7 +5,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: "30 11 * * 1"
+    - cron: "30 11 * * 1"\n    - cron: "0 11 * * 2,5"
   workflow_dispatch:
 
 concurrency:
