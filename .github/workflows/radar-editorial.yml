@@ -1,0 +1,43 @@
+name: Radar editorial de neurodiversidade
+
+on:
+  schedule:
+    - cron: "30 11 * * 1,4"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: radar-editorial
+  cancel-in-progress: false
+
+jobs:
+  coletar:
+    name: Coletar candidatos para triagem humana
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validar script e testes
+        run: |
+          python -m py_compile scripts/monitorar_pautas.py tests/test_monitorar_pautas.py
+          python -m unittest discover -s tests -p 'test_monitorar_pautas.py' -v
+
+      - name: Buscar feeds e montar relatório
+        run: python scripts/monitorar_pautas.py --output radar/pautas-da-semana.md
+
+      - name: Disponibilizar relatório como artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: radar-editorial-${{ github.run_number }}
+          path: radar/pautas-da-semana.md
+          if-no-files-found: error
+          retention-days: 21
