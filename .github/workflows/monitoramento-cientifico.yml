@@ -47,7 +47,6 @@ jobs:
     timeout-minutes: 20
     permissions:
       contents: write
-      pull-requests: write
     steps:
       - name: Baixar repositório
         uses: actions/checkout@v4
@@ -57,6 +56,11 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Atualizar base com main para evitar rascunhos duplicados
+        run: |
+          git fetch origin main
+          git merge --no-edit origin/main
+
       - name: Buscar estudos e gerar rascunhos
         env:
           GEMINI_API_KEY: ${{ secrets.reincluder_lab }}
@@ -65,33 +69,21 @@ jobs:
           MAX_ARTICLES: "3"
         run: python scripts/monitorar_estudos.py
 
-      - name: Preparar base limpa para PR de rascunhos
+      - name: Salvar rascunhos em main para revisão humana (sem publicar)
         run: |
           git fetch origin main
-          git checkout --detach FETCH_HEAD
-          git status --short
+          git checkout --detach origin/main
+          if ! find _drafts -maxdepth 1 -type f -name '*.md' -print -quit 2>/dev/null | grep -q .; then
+            echo "Nenhum arquivo de rascunho novo para salvar."
+            exit 0
+          fi
+          git add _drafts/*.md
+          if git diff --cached --quiet; then
+            echo "Nenhuma alteração nova em _drafts/."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Adiciona rascunhos científicos para revisão humana"
+          git push origin HEAD:main
 
-      - name: Abrir ou atualizar Pull Request para revisão humana
-        uses: peter-evans/create-pull-request@v7
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: automacao/rascunhos-cientificos
-          base: main
-          add-paths: |
-            _drafts/**
-          delete-branch: true
-          commit-message: "Adiciona rascunhos científicos para revisão"
-          title: "Rascunhos científicos para revisão editorial"
-          body: |
-            A automação encontrou estudos recentes e preparou rascunhos com auxílio de IA.
-
-            **Os arquivos ficam em `_drafts/` e não são publicados pelo Jekyll.**
-
-            **Antes de publicar:**
-            - Conferir a publicação original e a referência.
-            - Validar população, amostra, métodos, resultados e limitações.
-            - Revisar a classificação editorial da evidência.
-            - Corrigir ou rejeitar afirmações não sustentadas pelo artigo.
-            - Somente após aprovação editorial, mover os arquivos selecionados de `_drafts/` para `_posts/`.
-
-            A mesclagem deste PR, sem mover os arquivos para `_posts/`, não publica os artigos.
