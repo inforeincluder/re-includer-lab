@@ -11,7 +11,7 @@ O 2e Lab Brasil conecta ciência, experiências do cotidiano e ferramentas prát
 
 ## Comece por aqui
 
-- [O que é dupla excepcionalidade (2e)?]({{ '/dupla-excepcionalidade/altas-habilidades/o-que-e-dupla-excepcionalidade-2e/' | relative_url }}) — conceito, mascaramento e mapa prático de observação.
+- [O que é dupla excepcionalidade (2e)?]({{ '/dupla-excepcionalidade/o-que-e-dupla-excepcionalidade-2e/' | relative_url }}) — conceito, mascaramento e mapa prático de observação.
 - [Ferramentas práticas]({{ '/ferramentas/' | relative_url }}) — recursos para organizar observações e conversas com a escola.
 - [Nossa metodologia de pesquisa]({{ '/pesquisa/' | relative_url }}) — como avaliamos fontes, evidências e limitações.
 
