@@ -12,7 +12,7 @@
     root.dataset.a11yLinks = state.links ? "on" : "off";
     root.dataset.a11yContrast = state.contrast ? "high" : "normal";
     root.dataset.a11yMotion = state.motion ? "reduce" : "normal";
-    root.style.fontSize = state.scale + "%";
+    root.style.setProperty("--a11y-scale", String(state.scale / 100));
     root.style.lineHeight = state.spacing === "loose" ? "1.85" : state.spacing === "wide" ? "2.05" : "";
     try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
     document.querySelectorAll("[data-a11y-control]").forEach(function (el) {
