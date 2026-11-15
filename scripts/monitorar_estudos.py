@@ -836,7 +836,7 @@ Retorne APENAS um objeto JSON válido com estas chaves:
 "limitacoes": limitações informadas ou "não informado no resumo";
 "relevancia": interesse para o público do portal, sem afirmar que estudou 2e se não estudou;
 "cautela": o que não é possível concluir a partir deste resumo;
-"classificacao_editorial": "preliminar", "moderada" ou "hipótese", com justificativa;
+"classificacao_editorial": use EXATAMENTE um dos prefixos "preliminar —", "moderada —" ou "hipótese —", seguido de justificativa curta. Nunca crie outra categoria; na dúvida, use "hipótese —";
 "termos": lista de 3 a 6 palavras-chave em português.
 
 DADOS DO ARTIGO:
@@ -877,9 +877,29 @@ def validate_summary(summary: dict[str, Any]) -> dict[str, Any]:
     ):
         raise ValueError("'termos' deve conter de 3 a 6 palavras-chave textuais.")
 
-    classification = clean(summary["classificacao_editorial"]).split("—")[0].strip().lower()
-    if classification not in {"preliminar", "moderada", "hipótese"}:
-        raise ValueError("Classificação editorial fora das opções permitidas.")
+    raw_classification = clean(summary["classificacao_editorial"])
+    classification_text = raw_classification.lower().replace("–", "—")
+    allowed = ("preliminar", "moderada", "hipótese")
+    classification = next(
+        (label for label in allowed
+         if classification_text == label
+         or classification_text.startswith(label + " —")
+         or classification_text.startswith(label + ":")
+         or classification_text.startswith(label + " (")),
+        None,
+    )
+    if classification is None:
+        # Classificação inesperada nunca deve interromper a coleta.
+        # Na dúvida, adota-se a categoria mais conservadora e preserva-se
+        # a saída original da IA para revisão editorial.
+        summary["classificacao_editorial_original_ia"] = raw_classification
+        classification = "hipótese"
+        summary["classificacao_editorial"] = (
+            "hipótese — classificação automática não reconhecida; "
+            "revisão humana obrigatória"
+        )
+    elif raw_classification != classification:
+        summary["classificacao_editorial"] = raw_classification
     return summary
 
 
