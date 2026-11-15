@@ -151,7 +151,7 @@ FONTE: {json.dumps(item, ensure_ascii=False)}
         try:
             draft = gemini_json(prompt)
             title = clean(draft.get("title"))[:140]
-            body = clean(draft.get("article_markdown"))
+            body = str(draft.get("article_markdown") or "").strip()
             if not title or len(body) < 900:
                 LOGGER.warning("Resposta editorial incompleta para %s.", item["url"])
                 continue
