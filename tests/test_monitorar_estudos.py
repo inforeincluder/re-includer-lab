@@ -160,10 +160,13 @@ class MonitoramentoTests(unittest.TestCase):
         self.assertIn("BACKGROUND:", articles[0]["abstractText"])
         self.assertEqual(articles[0]["authorString"], "Silva AB")
 
+    @patch.object(monitor, "search_crossref", return_value=[])
+    @patch.object(monitor, "search_openalex", return_value=[])
+    @patch.object(monitor, "search_scielo", return_value=[])
     @patch.object(monitor, "open_with_retry")
     @patch.object(monitor, "get_json")
-    def test_search_articles_falls_back_to_pubmed_when_europe_pmc_is_unavailable(
-        self, get_json, open_with_retry
+    def test_search_articles_uses_pubmed_when_europe_pmc_is_unavailable(
+        self, get_json, open_with_retry, _scielo, _openalex, _crossref
     ):
         get_json.side_effect = [
             monitor.TemporaryServiceError("Europe PMC HTTP 503"),
@@ -186,6 +189,7 @@ class MonitoramentoTests(unittest.TestCase):
         self.assertEqual(articles[0]["pmid"], "987654")
         self.assertEqual(get_json.call_count, 2)
         self.assertEqual(open_with_retry.call_count, 1)
+        self.assertEqual(articles[0]["source_database"], "PubMed")
 
 
     def test_fallback_summary_marks_content_as_not_ai_generated(self):
