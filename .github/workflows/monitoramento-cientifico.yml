@@ -7,6 +7,11 @@ on:
   schedule:
     - cron: "30 11 * * 1"
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/monitoramento-cientifico.yml
 
 concurrency:
   group: monitoramento-cientifico-${{ github.ref }}
@@ -43,7 +48,7 @@ jobs:
 
   buscar-e-preparar-rascunhos:
     name: Buscar estudos e preparar rascunhos
-    if: github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.event_name == 'push')
     needs: validar
     runs-on: ubuntu-latest
     timeout-minutes: 20
