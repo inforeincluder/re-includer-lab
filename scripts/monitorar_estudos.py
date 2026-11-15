@@ -20,7 +20,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 DRAFTS = ROOT / "_drafts"
 POSTS = ROOT / "_posts"
-MODEL = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
+MODEL = os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite")
 API_KEY = os.getenv("GEMINI_API_KEY")
 LOGGER = logging.getLogger("monitorar_estudos")
 RETRY_ATTEMPTS = 5
