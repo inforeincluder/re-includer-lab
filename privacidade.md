@@ -17,7 +17,7 @@ No momento, esta página não anuncia formulário próprio de cadastro, área de
 
 ## Links externos e afiliados
 
-Ao acessar links de terceiros, você passa a estar sujeito às políticas e práticas desses serviços. Links afiliados, quando existentes, serão identificados conforme a [política de transparência comercial](/transparencia-comercial/).
+Ao acessar links de terceiros, você passa a estar sujeito às políticas e práticas desses serviços. Links afiliados, quando existentes, serão identificados conforme a [política de transparência comercial](/re-includer-lab/transparencia-comercial/).
 
 ## Dados sensíveis
 
