@@ -96,3 +96,17 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
 code, pre, .highlight { color: var(--a11y-text); background: var(--a11y-surface); border-color: var(--a11y-border); }
 input, textarea, select { color: var(--a11y-text); background: var(--a11y-bg); }
 table { color: var(--a11y-text); }
+
+/* Correções de carregamento e layout responsivo em celulares */
+html, body { width: 100%; max-width: 100%; overflow-x: clip; }
+body { min-width: 0; }
+.wrapper { box-sizing: border-box; width: calc(100% - 2rem); max-width: 800px; }
+.post-content, .page-content { min-width: 0; overflow-wrap: anywhere; }
+.post-content img, .page-content img, video, iframe { max-width: 100%; height: auto; }
+.post-content table, .page-content table, pre { display: block; max-width: 100%; overflow-x: auto; }
+@media (max-width: 600px) {
+  .wrapper { width: calc(100% - 2rem); padding-left: 0; padding-right: 0; }
+  .post-content, .page-content { font-size: 1rem; }
+  .a11y-share .a11y-options { align-items: stretch; }
+  .a11y-share .a11y-options a, .a11y-share .a11y-options button { min-width: 0; }
+}

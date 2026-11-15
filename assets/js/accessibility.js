@@ -38,12 +38,13 @@
 
   function addAccessibility() {
     if (document.querySelector(".a11y-widget")) return;
-    var skip = document.createElement("a");
-    skip.className = "a11y-skip-link"; skip.href = "#main-content"; skip.textContent = "Pular para o conteúdo";
-    document.body.insertBefore(skip, document.body.firstChild);
-    var main = document.querySelector("main") || document.querySelector(".page-content");
+    var main = document.querySelector("#main-content") || document.querySelector("main") || document.querySelector(".page-content");
     if (main && !main.id) main.id = "main-content";
-
+    if (main) {
+      var skip = document.createElement("a");
+      skip.className = "a11y-skip-link"; skip.href = "#main-content"; skip.textContent = "Pular para o conteúdo";
+      document.body.insertBefore(skip, document.body.firstChild);
+    }
     var aside = document.createElement("aside"); aside.className = "a11y-widget"; aside.setAttribute("aria-label", "Opções de acessibilidade");
     var details = document.createElement("details"), summary = document.createElement("summary");
     summary.textContent = "Acessibilidade"; details.appendChild(summary);
@@ -60,9 +61,10 @@
   }
 
   function addSharing() {
-    var content = document.querySelector(".post-content");
+    var content = document.querySelector(".post-content") || document.querySelector(".e-content") || document.querySelector("article");
     if (!content || document.querySelector(".a11y-share")) return;
-    var title = document.querySelector(".post-title") ? document.querySelector(".post-title").textContent.trim() : document.title;
+    var titleNode = document.querySelector(".post-title") || document.querySelector("h1");
+    var title = titleNode ? titleNode.textContent.trim() : document.title;
     var url = window.location.href;
     var encTitle = encodeURIComponent(title), encUrl = encodeURIComponent(url);
     var section = document.createElement("section"); section.className = "a11y-share"; section.setAttribute("aria-labelledby", "share-title");
@@ -91,7 +93,7 @@
   }
 
   function init() { addAccessibility(); addSharing(); }
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init, { once: true }); else init();
   if (window.matchMedia) {
     var mq = window.matchMedia("(prefers-color-scheme: dark)");
     if (mq.addEventListener) mq.addEventListener("change", function () { if (prefs.theme === "auto") apply(); });
