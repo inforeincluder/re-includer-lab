@@ -619,11 +619,19 @@ def search_eric(start: dt.date, end: dt.date) -> list[dict[str, Any]]:
         if not isinstance(item, dict):
             continue
         raw_date = clean(item.get("publicationdate") or item.get("publicationDate"))
-        match = re.search(r"(19|20)\\d{2}", raw_date)
-        if match:
-            year = int(match.group(0))
-            if not (start.year <= year <= end.year):
-                continue
+        # Para a janela curta do monitoramento, não presumir que um registro
+        # publicado em algum momento do ano seja recente. Exige data completa.
+        date_match = re.search(r"((?:19|20)\\d{2})[-/](\\d{1,2})[-/](\\d{1,2})", raw_date)
+        if not date_match:
+            continue
+        try:
+            publication_day = dt.date(
+                int(date_match.group(1)), int(date_match.group(2)), int(date_match.group(3))
+            )
+        except ValueError:
+            continue
+        if not (start <= publication_day <= end):
+            continue
         authors = item.get("author") or []
         if isinstance(authors, str):
             authors = [authors]
