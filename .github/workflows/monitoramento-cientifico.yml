@@ -31,7 +31,7 @@ jobs:
 
       - name: Compilar script e executar testes
         run: |
-          python -m py_compile scripts/monitorar_estudos.py tests/test_monitorar_estudos.py
+          python -m py_compile scripts/monitorar_estudos.py scripts/monitorar_fontes_publicas.py tests/test_monitorar_estudos.py
           python -m unittest discover -s tests -v
 
       - name: Validar sintaxe YAML
@@ -72,6 +72,15 @@ jobs:
           GEMINI_FALLBACK_MODELS: gemini-2.5-flash
           MAX_ARTICLES: "3"
         run: python scripts/monitorar_estudos.py
+
+      - name: Descobrir pautas em fontes públicas e preparar rascunhos
+        env:
+          GEMINI_API_KEY: ${{ secrets.reincluder_lab }}
+          GEMINI_MODEL: gemini-3.1-flash-lite
+          GEMINI_FALLBACK_MODELS: gemini-2.5-flash
+          MAX_PUBLIC_ITEMS: "2"
+          PUBLIC_LOOKBACK_DAYS: "14"
+        run: python scripts/monitorar_fontes_publicas.py
 
       - name: Salvar rascunhos em main para revisão humana (sem publicar)
         run: |
