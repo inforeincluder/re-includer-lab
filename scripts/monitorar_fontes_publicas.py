@@ -47,7 +47,7 @@ def get_feed(url: str) -> bytes:
 
 
 def strip_html(value: str) -> str:
-    value = re.sub(r"<(script|style)[^>]*>.*?</\\1>", " ", value or "", flags=re.I | re.S)
+    value = re.sub(r"<(script|style)[^>]*>.*?</\1>", " ", value or "", flags=re.I | re.S)
     value = re.sub(r"<[^>]+>", " ", value)
     return clean(html.unescape(value))
 
@@ -159,15 +159,15 @@ FONTE: {json.dumps(item, ensure_ascii=False)}
             filename = f"{dt.date.today().isoformat()}-{slugify(title)}-{digest}.md"
             category = slugify(clean(draft.get("category")) or "neurodiversidade")
             content = (
-                "---\\nlayout: post\\ntitle: " + json.dumps(title, ensure_ascii=False)
-                + "\\ndate: " + dt.datetime.now().astimezone().strftime("%Y-%m-%d %H:%M:%S %z")
-                + "\\ncategories: [" + category + "]\\ndescription: "
+                "---\nlayout: post\ntitle: " + json.dumps(title, ensure_ascii=False)
+                + "\ndate: " + dt.datetime.now().astimezone().strftime("%Y-%m-%d %H:%M:%S %z")
+                + "\ncategories: [" + category + "]\ndescription: "
                 + json.dumps(clean(draft.get("description"))[:180], ensure_ascii=False)
-                + "\\neditorial_type: atualidade\\nreview_status: revisão humana pendente"
-                + "\\nmonetization: none\\nsource_url: " + json.dumps(item["url"], ensure_ascii=False)
-                + "\\n---\\n\\n" + body
-                + "\\n\\n---\\n\\n**Fonte monitorada:** [" + item["source"] + "](" + item["url"] + ")."
-                + "\\n\\n**Status editorial:** rascunho assistido por IA. Conferir a fonte original, localizar estudos/documentos primários, validar todas as afirmações e revisar humanamente antes de publicar.\\n"
+                + "\neditorial_type: atualidade\nreview_status: revisão humana pendente"
+                + "\nmonetization: none\nsource_url: " + json.dumps(item["url"], ensure_ascii=False)
+                + "\n---\n\n" + body
+                + "\n\n---\n\n**Fonte monitorada:** [" + item["source"] + "](" + item["url"] + ")."
+                + "\n\n**Status editorial:** rascunho assistido por IA. Conferir a fonte original, localizar estudos/documentos primários, validar todas as afirmações e revisar humanamente antes de publicar.\n"
             )
             DRAFTS.mkdir(exist_ok=True)
             (DRAFTS / filename).write_text(content, encoding="utf-8")
