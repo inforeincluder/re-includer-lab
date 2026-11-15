@@ -565,6 +565,78 @@ def search_scielo(start: dt.date, end: dt.date) -> list[dict[str, Any]]:
     return articles
 
 
+
+def search_lilacs_bvs(start: dt.date, end: dt.date) -> list[dict[str, Any]]:
+    """Consulta a exportação XML/RSS da interface IAHx da BVS, restrita à LILACS."""
+    query = (
+        'autismo OR TDAH OR ADHD OR dislexia OR dyslexia OR '
+        '"altas habilidades" OR "dupla excepcionalidade" OR '
+        '"twice exceptional" OR neurodiversidade OR neurodiversity OR '
+        '"função executiva" OR "tecnologia assistiva"'
+    )
+    params = urllib.parse.urlencode({
+        "q": query,
+        "lang": "pt",
+        "output": "xml",
+        "from": "0",
+        "count": "50",
+        "format": "summary",
+        "sort": "YEAR_DESC",
+        "filter[db][]": "LILACS",
+    })
+    url = "https://pesquisa.bvsalud.org/portal/?" + params
+    request = urllib.request.Request(
+        url, headers={"User-Agent": "2e-Lab-Brasil/1.0"}
+    )
+    raw = open_with_retry(request, 45, "LILACS/BVS")
+    try:
+        root = ET.fromstring(raw)
+    except ET.ParseError as exc:
+        raise RuntimeError("LILACS/BVS: exportação XML inválida.") from exc
+
+    def child_text(node: ET.Element, *names: str) -> str:
+        wanted = {name.lower() for name in names}
+        for child in node.iter():
+            local = child.tag.rsplit("}", 1)[-1].lower()
+            if local in wanted and child.text:
+                return clean(child.text)
+        return ""
+
+    articles = []
+    for node in root.iter():
+        if node.tag.rsplit("}", 1)[-1].lower() not in {"item", "record"}:
+            continue
+        title = child_text(node, "title")
+        if not title:
+            continue
+        abstract = child_text(node, "description", "abstract", "dc:description")
+        link = child_text(node, "link", "identifier")
+        date_value = child_text(node, "pubDate", "date", "dc:date")
+        if date_value:
+            try:
+                date_value = parsedate_to_datetime(date_value).date().isoformat()
+            except (TypeError, ValueError, OverflowError):
+                match = re.search(r"(19|20)\d{2}(?:-\d{2}(?:-\d{2})?)?", date_value)
+                date_value = match.group(0) if match else ""
+        if date_value:
+            try:
+                parsed_date = dt.date.fromisoformat(date_value[:10])
+                if not start <= parsed_date <= end:
+                    continue
+            except ValueError:
+                pass
+        articles.append(normalize_external_article(
+            source="LILACS/BVS", title=title,
+            authors=child_text(node, "creator", "author", "dc:creator"),
+            journal=child_text(node, "source", "journal", "dc:source"),
+            publication_date=date_value,
+            abstract=abstract,
+            article_id=child_text(node, "identifier", "guid"),
+            url=link,
+        ))
+    return articles
+
+
 def search_articles() -> list[dict[str, Any]]:
     end = dt.datetime.now(dt.timezone.utc).date()
     start = end - dt.timedelta(days=14)
@@ -600,6 +672,7 @@ def search_articles() -> list[dict[str, Any]]:
         ]),
         ("PubMed", lambda: search_pubmed(start, end)),
         ("SciELO", lambda: search_scielo(start, end)),
+        ("LILACS/BVS", lambda: search_lilacs_bvs(start, end)),
         ("OpenAlex", lambda: search_openalex(start, end)),
         ("Crossref", lambda: search_crossref(start, end)),
     ]
