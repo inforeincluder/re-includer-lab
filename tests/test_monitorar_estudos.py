@@ -276,5 +276,19 @@ class MonitoramentoTests(unittest.TestCase):
         self.assertEqual(articles[0]["source_url"], "https://example.org/artigo")
 
 
+    def test_existing_identifiers_reads_title_for_cross_database_deduplication(self):
+        with tempfile.TemporaryDirectory() as temp:
+            drafts = Path(temp) / "_drafts"
+            drafts.mkdir()
+            (drafts / "draft.md").write_text(
+                'title: "Estudo sobre neurodiversidade"\\n',
+                encoding="utf-8",
+            )
+            self.assertIn(
+                monitor.normalize_title_key("Estudo sobre neurodiversidade"),
+                monitor.existing_identifiers(drafts),
+            )
+
+
 if __name__ == "__main__":
     unittest.main()
