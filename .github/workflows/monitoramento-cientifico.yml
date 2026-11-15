@@ -65,12 +65,18 @@ jobs:
           MAX_ARTICLES: "3"
         run: python scripts/monitorar_estudos.py
 
+      - name: Preparar base limpa para PR de rascunhos
+        run: |
+          git fetch origin main
+          git checkout --detach FETCH_HEAD
+          git status --short
+
       - name: Abrir ou atualizar Pull Request para revisão humana
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          branch: automacao/rascunhos-cientificos-${{ github.ref_name }}
-          base: ${{ github.ref_name }}
+          branch: automacao/rascunhos-cientificos
+          base: main
           add-paths: |
             _drafts/**
           delete-branch: true
