@@ -8,7 +8,7 @@ baseurl: "/re-includer-lab"
 lang: "pt-BR"
 timezone: "America/Recife"
 
-# Métricas: ativar somente após configurar os identificadores públicos.
+# Métricas de audiência e verificação do Search Console.
 goatcounter_url: "https://2elabbrasil.goatcounter.com/count"
 google_site_verification: false
 
