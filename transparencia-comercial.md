@@ -39,4 +39,4 @@ Consideramos relevância, finalidade, acessibilidade, limitações, qualidade da
 
 ## Correções e contato
 
-Erros factuais, conflitos de interesse ou problemas em recomendações podem ser comunicados pela página [Sobre](/re-includer-lab/sobre/). Esta política será atualizada à medida que novas relações comerciais forem estabelecidas.
+Erros factuais, conflitos de interesse ou problemas em recomendações devem ser tratados com transparência e corrigidos nesta política ou no conteúdo afetado. No momento, o portal não disponibiliza formulário próprio de contato. Não envie dados pessoais sensíveis ou informações identificáveis de crianças em espaços públicos.
