@@ -309,5 +309,32 @@ class MonitoramentoTests(unittest.TestCase):
         self.assertFalse(public_sources.has_topic_title("Professor eleito para o Conselho Nacional de Educação"))
         self.assertFalse(public_sources.has_topic_title("US loses measles elimination status"))
 
+    def test_public_item_classification_prioritizes_explicit_title(self):
+        score, tier, reason = public_sources.classify_public_item({
+            "title": "New research on autism and learning",
+            "summary": "A study with school-age participants.",
+        })
+        self.assertGreaterEqual(score, 90)
+        self.assertEqual(tier, "alta")
+        self.assertIn("título", reason)
+
+    def test_public_item_classification_recovers_relevant_summary_only(self):
+        score, tier, reason = public_sources.classify_public_item({
+            "title": "New findings on medication safety",
+            "summary": "Researchers examined ADHD and attention deficit outcomes.",
+        })
+        self.assertGreaterEqual(score, 60)
+        self.assertLess(score, 90)
+        self.assertEqual(tier, "média")
+        self.assertIn("resumo", reason)
+
+    def test_public_item_classification_rejects_unrelated_content(self):
+        score, tier, reason = public_sources.classify_public_item({
+            "title": "Professor elected to national education council",
+            "summary": "A report about public administration and policy.",
+        })
+        self.assertEqual(score, 0)
+        self.assertEqual(tier, "descartada")
+
 if __name__ == "__main__":
     unittest.main()
