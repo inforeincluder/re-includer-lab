@@ -127,7 +127,39 @@
     });
   }
 
-  function init() { makeTablesScrollable(); addAccessibility(); addSharing(); }
+
+  // Fecha o menu móvel do Minima ao clicar fora, selecionar um link ou pressionar Escape.
+  function initMobileMenuDismiss() {
+    var nav = document.querySelector(".site-nav");
+    var trigger = nav && nav.querySelector("#nav-trigger");
+    if (!nav || !trigger || nav.dataset.dismissReady === "true") return;
+    nav.dataset.dismissReady = "true";
+
+    function closeMenu() {
+      if (trigger.checked) {
+        trigger.checked = false;
+        trigger.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    }
+
+    document.addEventListener("click", function (event) {
+      if (trigger.checked && !nav.contains(event.target)) closeMenu();
+    });
+
+    nav.querySelectorAll(".trigger a").forEach(function (link) {
+      link.addEventListener("click", closeMenu);
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && trigger.checked) {
+        closeMenu();
+        var menuButton = nav.querySelector("label[for='nav-trigger']");
+        if (menuButton) menuButton.focus();
+      }
+    });
+  }
+
+  function init() { makeTablesScrollable(); addAccessibility(); addSharing(); initMobileMenuDismiss(); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init, { once: true }); else init();
   if (window.matchMedia) {
     var mq = window.matchMedia("(prefers-color-scheme: dark)");
