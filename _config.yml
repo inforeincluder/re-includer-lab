@@ -9,7 +9,7 @@ lang: "pt-BR"
 timezone: "America/Recife"
 
 # Métricas: ativar somente após configurar os identificadores públicos.
-goatcounter_url: false
+goatcounter_url: "https://2elabbrasil.goatcounter.com/count"
 google_site_verification: false
 
 theme: minima
