@@ -101,7 +101,7 @@ table { color: var(--a11y-text); }
 html, body { width: 100%; max-width: 100%; overflow-x: clip; }
 body { min-width: 0; }
 .wrapper { box-sizing: border-box; width: calc(100% - 2rem); max-width: 800px; }
-.post-content, .page-content { min-width: 0; overflow-wrap: anywhere; }
+.post-content, .page-content { min-width: 0; overflow-wrap: break-word; }
 .post-content img, .page-content img, video, iframe { max-width: 100%; height: auto; }
 .post-content table, .page-content table, pre { display: block; max-width: 100%; overflow-x: auto; }
 @media (max-width: 600px) {
@@ -109,4 +109,80 @@ body { min-width: 0; }
   .post-content, .page-content { font-size: 1rem; }
   .a11y-share .a11y-options { align-items: stretch; }
   .a11y-share .a11y-options a, .a11y-share .a11y-options button { min-width: 0; }
+}
+
+
+/* Correção estrutural de tabelas: preservar legibilidade em telas estreitas */
+.table-scroll {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin: 1.25rem 0 1.75rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--a11y-border);
+  border-radius: .35rem;
+}
+.table-scroll:focus-visible {
+  outline: 3px solid var(--a11y-focus);
+  outline-offset: 3px;
+}
+.table-scroll table,
+.post-content .table-scroll table,
+.page-content .table-scroll table {
+  display: table;
+  width: 100%;
+  min-width: 44rem;
+  max-width: none;
+  margin: 0;
+  table-layout: auto;
+  border-collapse: collapse;
+  overflow: visible;
+}
+.table-scroll th,
+.table-scroll td {
+  min-width: 7rem;
+  padding: .7rem .8rem;
+  vertical-align: top;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: auto;
+  line-height: 1.5;
+}
+.table-scroll th {
+  font-weight: 700;
+  background: var(--a11y-surface);
+}
+.table-scroll tr:nth-child(even) td {
+  background: color-mix(in srgb, var(--a11y-surface) 45%, var(--a11y-bg));
+}
+.post-content, .page-content, .post-content p, .page-content p,
+.post-content li, .page-content li {
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+.post-content pre, .page-content pre {
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre;
+}
+.a11y-widget { max-width: min(21rem, calc(100vw - 1rem)); }
+.a11y-widget summary { line-height: 1.25; }
+body { padding-bottom: max(5rem, calc(4rem + env(safe-area-inset-bottom))); }
+@media (max-width: 600px) {
+  .table-scroll { margin-inline: 0; }
+  .table-scroll table,
+  .post-content .table-scroll table,
+  .page-content .table-scroll table { min-width: 44rem; }
+  .table-scroll th, .table-scroll td { min-width: 7rem; padding: .6rem .65rem; }
+  .a11y-widget { right: .5rem; bottom: max(.5rem, env(safe-area-inset-bottom)); }
+  .a11y-widget summary { padding: .55rem .75rem; font-size: .9rem; }
+  body { padding-bottom: max(5.5rem, calc(4.5rem + env(safe-area-inset-bottom))); }
+}
+@media (max-width: 360px) {
+  .a11y-widget { max-width: calc(100vw - 1rem); }
+  .a11y-widget summary { padding: .45rem .6rem; }
 }
