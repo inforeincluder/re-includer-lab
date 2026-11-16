@@ -186,3 +186,65 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
   .a11y-widget summary { padding: .5rem .65rem; }
 }
 @media print { .a11y-widget, .a11y-share { display: none !important; } }
+
+
+/* Menu móvel do Minima: superfície e texto devem acompanhar o tema ativo.
+   O menu é um painel independente; não pode herdar texto claro sobre fundo branco. */
+.site-nav {
+  color: var(--a11y-text);
+}
+.site-nav .trigger {
+  color: var(--a11y-text) !important;
+  background: var(--a11y-surface) !important;
+  border: 1px solid var(--a11y-border);
+  border-radius: .35rem;
+  box-shadow: 0 4px 14px rgb(0 0 0 / .18);
+}
+.site-nav .trigger .page-link,
+.site-nav .trigger .page-link:visited,
+.site-nav .page-link,
+.site-nav .page-link:visited {
+  color: var(--a11y-text) !important;
+  background: transparent !important;
+  text-decoration: none;
+}
+.site-nav .trigger .page-link:hover,
+.site-nav .page-link:hover {
+  color: var(--a11y-link) !important;
+  background: var(--a11y-bg) !important;
+}
+.site-nav .menu-icon {
+  color: var(--a11y-text);
+  background: var(--a11y-surface);
+  border-color: var(--a11y-border);
+}
+.site-nav .menu-icon > svg path {
+  fill: var(--a11y-text);
+}
+html[data-contrast="high"] .site-nav .trigger {
+  color: #fff !important;
+  background: #000 !important;
+  border: 2px solid #fff;
+}
+html[data-contrast="high"] .site-nav .trigger .page-link,
+html[data-contrast="high"] .site-nav .trigger .page-link:visited {
+  color: #fff !important;
+}
+@media (max-width: 600px) {
+  .site-nav .trigger {
+    min-width: 12rem;
+    max-width: min(19rem, calc(100vw - 2rem));
+    padding: .35rem .75rem;
+  }
+  .site-nav .trigger .page-link {
+    display: block;
+    padding: .55rem .35rem;
+    margin: 0;
+    line-height: 1.35;
+    border-bottom: 1px solid var(--a11y-border);
+    overflow-wrap: anywhere;
+  }
+  .site-nav .trigger .page-link:last-child {
+    border-bottom: 0;
+  }
+}
