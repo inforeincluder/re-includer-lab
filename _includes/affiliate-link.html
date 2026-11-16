@@ -1,4 +1,4 @@
 {% if include.url and include.label %}
 <p class="affiliate-disclosure">Publicidade: este link é afiliado. Se você comprar por ele, o 2e Lab Brasil poderá receber uma comissão, sem custo adicional para você.</p>
-<a href="{{ include.url | escape }}" rel="sponsored nofollow noopener" target="_blank">{{ include.label | escape }}</a>
+<a href="{{ include.url | escape }}" rel="sponsored nofollow noopener noreferrer" target="_blank">{{ include.label | escape }}</a>
 {% endif %}
