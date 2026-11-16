@@ -106,6 +106,106 @@
     row.appendChild(copy); section.append(heading, row, status); content.appendChild(section);
   }
 
+
+  function addBackToTop() {
+    if (document.querySelector(".back-to-top")) return;
+    var button = document.createElement("button");
+    button.type = "button";
+    button.className = "back-to-top";
+    button.textContent = "↑ Voltar ao topo";
+    button.setAttribute("aria-label", "Voltar ao início da página");
+    button.hidden = true;
+    button.addEventListener("click", function () {
+      var reduce = prefs.motion === "reduced" ||
+        (prefs.motion === "system" && window.matchMedia &&
+         window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+      window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+    });
+    document.body.appendChild(button);
+    var ticking = false;
+    function updateVisibility() {
+      button.hidden = window.scrollY < 450;
+      ticking = false;
+    }
+    window.addEventListener("scroll", function () {
+      if (!ticking) {
+        window.requestAnimationFrame(updateVisibility);
+        ticking = true;
+      }
+    }, { passive: true });
+    updateVisibility();
+  }
+
+  function addRelatedArticles() {
+    var content = document.querySelector(".post-content") ||
+      document.querySelector("article .e-content") ||
+      document.querySelector(".e-content");
+    if (!content || !document.querySelector(".post-header, .post-title, article .post-title") ||
+        document.querySelector(".related-articles")) return;
+
+    var dataNode = document.getElementById("site-related-posts-data");
+    var posts = [];
+    if (dataNode) {
+      try { posts = JSON.parse(dataNode.textContent || "[]"); } catch (e) {}
+    }
+    var currentUrl = window.location.pathname.replace(/\\/$/, "");
+    var current = posts.find(function (post) {
+      return (post.url || "").replace(/\\/$/, "") === currentUrl;
+    });
+    var currentCategories = current && current.categories ? current.categories : [];
+    var currentTags = current && current.tags ? current.tags : [];
+    var related = posts.filter(function (post) {
+      return (post.url || "").replace(/\\/$/, "") !== currentUrl;
+    }).map(function (post) {
+      var categories = post.categories || [];
+      var tags = post.tags || [];
+      var score = categories.filter(function (x) { return currentCategories.indexOf(x) !== -1; }).length * 5 +
+        tags.filter(function (x) { return currentTags.indexOf(x) !== -1; }).length;
+      return { post: post, score: score };
+    }).sort(function (a, b) { return b.score - a.score; })
+      .slice(0, 4).map(function (item) { return item.post; });
+
+    var section = document.createElement("section");
+    section.className = "related-articles";
+    section.setAttribute("aria-labelledby", "related-articles-title");
+    var heading = document.createElement("h2");
+    heading.id = "related-articles-title";
+    heading.textContent = related.length ? "Continue a leitura" : "Continue explorando";
+    section.appendChild(heading);
+
+    var list = document.createElement("ul");
+    if (related.length) {
+      related.forEach(function (post) {
+        var li = document.createElement("li");
+        var a = document.createElement("a");
+        a.href = post.url;
+        a.textContent = post.title || "Ler artigo";
+        li.appendChild(a);
+        if (post.description) {
+          var description = document.createElement("p");
+          description.textContent = post.description;
+          li.appendChild(description);
+        }
+        list.appendChild(li);
+      });
+    } else {
+      [
+        { title: "Ferramentas práticas", url: "/re-includer-lab/ferramentas/" },
+        { title: "Metodologia de pesquisa", url: "/re-includer-lab/pesquisa/" },
+        { title: "Fontes e metodologia editorial", url: "/re-includer-lab/fontes-e-metodologia/" }
+      ].forEach(function (item) {
+        var li = document.createElement("li");
+        var a = document.createElement("a");
+        a.href = item.url;
+        a.textContent = item.title;
+        li.appendChild(a);
+        list.appendChild(li);
+      });
+    }
+    section.appendChild(list);
+    content.appendChild(section);
+  }
+
   function makeTablesScrollable() {
     document.querySelectorAll("main table, .post-content table, .page-content table, article table").forEach(function (table) {
       if (table.closest(".table-scroll")) return;
@@ -159,7 +259,7 @@
     });
   }
 
-  function init() { makeTablesScrollable(); addAccessibility(); addSharing(); initMobileMenuDismiss(); }
+  function init() { makeTablesScrollable(); addAccessibility(); addSharing(); addRelatedArticles(); addBackToTop(); initMobileMenuDismiss(); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init, { once: true }); else init();
   if (window.matchMedia) {
     var mq = window.matchMedia("(prefers-color-scheme: dark)");
