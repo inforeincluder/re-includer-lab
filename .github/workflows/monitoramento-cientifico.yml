@@ -6,6 +6,8 @@ on:
       - main
     paths:
       - .github/workflows/monitoramento-cientifico.yml
+      - scripts/monitorar_fontes_publicas.py
+      - tests/**
   pull_request:
     branches:
       - main
