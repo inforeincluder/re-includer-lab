@@ -33,14 +33,23 @@ FEEDS = [
     ("Jornal da USP", "https://jornal.usp.br/feed/"),
     ("The Conversation", "https://theconversation.com/articles.atom"),
 ]
-TERMS = (
-    "autism autistic adhd attention deficit gifted giftedness twice exceptional "
-    "neurodiversity dyslexia dyscalculia dyspraxia tourette executive function "
-    "neurodevelopment assistive technology inclusive education high abilities "
-    "autismo tdah altas habilidades superdotação dupla excepcionalidade "
-    "neurodiversidade dislexia discalculia dispraxia funções executivas "
-    "tecnologia assistiva educação inclusiva"
-).lower()
+# A triagem exige sinal temático no TÍTULO para evitar pautas apenas tangencialmente relacionadas.
+TITLE_TERMS = (
+    "autism", "autistic", "adhd", "attention deficit", "gifted", "giftedness",
+    "twice exceptional", "neurodivers", "dyslexia", "dyscalculia", "dyspraxia",
+    "tourette", "executive function", "neurodevelopment", "assistive technology",
+    "inclusive education", "high abilities", "autismo", "tdah", "altas habilidades",
+    "superdot", "dupla excepcionalidade", "dislexia", "discalculia", "dispraxia",
+    "funções executivas", "tecnologia assistiva", "educação inclusiva",
+    "augmentative communication", "comunicação aumentativa", "special education",
+    "educação especial", "learning disability", "sensory processing",
+    "processamento sensorial", "disability", "deficiência",
+)
+
+
+def has_topic_title(title: str) -> bool:
+    normalized = clean(title).casefold()
+    return any(term.casefold() in normalized for term in TITLE_TERMS)
 
 
 def get_feed(url: str) -> bytes:
@@ -114,8 +123,8 @@ def main() -> int:
             LOGGER.warning("%s indisponível: %s", source, exc)
             continue
         for row in rows:
-            searchable = (row["title"] + " " + row["summary"]).lower()
-            if not row["title"] or not row["url"] or not any(term in searchable for term in TERMS.split()):
+            if not row["title"] or not row["url"] or not has_topic_title(row["title"]):
+                LOGGER.info("Ignorado por título sem sinal temático: %s", row["title"])
                 continue
             published = parse_date(row["published"])
             if published and published < cutoff:
