@@ -40,12 +40,12 @@ def resolve_local(raw: str, source: Path, site: Path, baseurl: str) -> tuple[Pat
     else:
         path_part = parts.path
     decoded = unquote(path_part)
-    if decoded.startswith("/"):
+    if not decoded:
+        candidate = source if not parts.path else site / "index.html"
+    elif decoded.startswith("/"):
         candidate = site / decoded.lstrip("/")
-    elif decoded:
-        candidate = (source.parent / decoded).resolve()
     else:
-        candidate = source
+        candidate = (source.parent / decoded).resolve()
     try:
         candidate.relative_to(site.resolve())
     except ValueError:
