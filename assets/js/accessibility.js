@@ -92,7 +92,20 @@
     row.appendChild(copy); section.append(heading, row, status); content.appendChild(section);
   }
 
-  function init() { addAccessibility(); addSharing(); }
+  function makeTablesScrollable() {
+    document.querySelectorAll("main table, .post-content table, .page-content table, article table").forEach(function (table) {
+      if (table.closest(".table-scroll")) return;
+      var wrapper = document.createElement("div");
+      wrapper.className = "table-scroll";
+      wrapper.setAttribute("role", "region");
+      wrapper.setAttribute("aria-label", "Tabela — role horizontalmente para consultar todas as colunas");
+      wrapper.setAttribute("tabindex", "0");
+      table.parentNode.insertBefore(wrapper, table);
+      wrapper.appendChild(table);
+    });
+  }
+
+  function init() { makeTablesScrollable(); addAccessibility(); addSharing(); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init, { once: true }); else init();
   if (window.matchMedia) {
     var mq = window.matchMedia("(prefers-color-scheme: dark)");
