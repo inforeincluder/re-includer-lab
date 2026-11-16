@@ -194,3 +194,16 @@ body { padding-bottom: max(5rem, calc(4rem + env(safe-area-inset-bottom))); }
   .a11y-widget { max-width: calc(100vw - 1rem); }
   .a11y-widget summary { padding: .45rem .6rem; }
 }
+
+
+/* Em telas estreitas, o controle não deve cobrir texto ou tabelas */
+@media (max-width: 600px) {
+  .a11y-widget {
+    position: static;
+    width: fit-content;
+    max-width: calc(100% - 1rem);
+    margin: 1.25rem .5rem 1.25rem auto;
+  }
+  .a11y-widget > details { max-width: 100%; }
+  .a11y-panel { max-width: min(21rem, calc(100vw - 2rem)); }
+}
