@@ -10,7 +10,7 @@ timezone: "America/Recife"
 
 # Métricas de audiência e verificação do Search Console.
 goatcounter_url: "https://2elabbrasil.goatcounter.com/count"
-google_site_verification: false
+google_site_verification: "b5CRlpsUahBi8j0CJgubZWG7pnz270FGFybMivmq5eo"
 
 theme: minima
 
