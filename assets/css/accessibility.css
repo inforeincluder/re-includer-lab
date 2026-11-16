@@ -134,12 +134,17 @@ body { min-width: 0; }
 .page-content .table-scroll table {
   display: table;
   width: 100%;
-  min-width: 44rem;
+  min-width: 100%;
   max-width: none;
   margin: 0;
   table-layout: auto;
   border-collapse: collapse;
   overflow: visible;
+}
+.table-scroll table.table-wide,
+.post-content .table-scroll table.table-wide,
+.page-content .table-scroll table.table-wide {
+  min-width: 44rem;
 }
 .table-scroll th,
 .table-scroll td {
@@ -176,7 +181,10 @@ body { padding-bottom: max(5rem, calc(4rem + env(safe-area-inset-bottom))); }
   .table-scroll { margin-inline: 0; }
   .table-scroll table,
   .post-content .table-scroll table,
-  .page-content .table-scroll table { min-width: 44rem; }
+  .page-content .table-scroll table { min-width: 100%; }
+  .table-scroll table.table-wide,
+  .post-content .table-scroll table.table-wide,
+  .page-content .table-scroll table.table-wide { min-width: 44rem; }
   .table-scroll th, .table-scroll td { min-width: 7rem; padding: .6rem .65rem; }
   .a11y-widget { right: .5rem; bottom: max(.5rem, env(safe-area-inset-bottom)); }
   .a11y-widget summary { padding: .55rem .75rem; font-size: .9rem; }
