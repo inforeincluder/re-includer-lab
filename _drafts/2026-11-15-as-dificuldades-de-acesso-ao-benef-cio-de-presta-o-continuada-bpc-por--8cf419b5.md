@@ -5,7 +5,7 @@ date: 2026-11-16
 categories: [pesquisa, neurodiversidade]
 tags: ["Transtorno do Espectro Autista", "BPC", "Direitos Sociais", "Políticas Públicas", "Avaliação Biopsicossocial"]
 authors: "Marcia Cunha Costa"
-journal: "Revista fisio&terapia."
+journal: "RevistaFT"
 publication_type: "não informado"
 publication_date: "2026-11-15"
 doi: "10.69849/v0tpyb37"
@@ -13,7 +13,7 @@ pmid: ""
 source_url: "https://doi.org/10.69849/v0tpyb37"
 source_database: "OpenAlex"
 source_databases: ["OpenAlex"]
-evidence_level: "moderada — o estudo utiliza fontes documentais e jurídicas oficiais para analisar um problema estrutural de acesso a direitos, embora não apresente dados primários de campo."
+evidence_level: "preliminar — análise documental e jurídica localizada em Marabá (PA), sem amostra empírica própria; não permite estimar a frequência das barreiras nem generalizar automaticamente para todo o Brasil."
 editorial_status: "aguardando revisão humana"
 ---
 
