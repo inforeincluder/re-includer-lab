@@ -15,6 +15,12 @@ O site é hospedado no GitHub Pages. A infraestrutura de hospedagem pode process
 
 No momento, esta página não anuncia formulário próprio de cadastro, área de membros ou coleta direta de dados sensíveis pelo site.
 
+### Estatísticas de acesso
+
+Quando a ferramenta de métricas GoatCounter estiver ativada, o site utilizará esse serviço para contabilizar visualizações de páginas, páginas mais acessadas e origens de tráfego, além de estatísticas agregadas de navegador, sistema e localização aproximada. Segundo a documentação do serviço, a medição padrão não utiliza cookies, armazenamento local ou identificadores persistentes e não armazena endereços IP. Os dados são agregados por período e página. Consulte a [política de privacidade do GoatCounter](https://www.goatcounter.com/help/privacy).
+
+A medição só será ativada após a configuração do identificador do site. Não serão coletados dados de formulários, diagnósticos, informações escolares ou dados sensíveis de visitantes por meio dessa ferramenta.
+
 ## Links externos e afiliados
 
 Ao acessar links de terceiros, você passa a estar sujeito às políticas e práticas desses serviços. Links afiliados, quando existentes, serão identificados conforme a [política de transparência comercial](/re-includer-lab/transparencia-comercial/).
