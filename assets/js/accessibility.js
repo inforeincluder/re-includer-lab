@@ -4,6 +4,15 @@
   var defaults = { theme: "auto", scale: "100%", contrast: "normal", motion: "system" };
   var prefs = Object.assign({}, defaults);
   try { prefs = Object.assign(prefs, JSON.parse(localStorage.getItem(KEY) || "{}")); } catch (e) {}
+  var allowed = {
+    theme: ["auto", "light", "dark", "sepia"],
+    scale: ["100%", "115%", "130%", "1", "1.15", "1.3"],
+    contrast: ["normal", "high"],
+    motion: ["system", "reduced", "full"]
+  };
+  Object.keys(allowed).forEach(function (key) {
+    if (allowed[key].indexOf(prefs[key]) === -1) prefs[key] = defaults[key];
+  });
   if (prefs.scale === "1") prefs.scale = "100%";
   else if (prefs.scale === "1.15") prefs.scale = "115%";
   else if (prefs.scale === "1.3") prefs.scale = "130%";
@@ -106,9 +115,6 @@
           if (cell.tagName === "TH" && !cell.hasAttribute("scope")) cell.setAttribute("scope", "col");
         });
       });
-      if (!table.hasAttribute("aria-label") && !table.querySelector("caption")) {
-        table.setAttribute("aria-label", "Tabela de dados do artigo");
-      }
       var wrapper = document.createElement("div");
       wrapper.className = "table-scroll";
       wrapper.setAttribute("role", "region");
