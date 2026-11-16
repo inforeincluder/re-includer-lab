@@ -12,7 +12,8 @@ Aqui você encontra explicações em linguagem clara, análises de assuntos atua
 
 ## Comece por aqui
 
-- [O que é dupla excepcionalidade? Leia o guia de estreia](/re-includer-lab/dupla-excepcionalidade/dupla-excepcionalidade-brasil-o-que-as-pesquisas-mostram-e-como-observar-potencialidades-e-barreiras/)
+{% assign featured_post = site.posts.first %}
+- [O que é dupla excepcionalidade? Leia o guia de estreia]({{ featured_post.url | relative_url }})
 - [Ferramentas práticas gratuitas](/re-includer-lab/ferramentas/)
 - [Fontes e metodologia editorial](/re-includer-lab/fontes-e-metodologia/)
 - [Sobre o 2e Lab Brasil](/re-includer-lab/sobre/)
