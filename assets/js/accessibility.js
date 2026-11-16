@@ -97,6 +97,15 @@
       if (table.closest(".table-scroll")) return;
       var firstRow = table.rows && table.rows.length ? table.rows[0] : null;
       if (firstRow && firstRow.cells.length >= 4) table.classList.add("table-wide");
+      var headerRows = table.tHead ? table.tHead.rows : [];
+      Array.prototype.forEach.call(headerRows, function (row) {
+        Array.prototype.forEach.call(row.cells, function (cell) {
+          if (cell.tagName === "TH" && !cell.hasAttribute("scope")) cell.setAttribute("scope", "col");
+        });
+      });
+      if (!table.hasAttribute("aria-label") && !table.querySelector("caption")) {
+        table.setAttribute("aria-label", "Tabela de dados do artigo");
+      }
       var wrapper = document.createElement("div");
       wrapper.className = "table-scroll";
       wrapper.setAttribute("role", "region");
