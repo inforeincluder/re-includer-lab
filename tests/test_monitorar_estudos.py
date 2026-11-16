@@ -5,6 +5,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from scripts import monitorar_estudos as monitor
+from scripts import monitorar_fontes_publicas as public_sources
 
 
 def sample_article():
@@ -300,6 +301,13 @@ class MonitoramentoTests(unittest.TestCase):
                 monitor.existing_identifiers(drafts),
             )
 
+
+
+    def test_public_feed_requires_relevant_topic_in_title(self):
+        self.assertTrue(public_sources.has_topic_title("New study on autism and social processing"))
+        self.assertTrue(public_sources.has_topic_title("Tecnologia assistiva na educação inclusiva"))
+        self.assertFalse(public_sources.has_topic_title("Professor eleito para o Conselho Nacional de Educação"))
+        self.assertFalse(public_sources.has_topic_title("US loses measles elimination status"))
 
 if __name__ == "__main__":
     unittest.main()
