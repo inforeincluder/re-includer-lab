@@ -95,6 +95,8 @@
   function makeTablesScrollable() {
     document.querySelectorAll("main table, .post-content table, .page-content table, article table").forEach(function (table) {
       if (table.closest(".table-scroll")) return;
+      var firstRow = table.rows && table.rows.length ? table.rows[0] : null;
+      if (firstRow && firstRow.cells.length >= 4) table.classList.add("table-wide");
       var wrapper = document.createElement("div");
       wrapper.className = "table-scroll";
       wrapper.setAttribute("role", "region");
