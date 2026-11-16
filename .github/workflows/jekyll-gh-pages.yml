@@ -38,6 +38,10 @@ jobs:
         with:
           source: ./
           destination: ./_site
+      - name: Validar JavaScript
+        run: node --check assets/js/accessibility.js
+      - name: Verificar links e recursos locais do site gerado
+        run: python scripts/check_site.py ./_site /re-includer-lab
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
 
