@@ -473,3 +473,69 @@ html[data-contrast="high"] .site-nav .trigger .page-link:visited {
     right: auto !important;
   }
 }
+
+
+/* Aplicação global do cabeçalho hamburger: home, páginas institucionais,
+   ferramentas, artigos, arquivos e páginas de erro. */
+body > .site-header,
+body .site-header {
+  display: block !important;
+  width: 100%;
+  box-sizing: border-box;
+}
+body .site-header > .wrapper,
+body .site-header .wrapper {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  position: relative !important;
+  width: calc(100% - 2rem) !important;
+  max-width: 800px !important;
+  min-height: 4.25rem !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+body .site-header .site-title {
+  display: block !important;
+  float: none !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: .65rem 0 !important;
+  line-height: 1.35 !important;
+}
+body .site-header .site-nav {
+  display: block !important;
+  position: relative !important;
+  inset: auto !important;
+  float: none !important;
+  flex: 0 0 auto !important;
+  align-self: center !important;
+  margin: 0 0 0 auto !important;
+  padding: 0 !important;
+  z-index: 1200 !important;
+  text-align: right !important;
+}
+body .site-header .site-nav .trigger {
+  position: absolute !important;
+  top: calc(100% + .5rem) !important;
+  right: 0 !important;
+  left: auto !important;
+  z-index: 1201 !important;
+}
+@media (max-width: 600px) {
+  body .site-header > .wrapper,
+  body .site-header .wrapper {
+    width: calc(100% - 2rem) !important;
+    min-height: 4rem !important;
+    gap: .5rem !important;
+  }
+  body .site-header .site-title {
+    font-size: 1.2rem !important;
+    padding: .5rem 0 !important;
+  }
+}
