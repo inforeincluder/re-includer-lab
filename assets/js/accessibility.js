@@ -148,14 +148,14 @@
     if (dataNode) {
       try { posts = JSON.parse(dataNode.textContent || "[]"); } catch (e) {}
     }
-    var currentUrl = window.location.pathname.replace(/\\/$/, "");
+    var currentUrl = window.location.pathname.replace(/\/$/, "");
     var current = posts.find(function (post) {
-      return (post.url || "").replace(/\\/$/, "") === currentUrl;
+      return (post.url || "").replace(/\/$/, "") === currentUrl;
     });
     var currentCategories = current && current.categories ? current.categories : [];
     var currentTags = current && current.tags ? current.tags : [];
     var related = posts.filter(function (post) {
-      return (post.url || "").replace(/\\/$/, "") !== currentUrl;
+      return (post.url || "").replace(/\/$/, "") !== currentUrl;
     }).map(function (post) {
       var categories = post.categories || [];
       var tags = post.tags || [];
