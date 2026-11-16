@@ -52,6 +52,21 @@ def has_topic_title(title: str) -> bool:
     return any(term.casefold() in normalized for term in TITLE_TERMS)
 
 
+def classify_public_item(item: dict[str, str]) -> tuple[int, str, str]:
+    """Prioriza pautas pelo título e resumo; não avalia qualidade científica."""
+    title = clean(item.get("title")).casefold()
+    summary = clean(item.get("summary")).casefold()
+    title_hits = [term for term in TITLE_TERMS if term.casefold() in title]
+    summary_hits = [term for term in TITLE_TERMS if term.casefold() in summary]
+    if title_hits:
+        score = 90 + min(9, len(set(title_hits)))
+        return score, "alta", "Tema explícito no título: " + ", ".join(sorted(set(title_hits))[:4])
+    if summary_hits:
+        score = 60 + min(9, len(set(summary_hits)))
+        return score, "média", "Tema identificado no resumo: " + ", ".join(sorted(set(summary_hits))[:4])
+    return 0, "descartada", "Sem sinal temático suficiente no título ou resumo."
+
+
 def get_feed(url: str) -> bytes:
     req = urllib.request.Request(url, headers={"User-Agent": "2e-Lab-Brasil/1.0 (+https://inforeincluder.github.io/re-includer-lab/)", "Accept": "application/rss+xml, application/atom+xml, application/xml, text/xml"})
     with urllib.request.urlopen(req, timeout=25) as response:
@@ -123,9 +138,15 @@ def main() -> int:
             LOGGER.warning("%s indisponível: %s", source, exc)
             continue
         for row in rows:
-            if not row["title"] or not row["url"] or not has_topic_title(row["title"]):
-                LOGGER.info("Ignorado por título sem sinal temático: %s", row["title"])
+            if not row["title"] or not row["url"]:
                 continue
+            score, tier, rationale = classify_public_item(row)
+            if score == 0:
+                LOGGER.info("Ignorado por baixa aderência: %s", row["title"])
+                continue
+            row["editorial_score"] = str(score)
+            row["editorial_relevance"] = tier
+            row["editorial_rationale"] = rationale
             published = parse_date(row["published"])
             if published and published < cutoff:
                 continue
@@ -138,7 +159,13 @@ def main() -> int:
         if key not in seen:
             seen.add(key)
             unique.append(row)
-    unique.sort(key=lambda row: parse_date(row["published"]) or dt.datetime.min.replace(tzinfo=dt.timezone.utc), reverse=True)
+    unique.sort(
+        key=lambda row: (
+            int(row.get("editorial_score", "0")),
+            parse_date(row["published"]) or dt.datetime.min.replace(tzinfo=dt.timezone.utc),
+        ),
+        reverse=True,
+    )
 
     existing_content = []
     for folder in (DRAFTS, ROOT / "_posts"):
@@ -154,6 +181,7 @@ def main() -> int:
         prompt = f"""
 Você é editor de divulgação científica do 2e Lab Brasil. Crie um rascunho ORIGINAL em português brasileiro, claro e acessível, baseado SOMENTE no material fornecido abaixo.
 Não copie nem traduza a matéria. Não invente fatos, números, especialistas, estudos, links, DOI ou citações. A fonte pode ser jornalística ou institucional e NÃO substitui a fonte primária.
+Classificação automática: {item.get("editorial_relevance", "não classificada")} (pontuação {item.get("editorial_score", "0")}/99). Motivo: {item.get("editorial_rationale", "não informado")}. Isso prioriza a pauta, não mede qualidade científica.
 Se a matéria não fornecer evidência verificável, trate-a como pauta/relato e sinalize claramente que a alegação precisa ser confirmada. Não dê diagnóstico, tratamento ou aconselhamento médico.
 Conecte o assunto a famílias, pessoas neurodivergentes, educadores ou profissionais somente quando houver base no material. Acrescente uma seção "O que sabemos e o que ainda falta verificar", limitações e uma aplicação prática segura que não seja teste diagnóstico.
 Entregue JSON com chaves: title, description, category, article_markdown.
@@ -175,7 +203,10 @@ FONTE: {json.dumps(item, ensure_ascii=False)}
                 + "\ndate: " + dt.datetime.now().astimezone().strftime("%Y-%m-%d %H:%M:%S %z")
                 + "\ncategories: [" + category + "]\ndescription: "
                 + json.dumps(clean(draft.get("description"))[:180], ensure_ascii=False)
-                + "\neditorial_type: atualidade\nreview_status: revisão humana pendente"
+                + "\neditorial_type: atualidade\neditorial_relevance: " + item.get("editorial_relevance", "não classificada")
+                + "\neditorial_score: " + item.get("editorial_score", "0")
+                + "\neditorial_rationale: " + json.dumps(item.get("editorial_rationale", ""), ensure_ascii=False)
+                + "\nreview_status: revisão humana pendente"
                 + "\nmonetization: none\nsource_url: " + json.dumps(item["url"], ensure_ascii=False)
                 + "\n---\n\n" + body
                 + "\n\n---\n\n**Fonte monitorada:** [" + item["source"] + "](" + item["url"] + ")."
