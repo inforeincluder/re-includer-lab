@@ -66,11 +66,13 @@ input, textarea, select {
 }
 .wrapper { box-sizing: border-box; width: calc(100% - 2rem); max-width: 800px; }
 .a11y-widget {
-  position: relative;
-  z-index: 2;
+  position: fixed;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 1100;
   width: fit-content;
-  max-width: min(23rem, calc(100% - 1rem));
-  margin: 1.25rem .5rem 1.25rem auto;
+  max-width: min(23rem, calc(100vw - 2rem));
+  margin: 0;
   font-size: .95rem;
 }
 .a11y-widget > details {
@@ -176,7 +178,11 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-
 @media (max-width: 600px) {
   .wrapper { width: calc(100% - 2rem); padding-left: 0; padding-right: 0; }
   .post-content, .page-content { font-size: 1rem; }
-  .a11y-widget { max-width: calc(100% - 1rem); }
+  .a11y-widget {
+    right: max(.5rem, env(safe-area-inset-right));
+    bottom: max(.5rem, env(safe-area-inset-bottom));
+    max-width: calc(100vw - 1rem);
+  }
   .a11y-panel { width: min(21rem, calc(100vw - 2rem)); }
   .a11y-options button, .a11y-share .a11y-options a { flex: 1 1 auto; text-align: center; }
   .table-scroll { margin-inline: 0; }
@@ -247,4 +253,34 @@ html[data-contrast="high"] .site-nav .trigger .page-link:visited {
   .site-nav .trigger .page-link:last-child {
     border-bottom: 0;
   }
+}
+
+
+/* Reforço explícito do menu expansível do Minima em todos os temas. */
+.site-nav .trigger,
+.site-nav input:checked ~ .trigger {
+  color: var(--a11y-text) !important;
+  background-color: var(--a11y-surface) !important;
+  border-color: var(--a11y-border) !important;
+}
+.site-nav .trigger a,
+.site-nav .trigger a:link,
+.site-nav .trigger a:visited,
+.site-nav input:checked ~ .trigger a {
+  color: var(--a11y-text) !important;
+  background-color: transparent !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+html[data-theme="dark"] .site-nav .trigger a,
+html[data-theme="dark"] .site-nav .trigger a:visited {
+  color: #f1f3f5 !important;
+}
+html[data-theme="sepia"] .site-nav .trigger a,
+html[data-theme="sepia"] .site-nav .trigger a:visited {
+  color: #433522 !important;
+}
+html[data-contrast="high"] .site-nav .trigger a,
+html[data-contrast="high"] .site-nav .trigger a:visited {
+  color: #fff !important;
 }
