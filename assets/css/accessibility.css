@@ -410,3 +410,66 @@ html[data-contrast="high"] .site-nav .trigger .page-link:visited {
   .site-nav { top: .35rem; right: 0; }
   .site-nav .trigger { width: min(20rem, calc(100vw - 2rem)); }
 }
+
+
+/* Cabeçalho responsivo: título e hamburger na mesma faixa, sem sobreposição.
+   Regra única para desktop, tablet e celular. */
+.site-header {
+  padding: 0 !important;
+}
+.site-header .wrapper {
+  position: relative;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 1rem;
+  min-height: 4.25rem !important;
+  box-sizing: border-box;
+}
+.site-header .site-title {
+  float: none !important;
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0 !important;
+  padding: .65rem 0;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+.site-header .site-nav {
+  position: relative !important;
+  inset: auto !important;
+  float: none !important;
+  flex: 0 0 auto;
+  align-self: center;
+  margin: 0 0 0 auto !important;
+  padding: 0 !important;
+  text-align: right;
+  line-height: 1;
+  z-index: 1200;
+}
+.site-header .site-nav label[for="nav-trigger"] {
+  display: inline-flex !important;
+  vertical-align: middle;
+  margin: 0 !important;
+}
+.site-header .site-nav .trigger {
+  top: calc(100% + .5rem) !important;
+  right: 0 !important;
+  left: auto !important;
+}
+@media (max-width: 600px) {
+  .site-header .wrapper {
+    width: calc(100% - 2rem);
+    min-height: 4rem !important;
+    gap: .5rem;
+  }
+  .site-header .site-title {
+    font-size: 1.2rem;
+    padding: .5rem 0;
+  }
+  .site-header .site-nav {
+    top: auto !important;
+    right: auto !important;
+  }
+}
