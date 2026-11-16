@@ -8,6 +8,10 @@ baseurl: "/re-includer-lab"
 lang: "pt-BR"
 timezone: "America/Recife"
 
+# Métricas: ativar somente após configurar os identificadores públicos.
+goatcounter_url: false
+google_site_verification: false
+
 theme: minima
 
 markdown: kramdown
