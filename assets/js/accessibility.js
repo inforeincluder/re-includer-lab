@@ -73,7 +73,9 @@
   }
 
   function addSharing() {
-    var content = document.querySelector(".post-content") || document.querySelector(".e-content") || document.querySelector("article");
+    // Compartilhamento é exclusivo de artigos publicados; não inserir em páginas institucionais.
+    var content = document.querySelector(".post-content") || document.querySelector("article .e-content") || document.querySelector(".e-content");
+    if (!content || !document.querySelector(".post-header, .post-title, article .post-title")) return;
     if (!content || document.querySelector(".a11y-share")) return;
     var titleNode = document.querySelector(".post-title") || document.querySelector("h1");
     var title = titleNode ? titleNode.textContent.trim() : document.title;
