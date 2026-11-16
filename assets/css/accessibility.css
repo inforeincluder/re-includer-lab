@@ -7,9 +7,9 @@
   --a11y-link: #0759a5;
   --a11y-border: #68717d;
   --a11y-focus: #b45309;
-  --a11y-scale: 1;
+  --a11y-scale: 100%;
 }
-html { font-size: calc(100% * var(--a11y-scale)); }
+html { font-size: var(--a11y-scale); }
 body, .site-header, .site-footer, .page-content, .wrapper, .post-content,
 .post-header, .post-list > li, .pagination, .footer-col-wrapper {
   color: var(--a11y-text);
