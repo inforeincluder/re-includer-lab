@@ -17,9 +17,9 @@ No momento, esta página não anuncia formulário próprio de cadastro, área de
 
 ### Estatísticas de acesso
 
-Quando a ferramenta de métricas GoatCounter estiver ativada, o site utilizará esse serviço para contabilizar visualizações de páginas, páginas mais acessadas e origens de tráfego, além de estatísticas agregadas de navegador, sistema e localização aproximada. Segundo a documentação do serviço, a medição padrão não utiliza cookies, armazenamento local ou identificadores persistentes e não armazena endereços IP. Os dados são agregados por período e página. Consulte a [política de privacidade do GoatCounter](https://www.goatcounter.com/help/privacy).
+O site utiliza o GoatCounter para contabilizar visualizações de páginas, páginas mais acessadas e origens de tráfego, além de estatísticas agregadas de navegador, sistema e localização aproximada. Segundo a documentação do serviço, a medição padrão não utiliza cookies, armazenamento local ou identificadores persistentes e não armazena endereços IP. Os dados são agregados por período e página. Consulte a [política de privacidade do GoatCounter](https://www.goatcounter.com/help/privacy).
 
-A medição só será ativada após a configuração do identificador do site. Não serão coletados dados de formulários, diagnósticos, informações escolares ou dados sensíveis de visitantes por meio dessa ferramenta.
+A medição está ativa desde 16 de novembro de 2026. Não são coletados dados de formulários, diagnósticos, informações escolares ou dados sensíveis de visitantes por meio dessa ferramenta.
 
 ## Links externos e afiliados
 
