@@ -162,6 +162,18 @@ Depois de testar qualquer estratégia, converse com a pessoa e registre:
 
 **Regra prática:** se o apoio não ajudar, causar desconforto ou aumentar a barreira, revise ou interrompa. A ausência de melhora não significa falta de esforço ou de potencialidade da pessoa.
 
+## Guias independentes
+
+Cada guia aprofunda uma necessidade prática e pode ser consultado separadamente. As estratégias são possibilidades para experimentar, não recomendações universais.
+
+- [Início e organização de tarefas](/re-includer-lab/ferramentas/inicio-e-organizacao-de-tarefas/)
+- [Instruções visuais e comunicação acessível](/re-includer-lab/ferramentas/instrucoes-visuais/)
+- [Ajustes sensoriais e ambientais](/re-includer-lab/ferramentas/ajustes-sensoriais-ambientais/)
+- [Leitura, escrita e formas de demonstrar conhecimento](/re-includer-lab/ferramentas/leitura-escrita-formas-de-resposta/)
+- [Interesses, aprofundamento e enriquecimento](/re-includer-lab/ferramentas/interesses-aprofundamento-enriquecimento/)
+- [Tecnologia assistiva e acessibilidade digital](/re-includer-lab/ferramentas/tecnologia-assistiva/)
+- [Revisão colaborativa dos apoios](/re-includer-lab/ferramentas/revisao-colaborativa-apoios/)
+
 ## Limites de uso
 
 Estes modelos e exemplos são recursos editoriais do 2e Lab Brasil, não instrumentos psicométricos ou clínicos validados. Não devem ser usados para classificar, diagnosticar, comparar crianças ou decidir isoladamente sobre serviços e direitos.
