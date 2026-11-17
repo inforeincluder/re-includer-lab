@@ -1,4 +1,5 @@
 ---
+tags: [tecnologia-assistiva, acessibilidade, ia-acessibilidade, educacao-inclusiva]
 layout: page
 title: "Tecnologia assistiva e acessibilidade digital"
 permalink: /ferramentas/tecnologia-assistiva/
