@@ -18,6 +18,7 @@ markdown: kramdown
 permalink: /:categories/:title/
 
 header_pages:
+  - artigos.md
   - sobre.md
   - pesquisa.md
   - ferramentas.md
