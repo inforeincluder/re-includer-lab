@@ -1,4 +1,5 @@
 ---
+tags: [funcoes-executivas, tdah, educacao-inclusiva, dupla-excepcionalidade]
 layout: page
 title: "Como ajudar a iniciar e organizar tarefas"
 permalink: /ferramentas/inicio-e-organizacao-de-tarefas/
