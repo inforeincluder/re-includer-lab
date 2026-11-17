@@ -58,6 +58,110 @@ Esta biblioteca reúne recursos simples para famílias, pessoas neurodivergentes
 | Exemplo fictício | Atividade em grupo | Sala com muitas conversas simultâneas | Instruções visuais e divisão de papéis | Ruído e falas sobrepostas | “Não consegui entender quando todos falaram juntos.” |
 | Exemplo fictício | Resolução de problemas | Escola, atividade individual | Exemplo resolvido e possibilidade de explicar o raciocínio oralmente | Enunciado longo e pouco segmentado | “Eu sabia como fazer, mas me perdi no texto.” |
 
+## Caixa de ferramentas por necessidade
+
+Os recursos abaixo são estratégias gerais de acessibilidade e organização. Não são tratamentos, não servem para identificar diagnósticos e não funcionam da mesma forma para todas as pessoas. Sempre que possível, escolha os ajustes com a participação da própria pessoa e observe se ajudam de fato.
+
+### 1. Começar e organizar tarefas
+
+**Quando pode ajudar:** quando a pessoa compreende o objetivo, mas encontra dificuldade para iniciar, planejar ou retomar uma atividade.
+
+**Como experimentar:**
+- Transforme a tarefa em etapas visíveis, com verbos de ação.
+- Mostre qual é o primeiro passo, em vez de repetir apenas a instrução completa.
+- Combine um ponto de revisão após a primeira etapa.
+- Quando houver flexibilidade, ofereça escolha da ordem ou do formato de resposta.
+
+**O que observar:** tempo para iniciar, etapas concluídas, necessidade de lembretes, cansaço e percepção da própria pessoa.
+
+**Modelo rápido:**
+
+| Etapa | Ação | Concluída? | Apoio necessário |
+|---|---|---|---|
+| 1 | Ler ou ouvir a instrução |  |  |
+| 2 | Separar materiais |  |  |
+| 3 | Fazer a primeira parte |  |  |
+| 4 | Conferir e decidir como continuar |  |  |
+
+### 2. Instruções visuais e comunicação acessível
+
+**Quando pode ajudar:** quando instruções longas, ambíguas ou apresentadas somente pela fala dificultam a compreensão ou a memória da sequência.
+
+**Como experimentar:**
+- Apresente uma instrução por etapa, com linguagem direta.
+- Combine texto curto, imagem, demonstração ou exemplo resolvido conforme a preferência da pessoa.
+- Destaque o que é obrigatório e o que é opcional.
+- Dê tempo para processamento e permita pedir esclarecimento.
+
+**O que observar:** pedidos de repetição, compreensão do primeiro passo, autonomia para consultar a instrução e preferência da pessoa pelo formato.
+
+### 3. Ajustes sensoriais e ambientais
+
+**Quando pode ajudar:** quando ruído, iluminação, movimento, temperatura, cheiros ou excesso de estímulos interferem no conforto e na participação.
+
+**Como experimentar:**
+- Pergunte qual estímulo incomoda e qual mudança seria aceitável.
+- Teste ajustes simples: lugar menos movimentado, redução de ruído, iluminação alternativa, pausa ou possibilidade de sair e retornar.
+- Combine previamente como pedir uma pausa sem exposição.
+- Não retire recursos de autorregulação que sejam seguros e importantes para a pessoa.
+
+**O que observar:** conforto relatado pela pessoa, participação, sinais de sobrecarga e se o ajuste é viável no ambiente.
+
+**Cuidado:** não presuma hipersensibilidade ou hipossensibilidade a partir de um diagnóstico. Evite impor abafadores, fones, objetos ou estratégias sensoriais sem considerar preferência, segurança e contexto.
+
+### 4. Leitura, escrita e formas de demonstrar conhecimento
+
+**Quando pode ajudar:** quando a forma de apresentar o conteúdo ou responder cria uma barreira que não corresponde ao conhecimento que se deseja observar.
+
+**Como experimentar:**
+- Disponibilize texto digital ajustável, fonte legível, espaçamento e contraste confortável.
+- Permita, quando compatível com o objetivo pedagógico, resposta oral, digitação, áudio, desenho, tópicos ou recursos de voz para texto.
+- Separe a avaliação do conteúdo da avaliação da ortografia, caligrafia ou velocidade, quando essas habilidades não forem o foco.
+- Ofereça planejamento por tópicos antes de uma produção extensa.
+
+**O que observar:** compreensão do conteúdo, esforço exigido, clareza da resposta, preferência e autonomia com cada formato.
+
+### 5. Interesses, aprofundamento e enriquecimento
+
+**Quando pode ajudar:** quando interesses específicos e conhecimentos avançados podem servir de ponto de entrada para ampliar participação e aprendizagem.
+
+**Como experimentar:**
+- Relacione o tema de interesse ao objetivo curricular sem limitar a pessoa a um único assunto.
+- Ofereça problemas abertos, investigação, criação de projetos ou possibilidade de aprofundamento.
+- Ajuste a complexidade sem presumir que a pessoa domina todos os conteúdos ou precisa estar sempre avançada.
+- Inclua oportunidades de colaboração e escolha.
+
+**O que observar:** envolvimento, qualidade das perguntas, transferência do conhecimento para outros temas, colaboração e sinais de tédio ou sobrecarga.
+
+### 6. Tecnologia assistiva e acessibilidade digital
+
+**Quando pode ajudar:** quando recursos digitais reduzem barreiras de acesso, comunicação, leitura, escrita, organização ou participação.
+
+**Possibilidades para testar:**
+- Leitor de tela ou leitura em voz alta.
+- Ditado e transcrição de voz.
+- Ampliação de texto, contraste e filtros de cor ajustáveis.
+- Teclado alternativo, predição de palavras ou formas alternativas de entrada.
+- Agenda visual, temporizador configurável e listas de etapas.
+- Comunicação aumentativa e alternativa, quando indicada e construída com orientação adequada.
+
+**Como escolher:** comece pela barreira concreta, não pelo aplicativo. Verifique compatibilidade com o dispositivo, privacidade, custo, facilidade de uso e preferência da pessoa. Faça um teste curto e avalie se o recurso aumenta autonomia, em vez de criar novas etapas ou distrações.
+
+### 7. Revisão colaborativa do apoio
+
+Depois de testar qualquer estratégia, converse com a pessoa e registre:
+
+| Pergunta | Registro |
+|---|---|
+| O que queríamos facilitar? |  |
+| Qual apoio foi testado e em qual contexto? |  |
+| O que mudou na participação ou na tarefa? |  |
+| Como a pessoa avaliou o apoio? |  |
+| O apoio trouxe desconforto, estigma ou trabalho extra? |  |
+| Manter, adaptar ou interromper? |  |
+
+**Regra prática:** se o apoio não ajudar, causar desconforto ou aumentar a barreira, revise ou interrompa. A ausência de melhora não significa falta de esforço ou de potencialidade da pessoa.
+
 ## Limites de uso
 
 Estes modelos e exemplos são recursos editoriais do 2e Lab Brasil, não instrumentos psicométricos ou clínicos validados. Não devem ser usados para classificar, diagnosticar, comparar crianças ou decidir isoladamente sobre serviços e direitos.
