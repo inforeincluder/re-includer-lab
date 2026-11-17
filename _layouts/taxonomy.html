@@ -1,0 +1,23 @@
+---
+layout: page
+---
+{% if page.taxonomy_type == "category" %}
+  {% assign matching_posts = site.posts | where_exp: "post", "post.categories contains page.taxonomy_slug" %}
+{% else %}
+  {% assign matching_posts = site.posts | where_exp: "post", "post.tags contains page.taxonomy_slug" %}
+{% endif %}
+<p>{{ page.description }}</p>
+<p><a href="{{ '/categorias/' | relative_url }}">Todas as categorias</a> · <a href="{{ '/tags/' | relative_url }}">Todas as tags</a></p>
+{% if matching_posts.size > 0 %}
+<ul class="post-list">
+  {% for post in matching_posts %}
+  <li>
+    <span class="post-meta"><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d/%m/%Y" }}</time></span>
+    <h2 class="post-list-heading"><a class="post-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a></h2>
+    {% if post.description %}<p>{{ post.description | escape }}</p>{% elsif post.excerpt %}<p>{{ post.excerpt | strip_html | normalize_whitespace | truncate: 220 }}</p>{% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>Esta área ainda não tem artigos publicados. Novos conteúdos aparecerão aqui automaticamente.</p>
+{% endif %}
