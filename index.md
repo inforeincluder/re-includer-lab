@@ -14,6 +14,7 @@ Aqui você encontra explicações em linguagem clara, análises de assuntos atua
 
 {% assign featured_post = site.posts.first %}
 - [O que é dupla excepcionalidade? Leia o guia de estreia]({{ featured_post.url | relative_url }})
+- [Ver todos os artigos publicados]({{ '/artigos/' | relative_url }})
 - [Ferramentas práticas gratuitas](/re-includer-lab/ferramentas/)
 - [Fontes e metodologia editorial](/re-includer-lab/fontes-e-metodologia/)
 - [Sobre o 2e Lab Brasil](/re-includer-lab/sobre/)
@@ -44,5 +45,5 @@ Acessibilidade, ferramentas digitais e tecnologias que apoiam aprendizagem, auto
 - Submetemos conteúdo assistido por IA à revisão humana antes da publicação.
 - Identificamos publicidade, patrocínios e links afiliados quando existirem.
 
-## Conteúdos recentes
+## Artigos recentes
 
