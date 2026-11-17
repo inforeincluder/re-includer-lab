@@ -1,4 +1,5 @@
 ---
+tags: [dislexia, educacao-inclusiva, tecnologia-assistiva, aprendizagem]
 layout: page
 title: "Leitura, escrita e formas de demonstrar conhecimento"
 permalink: /ferramentas/leitura-escrita-formas-de-resposta/
