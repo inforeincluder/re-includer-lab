@@ -1,4 +1,5 @@
 ---
+tags: [acessibilidade, autismo, educacao-inclusiva, saude-bem-estar]
 layout: page
 title: "Ajustes sensoriais e ambientais"
 permalink: /ferramentas/ajustes-sensoriais-ambientais/
