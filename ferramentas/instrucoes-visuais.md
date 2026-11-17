@@ -1,4 +1,5 @@
 ---
+tags: [comunicacao-acessivel, autismo, tdah, educacao-inclusiva]
 layout: page
 title: "Instruções visuais e comunicação acessível"
 permalink: /ferramentas/instrucoes-visuais/
