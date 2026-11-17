@@ -1,4 +1,5 @@
 ---
+tags: [familia, escola, educacao-inclusiva, acessibilidade]
 layout: page
 title: "Como revisar apoios de forma colaborativa"
 permalink: /ferramentas/revisao-colaborativa-apoios/
