@@ -1,0 +1,40 @@
+<footer class="site-footer">
+  <div class="wrapper">
+    <nav class="footer-navigation" aria-label="Navegação do rodapé">
+      <h2 class="footer-heading">Navegação</h2>
+      <ul>
+        <li><a href="{{ '/' | relative_url }}">Início</a></li>
+        <li><a href="{{ '/sobre/' | relative_url }}">Sobre</a></li>
+        <li><a href="{{ '/categorias/' | relative_url }}">Neurodiversidade</a></li>
+        <li><a href="{{ '/pesquisa/' | relative_url }}">Observatório Científico</a></li>
+        <li><a href="{{ '/ferramentas/' | relative_url }}">Mapa de Soluções</a></li>
+        <li><a href="{{ '/artigos/' | relative_url }}">Artigos</a></li>
+        <li><a href="{{ '/fontes-e-metodologia/' | relative_url }}">Metodologia</a></li>
+      </ul>
+    </nav>
+
+    <div class="footer-contact">
+      <h2 class="footer-heading">Contato</h2>
+      <p>Para dúvidas, sugestões, correções ou propostas de colaboração, entre em contato por e-mail.</p>
+      <!-- O endereço público será inserido após confirmação do responsável pelo site. -->
+    </div>
+
+    <div class="footer-bottom">
+      <p>{{ site.title | escape }} · {{ site.description | escape }}</p>
+      <p><a href="{{ '/privacidade/' | relative_url }}">Privacidade</a> · <a href="{{ '/transparencia-comercial/' | relative_url }}">Transparência comercial</a></p>
+    </div>
+  </div>
+  <style>
+    .footer-navigation, .footer-contact { margin: 0 0 1.5rem; }
+    .footer-heading { margin: 0 0 .65rem; font-size: 1rem; font-weight: 700; }
+    .footer-navigation ul { display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; list-style: none; margin: 0; padding: 0; }
+    .footer-navigation li { margin: 0; }
+    .footer-contact p, .footer-bottom p { margin: .35rem 0; }
+    .footer-bottom { padding-top: 1rem; border-top: 1px solid currentColor; overflow-wrap: anywhere; }
+    .footer-bottom p:first-child { font-size: .9rem; }
+    @media (max-width: 600px) {
+      .footer-navigation ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .65rem 1rem; }
+    }
+    @media print { .site-footer { break-inside: avoid; } }
+  </style>
+</footer>
