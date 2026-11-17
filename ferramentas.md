@@ -9,6 +9,36 @@ description: Modelos e exemplos sintéticos para organizar observações, reconh
 
 Esta biblioteca reúne recursos simples para famílias, pessoas neurodivergentes e educadores. As ferramentas organizam informações e apoiam conversas; não fazem diagnóstico nem substituem avaliação profissional.
 
+## Navegue pela biblioteca
+
+Use os atalhos abaixo para chegar ao tipo de apoio que procura. Os guias podem ser utilizados separadamente; não é necessário seguir uma ordem.
+
+### Por necessidade prática
+
+| Necessidade | Guia |
+|---|---|
+| Começar, planejar ou retomar atividades | [Início e organização de tarefas](/re-includer-lab/ferramentas/inicio-e-organizacao-de-tarefas/) |
+| Entender instruções e acompanhar sequências | [Instruções visuais e comunicação acessível](/re-includer-lab/ferramentas/instrucoes-visuais/) |
+| Reduzir barreiras de ruído, luz e ambiente | [Ajustes sensoriais e ambientais](/re-includer-lab/ferramentas/ajustes-sensoriais-ambientais/) |
+| Ler, escrever e demonstrar conhecimentos | [Leitura, escrita e formas de resposta](/re-includer-lab/ferramentas/leitura-escrita-formas-de-resposta/) |
+| Ampliar desafios a partir de interesses | [Interesses, aprofundamento e enriquecimento](/re-includer-lab/ferramentas/interesses-aprofundamento-enriquecimento/) |
+| Escolher recursos digitais e assistivos | [Tecnologia assistiva e acessibilidade digital](/re-includer-lab/ferramentas/tecnologia-assistiva/) |
+| Avaliar se um apoio está funcionando | [Revisão colaborativa dos apoios](/re-includer-lab/ferramentas/revisao-colaborativa-apoios/) |
+
+### Por público e contexto
+
+- **Famílias:** observação de barreiras no cotidiano, organização de rotinas, diálogo com a escola e revisão conjunta de apoios. Comece pelo [mapa de potencialidades, barreiras e apoios](#mapa-de-potencialidades-barreiras-e-apoios) e pelo [roteiro para reunião entre família e escola](#roteiro-para-reunião-entre-família-e-escola).
+- **Educadores e equipes escolares:** instruções acessíveis, ajustes ambientais, diferentes formas de resposta e enriquecimento. Consulte os guias de [comunicação visual](/re-includer-lab/ferramentas/instrucoes-visuais/) e [enriquecimento](/re-includer-lab/ferramentas/interesses-aprofundamento-enriquecimento/).
+- **Pessoas neurodivergentes:** escolha de recursos, autonomia, autodefesa de necessidades e avaliação do que funciona. Consulte [tecnologia assistiva](/re-includer-lab/ferramentas/tecnologia-assistiva/) e [revisão colaborativa](/re-includer-lab/ferramentas/revisao-colaborativa-apoios/).
+- **Profissionais de apoio:** registro contextual, comunicação entre envolvidos e revisão de estratégias sem transformar observações em diagnóstico.
+
+### Como usar ou imprimir
+
+1. Escolha uma situação concreta, não um rótulo ou diagnóstico.
+2. Leia o guia correspondente e selecione apenas uma possibilidade viável para testar.
+3. Combine o apoio com a pessoa envolvida e defina como avaliar conforto, autonomia e participação.
+4. Use a função **Imprimir** do navegador para guardar o guia ou imprimir em papel. A impressão pode variar conforme o navegador e o dispositivo.
+
 > **Sobre os exemplos desta página:** todos os registros preenchidos são inteiramente sintéticos e fictícios. Não representam uma criança ou pessoa real, não foram obtidos de prontuários e não devem ser interpretados como dados de pesquisa. Foram criados apenas para demonstrar como utilizar os modelos.
 
 ## Mapa de potencialidades, barreiras e apoios
