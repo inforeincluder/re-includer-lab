@@ -19,6 +19,8 @@ permalink: /:categories/:title/
 
 header_pages:
   - artigos.md
+  - categorias.md
+  - tags.md
   - sobre.md
   - pesquisa.md
   - ferramentas.md
@@ -33,3 +35,42 @@ plugins:
   - jekyll-sitemap
 
 show_excerpts: true
+
+# Taxonomia editorial oficial: categorias principais do 2e Lab Brasil.
+taxonomy_categories:
+  - slug: autismo
+    name: Autismo
+    description: Informação baseada em evidências sobre autismo, desenvolvimento, comunicação, participação e apoios.
+  - slug: tdah
+    name: TDAH
+    description: Ciência e estratégias práticas sobre atenção, impulsividade, autorregulação e funções executivas.
+  - slug: altas-habilidades-superdotacao
+    name: Altas habilidades e superdotação
+    description: Potencialidades, identificação, desenvolvimento de talentos e educação de pessoas com altas habilidades ou superdotação.
+  - slug: dupla-excepcionalidade
+    name: Dupla excepcionalidade (2e)
+    description: Coexistência de altas habilidades ou potencial elevado com condições que geram necessidades específicas de apoio.
+  - slug: dislexia-aprendizagem
+    name: Dislexia e dificuldades de aprendizagem
+    description: Evidências e práticas sobre dislexia, aprendizagem, alfabetização e barreiras educacionais.
+  - slug: neurodivergencia-adulta
+    name: Neurodivergência adulta
+    description: Experiências, identificação, trabalho, autonomia e qualidade de vida de adultos neurodivergentes.
+  - slug: cognicao-funcoes-executivas
+    name: Cognição e funções executivas
+    description: Atenção, memória, planejamento, flexibilidade cognitiva, aprendizagem e autorregulação.
+  - slug: tecnologia-assistiva
+    name: Tecnologia assistiva
+    description: Recursos, adaptações e tecnologias para ampliar comunicação, aprendizagem, autonomia e participação.
+  - slug: ia-acessibilidade
+    name: IA e acessibilidade
+    description: Inteligência artificial aplicada à acessibilidade, inclusão, personalização e apoio à neurodiversidade.
+  - slug: educacao-inclusao
+    name: Educação e inclusão
+    description: Práticas pedagógicas, acessibilidade, direitos, participação e colaboração entre família e escola.
+  - slug: saude-bem-estar
+    name: Saúde e bem-estar
+    description: Saúde mental, desenvolvimento, sono, bem-estar e cuidado informado, sem substituir orientação profissional.
+  - slug: trabalho-politicas-publicas
+    name: Trabalho e políticas públicas
+    description: Direitos, inclusão no trabalho, políticas públicas, serviços e participação social.
