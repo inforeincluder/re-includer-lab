@@ -1,4 +1,5 @@
 ---
+tags: [altas-habilidades, superdotacao, dupla-excepcionalidade, educacao-inclusiva]
 layout: page
 title: "Interesses, aprofundamento e enriquecimento"
 permalink: /ferramentas/interesses-aprofundamento-enriquecimento/
