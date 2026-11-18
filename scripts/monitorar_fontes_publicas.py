@@ -67,6 +67,26 @@ def classify_public_item(item: dict[str, str]) -> tuple[int, str, str]:
     return 0, "descartada", "Sem sinal temático suficiente no título ou resumo."
 
 
+def is_safe_http_url(value: str) -> bool:
+    """Aceita somente URLs HTTP(S) absolutas, sem credenciais embutidas."""
+    try:
+        parsed = urllib.parse.urlsplit(clean(value))
+        return (
+            parsed.scheme.lower() in {"http", "https"}
+            and bool(parsed.hostname)
+            and parsed.username is None
+            and parsed.password is None
+        )
+    except ValueError:
+        return False
+
+
+def is_within_lookback(value: str, cutoff: dt.datetime) -> bool:
+    """Exige data válida e recente; itens sem data não podem furar a janela."""
+    published = parse_date(value)
+    return published is not None and published >= cutoff
+
+
 def get_feed(url: str) -> bytes:
     req = urllib.request.Request(url, headers={"User-Agent": "2e-Lab-Brasil/1.0 (+https://inforeincluder.github.io/re-includer-lab/)", "Accept": "application/rss+xml, application/atom+xml, application/xml, text/xml"})
     with urllib.request.urlopen(req, timeout=25) as response:
@@ -140,6 +160,9 @@ def main() -> int:
         for row in rows:
             if not row["title"] or not row["url"]:
                 continue
+            if not is_safe_http_url(row["url"]):
+                LOGGER.warning("Link descartado por esquema ou formato inseguro: %s", row["url"])
+                continue
             score, tier, rationale = classify_public_item(row)
             if score == 0:
                 LOGGER.info("Ignorado por baixa aderência: %s", row["title"])
@@ -147,8 +170,8 @@ def main() -> int:
             row["editorial_score"] = str(score)
             row["editorial_relevance"] = tier
             row["editorial_rationale"] = rationale
-            published = parse_date(row["published"])
-            if published and published < cutoff:
+            if not is_within_lookback(row["published"], cutoff):
+                LOGGER.info("Item ignorado por data ausente, inválida ou fora da janela: %s", row["title"])
                 continue
             candidates.append(row)
 
