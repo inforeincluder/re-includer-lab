@@ -6,7 +6,9 @@ on:
       - main
     paths:
       - .github/workflows/monitoramento-cientifico.yml
+      - scripts/monitorar_estudos.py
       - scripts/monitorar_fontes_publicas.py
+      - _config.yml
       - tests/**
   pull_request:
     branches:
