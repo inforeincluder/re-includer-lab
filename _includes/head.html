@@ -6,9 +6,15 @@
   {%- if site.google_site_verification -%}
   <meta name="google-site-verification" content="{{ site.google_site_verification | escape }}">
   {%- endif -%}
-  <link rel="stylesheet" href="{{ '/assets/main.css' | relative_url }}">
-  <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}?v=2">
-  <link rel="stylesheet" href="{{ '/assets/css/accessibility.css' | relative_url }}?v=17">
+  <style>
+    html{-webkit-text-size-adjust:100%}
+    body{margin:0;color:#24292f;background:#fff;font:16px/1.7 Arial,Helvetica,sans-serif}
+    .wrapper{width:calc(100% - 32px);max-width:800px;margin-left:auto;margin-right:auto}
+    .page-content{padding:24px 0 40px}
+    .post-title{font-size:1.9rem;line-height:1.2}
+    .post-content{font-size:1rem;line-height:1.7}
+  </style>
+  <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}?v=3">
   {%- feed_meta -%}
   {%- if jekyll.environment == 'production' and site.goatcounter_url -%}
     {%- include goatcounter.html -%}
@@ -16,5 +22,5 @@
   {%- if jekyll.environment == 'production' and site.google_analytics -%}
     {%- include google-analytics.html -%}
   {%- endif -%}
-  <script src="{{ '/assets/js/accessibility.js' | relative_url }}?v=15" defer></script>
+  <script src="{{ '/assets/js/accessibility.js' | relative_url }}?v=16" defer></script>
 </head>
