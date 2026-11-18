@@ -338,3 +338,36 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *:before, html[data-m
 @media print {
   .a11y-widget, .a11y-share, .back-to-top { display: none !important; }
 }
+
+/* Controles complementares injetados pelo accessibility.js. */
+.back-to-top {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 1090;
+  display: inline-block;
+  min-height: 44px;
+  padding: 9px 13px;
+  color: var(--a11y-text);
+  background: var(--a11y-surface);
+  border: 1px solid var(--a11y-border);
+  border-radius: 999px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, .2);
+  font: inherit;
+  font-size: .9rem;
+  cursor: pointer;
+}
+.back-to-top[hidden] { display: none !important; }
+.related-articles {
+  margin: 40px 0 24px;
+  padding: 20px 0;
+  border-top: 2px solid var(--a11y-border);
+}
+.related-articles h2 { margin: 0 0 14px; font-size: 1.35rem; line-height: 1.35; }
+.related-articles ul { margin: 0; padding-left: 22px; }
+.related-articles li { margin: 12px 0; }
+.related-articles li p { margin: 4px 0 8px; color: var(--a11y-muted); font-size: .95rem; }
+@media (max-width: 600px) {
+  .back-to-top { left: 8px; bottom: 8px; padding: 8px 11px; font-size: .85rem; }
+  .related-articles { margin-top: 32px; padding-top: 16px; }
+}
