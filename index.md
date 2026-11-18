@@ -18,6 +18,7 @@ Aqui você encontra explicações em linguagem clara, análises de assuntos atua
 - [Ferramentas práticas gratuitas](/re-includer-lab/ferramentas/)
 - [Fontes e metodologia editorial](/re-includer-lab/fontes-e-metodologia/)
 - [Sobre o 2e Lab Brasil](/re-includer-lab/sobre/)
+- [Como monitoramos a visibilidade do 2e Lab nas IAs](/re-includer-lab/visibilidade-ia/)
 
 ## Nossos eixos
 
@@ -46,4 +47,3 @@ Acessibilidade, ferramentas digitais e tecnologias que apoiam aprendizagem, auto
 - Identificamos publicidade, patrocínios e links afiliados quando existirem.
 
 ## Artigos recentes
-
