@@ -189,7 +189,7 @@ input, textarea, select { color: var(--a11y-text); background: var(--a11y-bg); }
   right: calc(16px + env(safe-area-inset-right));
   bottom: calc(16px + env(safe-area-inset-bottom));
   z-index: 1100;
-  width: 23rem;
+  width: auto;
   max-width: calc(100vw - 32px);
   margin: 0;
   font-size: .95rem;
@@ -325,6 +325,7 @@ html[data-motion="reduced"] *, html[data-motion="reduced"] *:before, html[data-m
   .site-header .wrapper { width: calc(100% - 32px); min-height: 64px !important; }
   .site-header .site-title { font-size: 1.15rem !important; padding: 8px 0 !important; }
   .a11y-widget { right: 8px; bottom: 8px; right: calc(8px + env(safe-area-inset-right)); bottom: calc(8px + env(safe-area-inset-bottom)); max-width: calc(100vw - 16px); }
+  .back-to-top { bottom: 64px; }
   .a11y-panel { max-width: calc(100vw - 32px); }
   .a11y-options button, .a11y-share .a11y-options a { flex: 1 1 auto; text-align: center; }
   .table-scroll { margin-left: 0; margin-right: 0; }
