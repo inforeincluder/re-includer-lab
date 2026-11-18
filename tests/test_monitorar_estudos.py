@@ -303,6 +303,20 @@ class MonitoramentoTests(unittest.TestCase):
 
 
 
+    def test_public_feed_rejects_unsafe_or_non_http_links(self):
+        self.assertTrue(public_sources.is_safe_http_url("https://example.org/article"))
+        self.assertTrue(public_sources.is_safe_http_url("http://example.org/article"))
+        self.assertFalse(public_sources.is_safe_http_url("javascript:alert(1)"))
+        self.assertFalse(public_sources.is_safe_http_url("//example.org/article"))
+        self.assertFalse(public_sources.is_safe_http_url("https://user:pass@example.org/article"))
+
+    def test_public_feed_requires_valid_recent_publication_date(self):
+        cutoff = monitor.dt.datetime(2026, 11, 1, tzinfo=monitor.dt.timezone.utc)
+        self.assertTrue(public_sources.is_within_lookback("2026-11-18T10:00:00Z", cutoff))
+        self.assertFalse(public_sources.is_within_lookback("2026-10-01T10:00:00Z", cutoff))
+        self.assertFalse(public_sources.is_within_lookback("", cutoff))
+        self.assertFalse(public_sources.is_within_lookback("data inválida", cutoff))
+
     def test_public_feed_requires_relevant_topic_in_title(self):
         self.assertTrue(public_sources.has_topic_title("New study on autism and social processing"))
         self.assertTrue(public_sources.has_topic_title("Tecnologia assistiva na educação inclusiva"))
