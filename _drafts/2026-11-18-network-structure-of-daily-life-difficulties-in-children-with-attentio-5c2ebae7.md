@@ -1,66 +1,96 @@
 ---
 layout: post
-title: "Network structure of daily life difficulties in children with attention-deficit/hyperactivity disorder: a cross-sectional network analysis"
-date: 2026-11-20
-categories: [pesquisa, neurodiversidade]
-tags: ["TDAH", "análise de rede", "estresse parental", "rotina diária", "dinâmica familiar"]
+title: "TDAH na infância: como dificuldades do dia a dia se relacionam com a rotina familiar"
+date: 2026-11-18
+description: "Estudo transversal com 1.188 crianças mapeou associações entre dificuldades diárias, estresse parental e funcionamento familiar."
+categories: [tdah]
+tags: ["tdah", "rotina-diaria", "estresse-parental", "dinamica-familiar", "analise-de-rede"]
 authors: "Ran Wei, Shanshan Ding, Hua Jin, Yiyuan Chen, Hui Zhong, Lei Xu, Tianyu Lei, Kan Ye"
 journal: "BMC Psychiatry"
-publication_type: "não informado"
+publication_type: "estudo transversal retrospectivo com análise de rede"
 publication_date: "2026-11-18"
 doi: "10.1186/s12888-026-08893-2"
 pmid: ""
 source_url: "https://doi.org/10.1186/s12888-026-08893-2"
 source_database: "OpenAlex"
 source_databases: ["OpenAlex"]
-evidence_level: "preliminar — o estudo utiliza análise de rede para identificar associações, mas requer pesquisas longitudinais e de intervenção para validar se os pontos identificados são alvos eficazes para tratamento."
+evidence_level: "preliminar — estudo transversal retrospectivo, de centro único e baseado em relatos parentais; as associações não demonstram causalidade."
 editorial_status: "aguardando revisão humana"
 ---
 
-> **Rascunho editorial — não publicado.** Texto preparado com auxílio de IA a partir do resumo bibliográfico. Confira o artigo original antes de aprovar.
+> **Rascunho editorial — não publicado.** Síntese baseada no artigo original. Conferir a versão final do texto e manter as limitações explícitas antes da aprovação.
 
 ## O que o estudo investigou
 
-Este estudo investigou como as dificuldades diárias de crianças com TDAH se conectam entre si e como fatores familiares, como o estresse dos pais e a adaptação familiar, se relacionam com esses desafios. Os pesquisadores mapearam essas interações para entender quais dificuldades são mais centrais e como elas se agrupam ao longo do dia, sugerindo que o suporte familiar e a rotina diária estão profundamente interligados.
+Pesquisadores analisaram como dificuldades funcionais de crianças com TDAH se distribuem ao longo do dia e como se associam a indicadores de estresse parental e funcionamento familiar. O objetivo foi identificar padrões de associação que possam orientar futuras pesquisas, não testar uma intervenção.
 
 ## Tipo de estudo
 
-estudo transversal com análise de rede
+Estudo transversal retrospectivo com análise de rede.
 
 ## População e amostra
 
-1.188 crianças com TDAH, com idades entre 6 e 12 anos
+Foram incluídas 1.188 crianças com TDAH, de 6 a 12 anos, atendidas em um único centro médico. As medidas foram obtidas por questionários respondidos pelos responsáveis.
 
 ## Métodos
 
-Utilizou-se a análise de rede (EBICglasso) para examinar dados dos questionários QCD (dificuldades diárias), PSI-4-SF (estresse parental) e PAFAS (ajuste familiar). Foram calculadas medidas de centralidade, ponte e previsibilidade, com testes de estabilidade e sensibilidade.
+Os pesquisadores utilizaram três instrumentos:
+
+- **QCD:** questionário sobre dificuldades funcionais em diferentes períodos do dia.
+- **PSI-4-SF:** medida de estresse parental.
+- **PAFAS:** medida de ajuste parental e funcionamento familiar.
+
+A análise EBICglasso estimou associações condicionais entre itens e dimensões. Também foram examinadas centralidade, conexões entre domínios, estabilidade da rede e diferenças por sexo e idade.
 
 ## Principais resultados
 
-Identificou-se que as dificuldades diárias seguem um padrão de agrupamento por período do dia. Itens relacionados a rotinas matinais, interação com pares e interações familiares noturnas ocuparam posições centrais na rede. O estresse parental e a dinâmica familiar mostraram associações específicas com diferentes momentos do dia da criança.
+Na rede de dificuldades diárias, o item relacionado a uma manhã sem dificuldades antes da escola (QCD4) apresentou a maior força de conexão. Também apareceram entre os nós centrais itens sobre ter amizades com colegas da mesma idade (QCD9) e levantar-se prontamente (QCD1).
+
+Os principais nós de ligação entre períodos do dia foram QCD4, gostar de ir à escola (QCD5) e ter colegas acolhedores na escola (QCD7). O item QCD3 apresentou a maior centralidade de intermediação, mas essa medida teve estabilidade abaixo do limite recomendado pelos próprios autores e deve ser interpretada com cautela.
+
+Na rede ampliada, foram observadas associações específicas entre dimensões familiares e períodos do dia:
+
+- Estresse parental e dificuldades noturnas.
+- Interação disfuncional entre responsável e criança e dificuldades na escola e após a escola.
+- Relações familiares e dificuldades no período da manhã.
+- Trabalho em equipe entre responsáveis e dificuldades no período da noite.
+
+Essas conexões são associações estatísticas estimadas dentro do modelo, não relações de causa e efeito.
 
 ## Limitações
 
-A estabilidade da métrica de centralidade de intermediação (betweenness) foi considerada baixa (coeficiente CS abaixo de 0,50), exigindo cautela na interpretação dessa medida específica.
+O desenho transversal retrospectivo não permite estabelecer causalidade. A amostra veio de um único centro médico, o que limita a generalização para outras regiões e para crianças acompanhadas em serviços diferentes.
+
+Todas as medidas principais foram respondidas pelos responsáveis. Isso pode aumentar associações entre dificuldades da criança e estresse familiar porque as informações vêm da mesma fonte. O estudo também aponta limitações de estabilidade para a medida de intermediação e uso de valores imputados em parte dos questionários.
 
 ## Relevância para neurodiversidade e 2e
 
-O estudo é relevante para o 2e Lab por destacar a importância de uma abordagem sistêmica e familiar no manejo do TDAH, sugerindo que intervenções podem ser mais eficazes se considerarem os momentos específicos do dia e o contexto familiar da criança.
+O estudo oferece uma perspectiva contextual sobre o TDAH: dificuldades podem variar conforme o período do dia e coexistir com demandas familiares específicas. Ele não investigou dupla excepcionalidade e não permite concluir que os mesmos padrões se aplicam a crianças 2e.
 
 ## O que não podemos concluir
 
-O estudo não estabelece relações de causa e efeito, apenas associações estatísticas. Por ser um estudo transversal, não é possível afirmar que as dificuldades causam o estresse familiar ou vice-versa, nem que as intervenções focadas nos nós identificados trarão resultados clínicos garantidos.
+Não é possível afirmar que o estresse parental cause dificuldades na criança, que as dificuldades da criança causem o estresse dos responsáveis ou que os nós mais centrais sejam alvos comprovados de intervenção. Estudos longitudinais e experimentais são necessários para testar essas possibilidades.
 
-## Avaliação editorial da evidência
+## Aplicação prática responsável
 
-**Classificação proposta:** preliminar — o estudo utiliza análise de rede para identificar associações, mas requer pesquisas longitudinais e de intervenção para validar se os pontos identificados são alvos eficazes para tratamento.
+O estudo pode inspirar perguntas de observação, sem funcionar como checklist diagnóstico:
 
-## Referência e acesso
+- Em qual período do dia a atividade costuma ficar mais difícil?
+- O que acontece imediatamente antes e depois?
+- A dificuldade muda com o ambiente, o tempo disponível ou o formato da instrução?
+- O que a própria criança relata sobre esse momento?
+- Que ajuste pequeno poderia ser testado e avaliado em conjunto?
 
-Ran Wei, Shanshan Ding, Hua Jin, Yiyuan Chen, Hui Zhong, Lei Xu, Tianyu Lei, Kan Ye (2026-11-18). *Network structure of daily life difficulties in children with attention-deficit/hyperactivity disorder: a cross-sectional network analysis*. BMC Psychiatry. DOI: 10.1186/s12888-026-08893-2
+O objetivo é compreender o contexto e conversar sobre apoios, não responsabilizar a criança ou a família.
 
-[Consultar publicação original](https://doi.org/10.1186/s12888-026-08893-2)
+## Transparência dos dados
+
+Os autores disponibilizaram scripts de análise, matrizes e resultados de estabilidade no [Open Science Framework](https://doi.org/10.17605/OSF.IO/87D3S). Os dados individuais não foram depositados publicamente porque a autorização ética não cobria essa divulgação; dados desidentificados podem ser solicitados aos autores, sujeitos à aprovação institucional.
+
+## Referência
+
+Wei R, Ding S, Jin H, Chen Y, Zhong H, Xu L, Lei T, Ye K. *Network structure of daily life difficulties in children with attention-deficit/hyperactivity disorder: a cross-sectional network analysis*. BMC Psychiatry, 2026. [DOI: 10.1186/s12888-026-08893-2](https://doi.org/10.1186/s12888-026-08893-2).
 
 ---
 
-**Revisão humana necessária:** confirmar a referência, conferir métodos e resultados no texto original, validar a classificação da evidência e revisar a redação antes de mover este arquivo para `_posts/`.
+**Status editorial:** rascunho assistido por IA. Revisão humana, conferência de tradução dos instrumentos e aprovação editorial pendentes.
