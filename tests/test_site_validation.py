@@ -59,7 +59,7 @@ class SiteCheckerSyntheticTests(unittest.TestCase):
         )
         code, errors, _, _ = check_site(self.site)
         self.assertEqual(code, 1)
-        self.assertTrue(any("link quebrado" in error for error in errors))
+        self.assertTrue(any("quebrado:" in error for error in errors))
 
     def test_duplicate_ids_are_reported(self):
         (self.site / "index.html").write_text(
