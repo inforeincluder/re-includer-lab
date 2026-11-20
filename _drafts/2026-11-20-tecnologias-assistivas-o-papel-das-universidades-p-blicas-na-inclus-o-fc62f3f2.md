@@ -1,66 +1,81 @@
 ---
 layout: post
-title: "Tecnologias assistivas: o papel das universidades públicas na inclusão"
+title: "Tecnologias assistivas nas universidades públicas: projetos e limites"
 date: 2026-11-20 04:44:18 +0000
-categories: [ci-ncia-e-sociedade]
-description: "Uma análise sobre como a pesquisa acadêmica brasileira está desenvolvendo soluções tecnológicas para promover a autonomia e a qualidade de vida de pessoas com deficiência."
+description: "Mostra em São Paulo reuniu projetos de universidades públicas; veja o que foi apresentado e o que ainda precisa ser verificado."
+categories: [tecnologia-assistiva]
+tags: ["tecnologia-assistiva", "acessibilidade", "educacao-inclusiva", "fapesp", "libras", "universidades-publicas"]
 editorial_type: atualidade
-editorial_relevance: média
-editorial_score: 61
-editorial_rationale: "Tema identificado no resumo: deficiência"
+editorial_relevance: alta
+editorial_score: 92
+editorial_rationale: "Relato institucional descreve projetos concretos de acessibilidade, comunicação e educação inclusiva."
 review_status: revisão humana pendente
+source_type: "relato institucional"
+source_author: "Adriana Cruz"
 monetization: none
 source_url: "https://jornal.usp.br/comunicados/mostra-apresenta-pesquisas-em-tecnologias-assistivas-desenvolvidas-pelas-universidades-publicas/"
+evidence_level: "Relato institucional; descreve iniciativas e investimentos informados pelas instituições, sem avaliação independente de eficácia ou disponibilidade."
 ---
 
-### O papel das universidades públicas no desenvolvimento de tecnologias assistivas
+> **Rascunho editorial — não publicado.** Texto baseado em reportagem institucional do Jornal da USP. Conferir os projetos e seus estágios diretamente com as instituições antes de aprovar.
 
-As universidades públicas brasileiras têm desempenhado um papel central na criação de tecnologias assistivas, ferramentas e recursos projetados para ampliar a autonomia e a qualidade de vida de pessoas com deficiência. Recentemente, uma mostra reuniu iniciativas desenvolvidas pela USP, Unicamp, Unesp e Centro Paula Souza, evidenciando como a pesquisa científica pode ser traduzida em soluções práticas para desafios cotidianos de acessibilidade.
+## O que foi apresentado
 
-Essas tecnologias não se limitam apenas a dispositivos físicos, mas englobam uma gama de inovações que buscam reduzir barreiras arquitetônicas, comunicacionais e digitais. O objetivo central desses projetos é garantir que a inovação tecnológica esteja a serviço da inclusão social, permitindo que indivíduos com diferentes tipos de deficiência tenham maior independência em ambientes educacionais, profissionais e sociais.
+Uma Mostra de Inovações e Pesquisas em Tecnologias Assistivas ocorreu em 18 e 19 de novembro de 2026, no Centro de Treinamento Paralímpico Brasileiro, em São Paulo. Segundo o Jornal da USP, o evento reuniu projetos de 12 Centros de Ciência para o Desenvolvimento (CCDs), apoiados pela FAPESP, além de iniciativas da USP, Unicamp, Unesp e Centro Paula Souza.
 
-### A importância da colaboração interinstitucional
+A mostra foi promovida pela Secretaria de Estado dos Direitos da Pessoa com Deficiência de São Paulo, em parceria com a Secretaria de Ciência, Tecnologia e Inovação. A reportagem informa investimento da ordem de R$ 10 milhões no conjunto de iniciativas e registra que, na USP, foram selecionadas 13 propostas de pesquisadores de diferentes unidades.
 
-A integração entre diferentes instituições de ensino superior permite que o conhecimento seja compartilhado e aprimorado. Ao reunir pesquisadores de diversas áreas — como engenharia, design, saúde e computação —, as universidades conseguem abordar a acessibilidade sob uma perspectiva multidisciplinar. Esse esforço conjunto é fundamental para que as tecnologias não sejam apenas funcionais, mas também acessíveis em termos de custo e usabilidade.
+Esses dados descrevem o evento e o financiamento informado pela instituição. Não significam que todas as tecnologias estejam prontas, disponíveis ao público ou tenham eficácia comprovada em uso cotidiano.
 
-### O que sabemos e o que ainda falta verificar
+## Projetos destacados na reportagem
 
-**O que sabemos:**
-- As universidades públicas brasileiras possuem núcleos de pesquisa dedicados à criação de tecnologias assistivas.
-- Eventos de divulgação científica, como a mostra citada, são essenciais para conectar pesquisadores, sociedade e possíveis parceiros de implementação.
-- Existe um esforço institucional para que a inovação acadêmica saia dos laboratórios e chegue à ponta, beneficiando diretamente a população.
+- **Plataforma Aberta de Jogos Adaptativos para a Educação Inclusiva:** iniciativa voltada a estudantes do 1º ao 5º ano da rede pública paulista. A reportagem descreve o uso de inteligência artificial para ajustar conteúdos em tempo real ao perfil do estudante, com atenção especial a alunos neurodivergentes, sobretudo autistas.
+- **Centro de Tecnologias Assistivas para as Atividades da Vida Diária (TecVida):** pesquisa cadeiras de rodas modulares, exoesqueletos para membros inferiores e sensores para monitorar movimentos e postura.
+- **Centro de Pesquisa e Orientação sobre Deficiência Visual:** trabalha com tecnologias assistivas e produção de conhecimento para reduzir barreiras de acesso de pessoas com deficiência visual.
+- **CCD-TAAL — Tecnologia Assistiva e Acessibilidade em Libras:** ligado à Unicamp, pesquisa sistemas de tradução automática entre Libras e português com aprendizado de máquina e redes neurais profundas.
+- **Centro Multiprofissional de Estudo Paralímpico e Paradesportivo:** reúne áreas de pesquisa relacionadas à saúde, formação, desempenho esportivo, bem-estar e tecnologia no paradesporto.
 
-**O que ainda falta verificar:**
-- A escala de produção e a viabilidade comercial dessas tecnologias. Muitas vezes, projetos desenvolvidos em ambiente acadêmico enfrentam desafios para serem produzidos em larga escala ou para obterem certificações necessárias para distribuição ampla.
-- A eficácia de longo prazo de cada solução específica apresentada, uma vez que a maioria dos relatos foca na fase de desenvolvimento ou prototipagem.
-- A acessibilidade financeira para o usuário final, um ponto crítico que depende de políticas públicas de fomento e parcerias com o setor privado.
+A reportagem apresenta objetivos e linhas de desenvolvimento. Não fornece, para cada projeto, resultados de testes com usuários, taxas de eficácia, custos, cronograma de distribuição ou condições de manutenção.
 
-### Limitações e aplicação prática
+## O que isso representa para a neurodiversidade e a dupla excepcionalidade
 
-É importante ressaltar que as tecnologias apresentadas em eventos acadêmicos, embora promissoras, muitas vezes encontram-se em estágios de protótipo ou pesquisa aplicada. Nem todas as soluções estão disponíveis para compra ou uso imediato pelo público geral. 
+A plataforma de jogos adaptativos é a iniciativa descrita com relação mais direta à aprendizagem de estudantes neurodivergentes. Ainda assim, a reportagem não informa como o perfil de cada estudante será definido, quais dados serão utilizados, como a personalização será avaliada ou se estudantes e famílias participaram do desenho e dos testes.
 
-**Aplicação prática segura:**
-Para famílias, educadores e profissionais que buscam soluções, a recomendação é acompanhar os portais de inovação das universidades citadas (USP, Unicamp, Unesp e Centro Paula Souza). Muitas dessas instituições possuem escritórios de transferência de tecnologia que podem fornecer informações sobre o estágio de desenvolvimento de cada projeto e como instituições ou ONGs podem colaborar ou testar essas inovações em contextos reais de uso.
+A matéria menciona atenção especial ao autismo, mas não apresenta resultados específicos para estudantes com dupla excepcionalidade. Portanto, não é possível afirmar que a plataforma já atenda às necessidades de estudantes 2e ou que tenha demonstrado ganhos de aprendizagem.
 
-### FAQ: Perguntas Frequentes
+## Como avaliar uma tecnologia antes de adotá-la
 
-**1. Onde posso encontrar essas tecnologias?**
-As tecnologias estão em diferentes estágios de desenvolvimento dentro das universidades. O primeiro passo é consultar os sites das agências de inovação dessas instituições.
+Famílias, educadores e instituições podem perguntar:
 
-**2. Essas tecnologias são gratuitas?**
-Depende do modelo de transferência de tecnologia adotado pela universidade. Algumas podem ser disponibilizadas via parcerias públicas, enquanto outras podem exigir licenciamento para produção comercial.
+1. O recurso está em fase de pesquisa, protótipo, teste-piloto ou uso regular?
+2. Pessoas com deficiência e usuários neurodivergentes participaram do desenvolvimento e dos testes?
+3. Quais resultados foram medidos e em quais contextos?
+4. Há informações sobre custo, acesso, manutenção, suporte e compatibilidade?
+5. Se houver coleta de dados, quais informações são armazenadas, por quanto tempo e com quais controles de privacidade?
+6. O recurso permite ajustes individuais e pode ser recusado ou interrompido pelo usuário?
 
-**3. Como posso saber se uma tecnologia é adequada para mim?**
-Sempre consulte profissionais especializados (como terapeutas ocupacionais ou engenheiros de reabilitação) antes de adotar qualquer nova tecnologia assistiva, garantindo que ela atenda às necessidades específicas do usuário.
+Essas perguntas ajudam a distinguir uma iniciativa promissora de uma solução já avaliada e disponível.
 
-### Fonte Original
-[Jornal da USP - Mostra apresenta pesquisas em tecnologias assistivas](https://jornal.usp.br/comunicados/mostra-apresenta-pesquisas-em-tecnologias-assistivas-desenvolvidas-pelas-universidades-publicas/)
+## Perguntas frequentes
 
-***
-*Nota: Este artigo é um resumo informativo baseado em relato institucional. A eficácia e a disponibilidade comercial das tecnologias mencionadas devem ser verificadas diretamente com as instituições de pesquisa responsáveis. Revisão humana pendente.*
+**As tecnologias apresentadas já podem ser utilizadas por famílias e escolas?**
+
+A reportagem não informa a disponibilidade de cada projeto. É necessário consultar as equipes responsáveis e confirmar o estágio de desenvolvimento, os critérios de acesso e a existência de testes com usuários.
+
+**A plataforma de jogos adaptativos já demonstrou melhorar a aprendizagem?**
+
+A matéria descreve a proposta, mas não apresenta resultados de avaliação de eficácia. Não se deve interpretar a existência de inteligência artificial ou de personalização como prova de ganho educacional.
+
+**Esses projetos foram desenvolvidos especificamente para pessoas 2e?**
+
+A reportagem não informa avaliação específica com pessoas com dupla excepcionalidade. A referência a estudantes neurodivergentes, especialmente autistas, não permite generalizar os resultados para todos os perfis.
+
+## Fonte e limites
+
+Fonte principal: [Jornal da USP — Mostra apresenta pesquisas em tecnologias assistivas desenvolvidas pelas universidades públicas](https://jornal.usp.br/comunicados/mostra-apresenta-pesquisas-em-tecnologias-assistivas-desenvolvidas-pelas-universidades-publicas/).
+
+Este é um resumo de divulgação baseado em relato institucional, não uma revisão sistemática nem uma avaliação independente dos projetos. Antes da publicação, conferir nomes, valores, estágio de desenvolvimento e canais oficiais de contato de cada iniciativa.
 
 ---
 
-**Fonte monitorada:** [Jornal da USP](https://jornal.usp.br/comunicados/mostra-apresenta-pesquisas-em-tecnologias-assistivas-desenvolvidas-pelas-universidades-publicas/).
-
-**Status editorial:** rascunho assistido por IA. Conferir a fonte original, localizar estudos/documentos primários, validar todas as afirmações e revisar humanamente antes de publicar.
+**Status editorial:** rascunho assistido por IA; revisão humana e aprovação editorial pendentes. Não publicar automaticamente.
