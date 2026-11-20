@@ -206,8 +206,9 @@ def editorial_category(
     """Mapeia cada rascunho para uma categoria editorial existente no site."""
     terms = summary.get("termos", [])
     term_text = " ".join(clean(term) for term in terms if isinstance(term, str))
+    title_text = clean(article.get("title")).lower()
     searchable = " ".join((
-        clean(article.get("title")),
+        title_text,
         clean(article.get("abstractText")),
         clean(summary.get("resumo_acessivel")),
         clean(summary.get("relevancia")),
@@ -234,7 +235,7 @@ def editorial_category(
         ("autismo", ("autism", "autistic", "autismo", "autista")),
         ("tdah", ("adhd", "attention-deficit", "attention deficit", "tdah")),
         ("tecnologia-assistiva", (
-            "assistive technolog", "tecnologia assistiva",
+            "assistive technolog", "tecnologia assistiva", "tecnologias assistivas",
             "augmentative and alternative communication",
             "comunicação aumentativa", "communication aid",
         )),
@@ -267,6 +268,10 @@ def editorial_category(
             "direitos", "trabalho",
         )),
     )
+    # O título tem prioridade sobre palavras-chave genéricas do resumo.
+    for category, markers in rules:
+        if any(marker in title_text for marker in markers):
+            return category
     for category, markers in rules:
         if any(marker in searchable for marker in markers):
             return category
