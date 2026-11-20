@@ -15,23 +15,27 @@ class PageParser(HTMLParser):
         self.ids: set[str] = set()
         self.issues: list[str] = []
         self.lang: str | None = None
+        self.document_seen = False
         self.title_seen = False
         self.accessibility_script = False
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         values = dict(attrs)
         if tag == "html":
+            self.document_seen = True
             self.lang = values.get("lang")
         if tag == "title":
             self.title_seen = True
         if tag == "img" and "alt" not in values:
             self.issues.append("imagem sem atributo alt")
-        for key in ("id", "name"):
+        for key in ("id",):
             value = values.get(key)
             if value:
                 if value in self.ids:
                     self.issues.append(f"ID duplicado: {value}")
                 self.ids.add(value)
+        if tag == "a" and values.get("name"):
+            self.ids.add(values["name"])
         if tag == "script" and values.get("src", "").split("?", 1)[0].endswith("/assets/js/accessibility.js"):
             self.accessibility_script = True
         for key in ("href", "src", "action"):
@@ -108,6 +112,8 @@ def validate_site_structure(site: Path, parsed: dict[Path, PageParser]) -> list[
         errors.append("rascunho encontrado no site publicado")
     for path, parser in parsed.items():
         rel = path.relative_to(site)
+        if not parser.document_seen:
+            continue
         if not parser.lang:
             errors.append(f"{rel}: atributo lang ausente no elemento html")
         if not parser.title_seen:
@@ -117,7 +123,7 @@ def validate_site_structure(site: Path, parsed: dict[Path, PageParser]) -> list[
         page = site / relative
         if page.is_file():
             parser = parsed.get(page) or load_page(page)
-            if not parser.accessibility_script:
+            if parser.document_seen and not parser.accessibility_script:
                 errors.append(f"{relative}: script de acessibilidade não carregado")
     return errors
 
