@@ -32,7 +32,7 @@ class PageParser(HTMLParser):
                 if value in self.ids:
                     self.issues.append(f"ID duplicado: {value}")
                 self.ids.add(value)
-        if tag == "script" and values.get("src", "").endswith("/assets/js/accessibility.js"):
+        if tag == "script" and values.get("src", "").split("?", 1)[0].endswith("/assets/js/accessibility.js"):
             self.accessibility_script = True
         for key in ("href", "src", "action"):
             value = values.get(key)
