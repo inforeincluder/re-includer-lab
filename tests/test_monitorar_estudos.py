@@ -52,8 +52,10 @@ class MonitoramentoTests(unittest.TestCase):
             "title": "Tecnologias assistivas na educação",
             "abstractText": "Acessibilidade e comunicação alternativa.",
         }
+        assistive_summary = sample_summary()
+        assistive_summary["termos"] = ["acessibilidade", "tecnologia assistiva", "educação"]
         self.assertEqual(
-            monitor.editorial_category(assistive, sample_summary()),
+            monitor.editorial_category(assistive, assistive_summary),
             "tecnologia-assistiva",
         )
 
@@ -112,7 +114,7 @@ class MonitoramentoTests(unittest.TestCase):
         self.assertIn("aguardando revisão humana", content)
         self.assertIn("Rascunho editorial — não publicado", content)
         self.assertIn("mover este arquivo para `_posts/`", content)
-        self.assertIn("categories: [educacao-inclusao]", content)
+        self.assertIn("categories: [cognicao-funcoes-executivas]", content)
         self.assertIn('tags: ["educacao", "cognicao", "inclusao"]', content)
         self.assertIn('description: "Resumo acessível."', content)
         self.assertEqual(
