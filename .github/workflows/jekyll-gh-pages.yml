@@ -1,31 +1,23 @@
-# Sample workflow for building and deploying a Jekyll site to GitHub Pages
+# Build, test and deploy the Jekyll site to GitHub Pages.
 name: Deploy Jekyll with GitHub Pages dependencies preinstalled
 
 on:
-  # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
-
   pull_request:
     branches: ["main"]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
-  # Build job
   build:
     runs-on: ubuntu-latest
     steps:
@@ -38,14 +30,15 @@ jobs:
         with:
           source: ./
           destination: ./_site
-      - name: Validar JavaScript
+      - name: Validar sintaxe JavaScript
         run: node --check assets/js/accessibility.js
-      - name: Verificar links e recursos locais do site gerado
+      - name: Executar testes sintéticos
+        run: python -m unittest discover -s tests -v
+      - name: Verificar páginas, acessibilidade básica, links e recursos
         run: python scripts/check_site.py ./_site /re-includer-lab
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
 
-  # Deployment job
   deploy:
     if: github.event_name != 'pull_request'
     environment:
