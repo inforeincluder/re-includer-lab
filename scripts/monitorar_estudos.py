@@ -214,7 +214,7 @@ def editorial_category(
         term_text,
     )).lower()
 
-    if re.search(r"\\b2e\\b", searchable) or any(
+    if re.search(r"\b2e\b", searchable) or any(
         term in searchable for term in (
             "twice exceptional", "dupla excepcionalidade",
             "multiple exceptional",
