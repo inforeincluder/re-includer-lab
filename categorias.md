@@ -2,7 +2,6 @@
 layout: page
 title: Categorias
 description: "Explore os artigos do 2e Lab Brasil por categoria: dupla excepcionalidade, autismo, TDAH, altas habilidades, educação inclusiva, tecnologia assistiva e mais."
-description: Explore os artigos do 2e Lab Brasil por categoria: dupla excepcionalidade, autismo, TDAH, altas habilidades, educação inclusiva, tecnologia assistiva e mais.
 ---
 Encontre conteúdos organizados por assunto. Cada categoria reúne artigos publicados e é atualizada automaticamente.
 
