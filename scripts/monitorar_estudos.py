@@ -9,6 +9,7 @@ import logging
 import os
 import re
 import time
+import unicodedata
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -184,9 +185,92 @@ def clean(value: Any) -> str:
 
 
 def slugify(value: str) -> str:
-    value = value.lower()
+    value = unicodedata.normalize("NFKD", str(value))
+    value = value.encode("ascii", "ignore").decode("ascii").lower()
     value = re.sub(r"[^a-z0-9]+", "-", value)
     return value.strip("-")[:70] or "estudo"
+
+
+VALID_CATEGORIES = {
+    "autismo", "tdah", "altas-habilidades-superdotacao",
+    "dupla-excepcionalidade", "dislexia-aprendizagem",
+    "neurodivergencia-adulta", "cognicao-funcoes-executivas",
+    "tecnologia-assistiva", "ia-acessibilidade", "educacao-inclusao",
+    "saude-bem-estar", "trabalho-politicas-publicas",
+}
+
+
+def editorial_category(
+    article: dict[str, Any], summary: dict[str, Any]
+) -> str:
+    """Mapeia cada rascunho para uma categoria editorial existente no site."""
+    terms = summary.get("termos", [])
+    term_text = " ".join(clean(term) for term in terms if isinstance(term, str))
+    searchable = " ".join((
+        clean(article.get("title")),
+        clean(article.get("abstractText")),
+        clean(summary.get("resumo_acessivel")),
+        clean(summary.get("relevancia")),
+        term_text,
+    )).lower()
+
+    if re.search(r"\\b2e\\b", searchable) or any(
+        term in searchable for term in (
+            "twice exceptional", "dupla excepcionalidade",
+            "multiple exceptional",
+        )
+    ):
+        return "dupla-excepcionalidade"
+
+    rules = (
+        ("altas-habilidades-superdotacao", (
+            "giftedness", "gifted", "high ability", "high abilities",
+            "altas habilidades", "superdot",
+        )),
+        ("dislexia-aprendizagem", (
+            "dyslexia", "dyscalculia", "dysgraphia",
+            "dislexia", "discalculia", "disgrafia",
+        )),
+        ("autismo", ("autism", "autistic", "autismo", "autista")),
+        ("tdah", ("adhd", "attention-deficit", "attention deficit", "tdah")),
+        ("tecnologia-assistiva", (
+            "assistive technolog", "tecnologia assistiva",
+            "augmentative and alternative communication",
+            "comunicação aumentativa", "communication aid",
+        )),
+        ("ia-acessibilidade", (
+            "artificial intelligence", "machine learning", "deep learning",
+            "inteligência artificial", "aprendizado de máquina",
+        )),
+        ("educacao-inclusao", (
+            "inclusive education", "school inclusion",
+            "educação inclusiva", "inclusão escolar",
+            "special education",
+        )),
+        ("cognicao-funcoes-executivas", (
+            "executive function", "funções executivas", "cognition",
+            "cognitive", "cognição", "working memory",
+            "memória de trabalho",
+        )),
+        ("neurodivergencia-adulta", (
+            "adults", "adult", "adulthood", "adulto", "adultos",
+        )),
+        ("saude-bem-estar", (
+            "mental health", "anxiety", "depression", "psychosis", "sleep",
+            "chronic pain", "saúde mental", "ansiedade", "depressão",
+            "psicose", "sono", "dor crônica",
+        )),
+        ("trabalho-politicas-publicas", (
+            "public policy", "policy", "legislation", "rights", "workplace",
+            "employment", "bpc", "benefício de prestação continuada",
+            "política pública", "políticas públicas", "legislação",
+            "direitos", "trabalho",
+        )),
+    )
+    for category, markers in rules:
+        if any(marker in searchable for marker in markers):
+            return category
+    return "educacao-inclusao"
 
 
 def normalize_doi(value: Any) -> str:
@@ -726,7 +810,13 @@ def render_draft(
     identifier = article_identifier(article)
     digest = hashlib.sha1(identifier.encode("utf-8")).hexdigest()[:8]
     filename = f"{file_date}-{slugify(title)}-{digest}.md"
-    tags = ", ".join(yaml_quote(tag) for tag in summary["termos"][:6])
+    tag_slugs = list(dict.fromkeys(
+        slugify(tag) for tag in summary["termos"][:6]
+    ))
+    tags = ", ".join(yaml_quote(tag) for tag in tag_slugs)
+    category = editorial_category(article, summary)
+    if category not in VALID_CATEGORIES:
+        raise ValueError(f"Categoria editorial inválida: {category}.")
     source_names = article.get("source_databases") or [
         article.get("source_database", "não informado")
     ]
@@ -738,6 +828,13 @@ def render_draft(
     publication_type = clean(article.get("publication_type")) or "não informado"
 
     ai_generated = summary.get("status_geracao") != "sem_ia"
+    description = (
+        clean(summary["resumo_acessivel"])
+        if ai_generated
+        else "Ficha de triagem bibliográfica; síntese e revisão humana pendentes."
+    )
+    if len(description) > 160:
+        description = description[:157].rsplit(" ", 1)[0].rstrip(" ,;:") + "..."
     editorial_status = (
         "aguardando revisão humana"
         if ai_generated else "triagem bibliográfica — síntese IA pendente"
@@ -752,7 +849,8 @@ def render_draft(
 layout: post
 title: {yaml_quote(title)}
 date: {today}
-categories: [pesquisa, neurodiversidade]
+description: {yaml_quote(description)}
+categories: [{category}]
 tags: [{tags}]
 authors: {yaml_quote(authors)}
 journal: {yaml_quote(journal)}
