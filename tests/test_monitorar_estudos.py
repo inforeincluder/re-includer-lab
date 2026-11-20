@@ -36,6 +36,27 @@ def sample_summary():
 
 
 class MonitoramentoTests(unittest.TestCase):
+    def test_slugify_transliterates_accents_for_taxonomy_tags(self):
+        self.assertEqual(monitor.slugify("Funções executivas"), "funcoes-executivas")
+
+    def test_editorial_category_maps_thematic_studies_to_existing_taxonomy(self):
+        article = {
+            "title": "Goal Management Training for Adolescents with ADHD",
+            "abstractText": "A trial targeting executive functions.",
+        }
+        self.assertEqual(
+            monitor.editorial_category(article, sample_summary()),
+            "tdah",
+        )
+        assistive = {
+            "title": "Tecnologias assistivas na educação",
+            "abstractText": "Acessibilidade e comunicação alternativa.",
+        }
+        self.assertEqual(
+            monitor.editorial_category(assistive, sample_summary()),
+            "tecnologia-assistiva",
+        )
+
     def test_normalize_doi(self):
         self.assertEqual(
             monitor.normalize_doi("https://doi.org/10.1234/ABC."),
@@ -91,6 +112,9 @@ class MonitoramentoTests(unittest.TestCase):
         self.assertIn("aguardando revisão humana", content)
         self.assertIn("Rascunho editorial — não publicado", content)
         self.assertIn("mover este arquivo para `_posts/`", content)
+        self.assertIn("categories: [educacao-inclusao]", content)
+        self.assertIn('tags: ["educacao", "cognicao", "inclusao"]', content)
+        self.assertIn('description: "Resumo acessível."', content)
         self.assertEqual(
             content.split("title: ", 1)[1].splitlines()[0],
             '"Título: teste \\"especial\\""',
