@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""Publica no X, via Buffer, o artigo publicado mais recente ainda não divulgado."""
+"""Publica ou atualiza no Buffer a divulgação do artigo publicado mais recente."""
 import json
 import os
 import re
-import sys
 import urllib.request
 from datetime import date
 from urllib.error import HTTPError, URLError
@@ -12,7 +11,8 @@ REPO = "inforeincluder/re-includer-lab"
 SITE = "https://inforeincluder.github.io/re-includer-lab"
 API = "https://api.buffer.com"
 TOKEN = os.environ["BUFFER_API_KEY"]
-HANDLE = os.environ.get("X_HANDLE", "reincluder3457").lstrip("@")
+HANDLE = os.environ.get("X_HANDLE", "2eLabBrasil").lstrip("@")
+HASHTAGS = "#TecnologiaAssistiva #Acessibilidade #Inclusao"
 
 def request_json(url, payload=None, headers=None):
     data = None if payload is None else json.dumps(payload).encode()
@@ -47,19 +47,19 @@ def parse_article(raw, filename):
         return None
     fm = front[1]
     def field(name):
-        m = re.search(r"(?m)^" + re.escape(name) + r":\s*(.+?)\s*$", fm)
+        m = re.search(r"(?m)^" + re.escape(name) + r":\\s*(.+?)\\s*$", fm)
         return unquote(m.group(1)) if m else ""
     title = field("title")
     description = field("description")
     status = field("review_status")
     if not title or status != "publicado":
         return None
-    categories_match = re.search(r"(?m)^categories:\s*\[([^]]+)\]", fm)
+    categories_match = re.search(r"(?m)^categories:\\s*\\[([^]]+)\\]", fm)
     category = ""
     if categories_match:
         category = categories_match.group(1).split(",")[0].strip().strip('"').strip("'")
     explicit = field("permalink")
-    slug = re.sub(r"^\d{4}-\d{2}-\d{2}-", "", filename[:-3])
+    slug = re.sub(r"^\\d{4}-\\d{2}-\\d{2}-", "", filename[:-3])
     path = explicit.strip("/") if explicit else (f"{category}/{slug}" if category else slug)
     return {
         "title": title,
@@ -67,6 +67,16 @@ def parse_article(raw, filename):
         "url": f"{SITE}/{path}/",
         "date": filename[:10],
     }
+
+def build_text(article):
+    prefix = f'Novo no 2e Lab Brasil: {article["title"]}\\n\\n'
+    suffix = f'\\n\\nLeia: {article["url"]}\\n\\n{HASHTAGS}'
+    room = 280 - len(prefix) - len(suffix)
+    description = article["description"][:max(0, room)].rstrip()
+    text = prefix + description + suffix
+    if len(text) > 280:
+        raise RuntimeError("O texto ultrapassou 280 caracteres mesmo após limitar a descrição.")
+    return text
 
 def main():
     headers = {"Accept": "application/vnd.github+json"}
@@ -104,23 +114,43 @@ def main():
         organizationId: "{org["id"]}",
         filter: {{ status: [scheduled, sent], channelIds: ["{channel["id"]}"] }}
       }}) {{
-        edges {{ node {{ id text status }} }}
+        edges {{ node {{ id text status dueAt }} }}
       }}
     }}'''
-    existing = gql(query).get("posts", {}).get("edges", [])
-    known_texts = [edge.get("node", {}).get("text", "") for edge in existing]
-    article = next((a for a in articles if not any(a["url"] in text for text in known_texts)), None)
+    existing = [edge.get("node", {}) for edge in gql(query).get("posts", {}).get("edges", [])]
+    article = next((a for a in articles if any(a["url"] in p.get("text", "") for p in existing)), None)
+    if article:
+        post = next(p for p in existing if article["url"] in p.get("text", ""))
+        if str(post.get("status", "")).lower() in ("sent", "published"):
+            print("Artigo já publicado no X; nenhuma alteração realizada.")
+            return
+        new_text = build_text(article)
+        mutation = '''mutation {
+          editPost(input: { id: "%s", text: %s }) {
+            ... on PostActionSuccess { post { id text status dueAt } }
+            ... on MutationError { message }
+          }
+        }''' % (post["id"], json.dumps(new_text, ensure_ascii=False))
+        result = gql(mutation).get("editPost", {})
+        if result.get("post"):
+            updated = result["post"]
+            print(json.dumps({
+                "status": "post_agendado_atualizado_com_hashtags",
+                "channel": channel.get("name"),
+                "article": article["url"],
+                "buffer_post_id": updated.get("id"),
+                "post_status": updated.get("status"),
+                "due_at": updated.get("dueAt"),
+                "text": updated.get("text"),
+            }, ensure_ascii=False))
+            return
+        raise RuntimeError("Buffer não confirmou a edição: " + json.dumps(result, ensure_ascii=False))
+
+    article = next((a for a in articles if not any(a["url"] in p.get("text", "") for p in existing)), None)
     if not article:
         print("Nenhum artigo novo para divulgar; evitando duplicata.")
         return
-
-    prefix = f'Novo no 2e Lab Brasil: {article["title"]}\n\n'
-    suffix = f'\n\nLeia: {article["url"]}'
-    room = 280 - len(prefix) - len(suffix)
-    description = article["description"][:max(0, room)].rstrip()
-    text = prefix + description + suffix
-    if len(text) > 280:
-        raise RuntimeError("O texto ultrapassou o limite conservador de 280 caracteres.")
+    text = build_text(article)
     mutation = '''mutation {
       createPost(input: {
         text: %s,
