@@ -25,6 +25,9 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Validar sintaxe do publicador
+        run: python -m py_compile scripts/publish_x_buffer.py
+
       - name: Publicar próximo artigo elegível no Buffer
         env:
           BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
