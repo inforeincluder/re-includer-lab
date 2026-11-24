@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+<title id="title">2e Lab Brasil</title><desc id="desc">Símbolo 2e em dourado e prata sobre fundo preto.</desc>
+<rect width="512" height="512" rx="72" fill="#080808"/><rect x="12" y="12" width="488" height="488" rx="62" fill="none" stroke="#c9a04a" stroke-width="8"/>
+<path d="M105 190c0-63 48-108 118-108 69 0 116 43 116 104 0 45-24 74-70 108l-83 61h157v78H101v-67l122-94c37-29 50-45 50-70 0-24-18-41-47-41-30 0-49 19-51 51z" fill="#c9a04a"/>
+<path d="M357 235c18-19 43-29 74-29 57 0 94 36 94 91 0 58-44 95-111 95h-88v-67h82c29 0 45-11 45-31 0-18-13-29-34-29-18 0-33 8-45 24l-50-42c12-19 23-35 33-47z" fill="#c5c7ca"/></svg>
