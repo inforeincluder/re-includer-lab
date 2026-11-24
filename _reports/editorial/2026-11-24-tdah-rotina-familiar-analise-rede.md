@@ -3,7 +3,7 @@
 - Data da revisão: 24/11/2026
 - Arquivo final: `_posts/2026-11-24-tdah-dificuldades-cotidianas-rotina-familiar-analise-rede.md`
 - Decisão: **APROVADO PARA PUBLICAÇÃO**
-- Pontuação: **93/100**
+- Pontuação: **94/100**
 
 ## Pontuação
 
@@ -14,8 +14,8 @@
 | Relevância e utilidade | 14/15 |
 | Qualidade editorial | 9/10 |
 | Ética e responsabilidade | 10/10 |
-| Qualidade técnica | 12/15 |
-| **Total** | **93/100** |
+| Qualidade técnica | 13/15 |
+| **Total** | **94/100** |
 
 ## Fonte primária efetivamente aberta
 
@@ -46,5 +46,5 @@ A página informa que a versão consultada é uma publicação antecipada, sujei
 ## Integração técnica
 
 - Categoria: `tdah`, existente na taxonomia.
-- Tags: geradas pelo arquivo de tags do site.
+- Páginas específicas para todas as novas tags criadas nesta proposta; o índice tags.md aponta para páginas existentes.
 - PR, commit, checks e deploy: registrar após confirmação do fluxo de publicação.

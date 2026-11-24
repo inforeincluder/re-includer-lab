@@ -3,7 +3,7 @@
 - Data da revisão: 24/11/2026
 - Arquivo final: `_posts/2026-11-24-barreiras-sono-autismo-terapeutas-ocupacionais-malasia.md`
 - Decisão: **APROVADO PARA PUBLICAÇÃO COM RESSALVA DE ACESSO**
-- Pontuação: **85/100**
+- Pontuação: **87/100**
 
 ## Pontuação
 
@@ -14,8 +14,8 @@
 | Relevância e utilidade | 13/15 |
 | Qualidade editorial | 9/10 |
 | Ética e responsabilidade | 10/10 |
-| Qualidade técnica | 10/15 |
-| **Total** | **85/100** |
+| Qualidade técnica | 12/15 |
+| **Total** | **87/100** |
 
 ## Fonte primária efetivamente aberta
 
@@ -45,5 +45,5 @@ O texto integral não estava acessível nesta execução. A síntese não acresc
 ## Integração técnica
 
 - Categoria: `autismo`, existente na taxonomia.
-- Tags: geradas pelo arquivo de tags do site.
+- Páginas específicas para todas as novas tags criadas nesta proposta; o índice tags.md aponta para páginas existentes.
 - PR, commit, checks e deploy: registrar após confirmação do fluxo de publicação.

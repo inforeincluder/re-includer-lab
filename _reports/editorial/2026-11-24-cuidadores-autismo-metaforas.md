@@ -3,7 +3,7 @@
 - Data da revisão: 24/11/2026
 - Arquivo final: `_posts/2026-11-24-cuidadores-autismo-percepcoes-metaforicas.md`
 - Decisão: **APROVADO PARA PUBLICAÇÃO COM RESSALVA DE ACESSO**
-- Pontuação: **88/100**
+- Pontuação: **90/100**
 
 ## Pontuação
 
@@ -14,8 +14,8 @@
 | Relevância e utilidade | 14/15 |
 | Qualidade editorial | 9/10 |
 | Ética e responsabilidade | 10/10 |
-| Qualidade técnica | 10/15 |
-| **Total** | **88/100** |
+| Qualidade técnica | 12/15 |
+| **Total** | **90/100** |
 
 ## Fontes primárias efetivamente abertas
 
@@ -44,5 +44,5 @@
 ## Integração técnica
 
 - Categoria: `autismo`, existente na taxonomia.
-- Tags: geradas pelo arquivo de tags do site.
+- Páginas específicas para todas as novas tags criadas nesta proposta; o índice tags.md aponta para páginas existentes.
 - PR, commit, checks e deploy: registrar após confirmação do fluxo de publicação.
