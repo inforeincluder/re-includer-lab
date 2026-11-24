@@ -1,6 +1,11 @@
 name: Divulgacao automatica no X via Buffer
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/publish_x_buffer.py'
+      - '.github/workflows/divulgacao-x-buffer.yml'
   schedule:
     - cron: "30 12 * * 2,5"
   workflow_dispatch:
