@@ -15,10 +15,10 @@ source_url: "https://doi.org/10.1021/acs.jchemed.6c00207"
 source_database: "OpenAlex"
 source_databases: ["OpenAlex"]
 evidence_level: "preliminar — estudo qualitativo com amostra não especificada que explora percepções subjetivas, sem estabelecer relações de causa e efeito"
-editorial_status: "aguardando revisão humana"
+editorial_status: "RETIDO — fonte primária não acessível"
 ---
 
-> **Rascunho editorial — não publicado.** Texto preparado com auxílio de IA a partir do resumo bibliográfico. Confira o artigo original antes de aprovar.
+> **RETIDO — não publicado.** A referência foi localizada em listagem secundária, mas a página original da American Chemical Society não pôde ser aberta nesta revisão. Amostra, método, resultados e limitações permanecem sem verificação primária.
 
 ## O que o estudo investigou
 
