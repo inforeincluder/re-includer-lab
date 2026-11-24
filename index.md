@@ -12,7 +12,7 @@ Aqui você encontra explicações em linguagem clara, análises de assuntos atua
 
 ## Comece por aqui
 
-{% assign featured_post = site.posts.first %}
+{% assign featured_post = site.posts | where_exp: 'post', "post.title contains 'dupla excepcionalidade'" | first %}
 - [O que é dupla excepcionalidade? Leia o guia de estreia]({{ featured_post.url | relative_url }})
 - [Ver todos os artigos publicados]({{ '/artigos/' | relative_url }})
 - [Ferramentas práticas gratuitas](/re-includer-lab/ferramentas/)
