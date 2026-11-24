@@ -15,7 +15,7 @@ source_url: "https://doi.org/10.1002/pmic.70203"
 source_database: "OpenAlex"
 source_databases: ["OpenAlex"]
 evidence_level: "preliminar — trata-se de uma análise exploratória de biomarcadores que requer validação em amostras maiores e estudos clínicos independentes."
-editorial_status: "aguardando revisão humana"
+editorial_status: "RETIDO — fonte primária e validação analítica insuficientes"
 ---
 
 > **Rascunho editorial — não publicado.** Texto preparado com auxílio de IA a partir do resumo bibliográfico. Confira o artigo original antes de aprovar.
@@ -65,3 +65,21 @@ Hang Li, Wenhui Ma, Yan Zhao, Hangyan Dong, Jing Wang, Bin Wang, Jianxin Hu, Qia
 ---
 
 **Revisão humana necessária:** confirmar a referência, conferir métodos e resultados no texto original, validar a classificação da evidência e revisar a redação antes de mover este arquivo para `_posts/`.
+
+
+---
+
+## Resultado da revisão editorial — 24/11/2026
+
+**Status: RETIDO. Pontuação: 69/100.**
+
+- Evidências e fontes: 15/30
+- Precisão factual: 15/20
+- Relevância e utilidade: 12/15
+- Qualidade editorial: 8/10
+- Ética e responsabilidade: 9/10
+- Qualidade técnica: 10/15
+
+**Controles eliminatórios:** falha de verificação da fonte primária integral. A página da editora e o registro bibliográfico da PubMed não puderam ser consultados de forma suficiente nesta execução. Não foi possível confirmar amostra, critérios de seleção, método analítico completo, padrão de referência, validação externa ou desempenho diagnóstico. A existência de um perfil proteômico exploratório não comprova biomarcador clínico para autismo.
+
+**Decisão:** manter em _drafts_. Não apresentar vesículas extracelulares ou proteínas candidatas como teste, marcador validado ou método de diagnóstico. Reavaliar somente quando o texto integral e os dados metodológicos puderem ser examinados.
