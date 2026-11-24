@@ -32,6 +32,7 @@
 - Incluída a ausência de correção para múltiplas comparações e a natureza exploratória das análises.
 - Explicitado que os autores não consideram o estudo base suficiente para escolha de medicamentos na gestação.
 - Diferenciada a categoria administrativa galesa SEN das categorias brasileiras.
+- Incluídos a cobertura de 86% dos registros de atenção primária e o fato de que o protocolo não foi registrado prospectivamente.
 - Acrescentado alerta para não suspender ou alterar medicamentos por conta própria, apoiado em fontes oficiais brasileiras.
 
 ## Controles eliminatórios
