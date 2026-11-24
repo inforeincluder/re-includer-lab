@@ -14,7 +14,7 @@ source_url: "https://doi.org/10.51891/rease.v12i11.32990"
 source_database: "OpenAlex"
 source_databases: ["OpenAlex"]
 evidence_level: "preliminar — trata-se de uma revisão de literatura que sintetiza percepções acadêmicas sobre desafios educacionais, sem intervenção direta ou análise de dados primários."
-editorial_status: "aguardando revisão humana"
+editorial_status: "RETIDO — integridade metodológica e bibliográfica não confirmada"
 ---
 
 > **Rascunho editorial — não publicado.** Texto preparado com auxílio de IA a partir do resumo bibliográfico. Confira o artigo original antes de aprovar.
@@ -64,3 +64,21 @@ Diógenes José Gusmão Coutinho, Elane Cristina do Amaral, Mileyde Bárbara San
 ---
 
 **Revisão humana necessária:** confirmar a referência, conferir métodos e resultados no texto original, validar a classificação da evidência e revisar a redação antes de mover este arquivo para `_posts/`.
+
+
+---
+
+## Resultado da revisão editorial — 24/11/2026
+
+**Status: RETIDO. Pontuação: 58/100.**
+
+- Evidências e fontes: 14/30
+- Precisão factual: 10/20
+- Relevância e utilidade: 12/15
+- Qualidade editorial: 8/10
+- Ética e responsabilidade: 8/10
+- Qualidade técnica: 6/15
+
+**Controles eliminatórios:** falha em rastreabilidade das fontes e reprodutibilidade dos resultados. O texto integral do artigo foi aberto, mas a descrição da busca e da seleção não permite reproduzir a revisão. A alegação de 20 estudos não fica reconciliada com a tabela e a lista de referências; os percentuais de 80%, 65% e 55% não têm denominadores e fontes individuais suficientemente rastreáveis no texto. Várias referências da tabela não foram localizadas de forma independente em buscas por título exato.
+
+**Decisão:** manter em _drafts_. Não afirmar que as referências são fabricadas; o problema confirmado é que não puderam ser verificadas com segurança. O artigo só poderá ser reavaliado se os estudos incluídos, a tabela de extração e os cálculos forem rastreáveis. Nenhuma publicação foi preparada.
