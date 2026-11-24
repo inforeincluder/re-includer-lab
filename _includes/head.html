@@ -8,16 +8,8 @@
   {%- endif -%}
   <meta name="theme-color" content="#080808">
   <link rel="icon" type="image/png" sizes="64x64" href="{{ '/assets/images/favicon-2e.png' | relative_url }}">
-  <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}?v=3">
-  <link rel="stylesheet" href="{{ '/assets/css/brand.css' | relative_url }}?v=2">
-  <style>
-    html{-webkit-text-size-adjust:100%}
-    body{margin:0;color:var(--text);background:var(--bg);font:16px/1.7 Arial,Helvetica,sans-serif}
-    .wrapper{width:calc(100% - 32px);max-width:800px;margin-left:auto;margin-right:auto}
-    .page-content{padding:24px 0 40px}
-    .post-title{font-size:1.9rem;line-height:1.2}
-    .post-content{font-size:1rem;line-height:1.7}
-  </style>
+  <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}?v=4">
+  <link rel="stylesheet" href="{{ '/assets/css/brand.css' | relative_url }}?v=3">
   {%- feed_meta -%}
   {%- if jekyll.environment == 'production' and site.goatcounter_url -%}
     {%- include goatcounter.html -%}
