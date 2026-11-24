@@ -11,8 +11,8 @@ editorial_rationale: "Tema identificado no resumo: disability"
 review_status: revisão humana pendente
 monetization: none
 source_url: "https://theconversation.com/six-ways-teens-can-better-protect-themselves-from-online-harms-296470"
+editorial_status: "RETIDO — fonte do levantamento não rastreada e relevância insuficiente"
 ---
-
 ### Entendendo os riscos no ambiente digital
 
 A segurança de adolescentes no ambiente online é um desafio crescente. Embora medidas como restrições de idade em redes sociais sejam implementadas, pesquisas indicam que muitos jovens ainda conseguem contornar essas barreiras, permanecendo expostos a diversos riscos. Um estudo recente, apresentado na Conferência de Inclusão Digital na Sociedade da Informação, revelou que o nível de conhecimento dos adolescentes sobre perigos específicos da internet é desigual, o que reforça a necessidade de uma educação digital mais robusta.
@@ -61,3 +61,21 @@ O diálogo aberto é essencial. Em vez de apenas proibir, incentive o jovem a re
 **Fonte monitorada:** [The Conversation](https://theconversation.com/six-ways-teens-can-better-protect-themselves-from-online-harms-296470).
 
 **Status editorial:** rascunho assistido por IA. Conferir a fonte original, localizar estudos/documentos primários, validar todas as afirmações e revisar humanamente antes de publicar.
+
+
+---
+
+## Resultado da revisão editorial — 24/11/2026
+
+**Status: RETIDO. Pontuação: 63/100.**
+
+- Evidências e fontes: 16/30
+- Precisão factual: 14/20
+- Relevância e utilidade: 8/15
+- Qualidade editorial: 8/10
+- Ética e responsabilidade: 9/10
+- Qualidade técnica: 8/15
+
+**Controles eliminatórios:** falha na verificação da fonte primária do levantamento de 119 adolescentes. O registro institucional da Charles Sturt University confirma um livro de 2026 publicado pela Routledge, mas não expõe método, amostra ou resultados do levantamento citado. A página da editora não pôde ser aberta. A fonte jornalística secundária não foi suficiente para verificar as porcentagens. O rascunho também transforma conhecimento ou confiança autorrelatados em capacidade real de proteção e não demonstra recorte específico de neurodivergência ou 2e.
+
+**Decisão:** manter em _drafts_. Não publicar os percentuais nem afirmar que conhecimento declarado se traduz em comportamento protetivo. Reavaliar apenas com o capítulo ou estudo original e uma justificativa editorial clara para o escopo do 2e Lab Brasil.
