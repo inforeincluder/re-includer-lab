@@ -1,18 +1,38 @@
-:root{--brand-black:#080808;--brand-gold:#c9a04a;--brand-silver:#bfc0c2}
-.site-header{border-top:4px solid var(--brand-gold);border-bottom:1px solid #d7d7d7;background:#fff}
-.site-header .wrapper{min-height:82px;gap:16px}
-.site-brand{display:inline-flex;min-width:0;align-items:center;gap:12px;color:#111;text-decoration:none;flex:0 1 auto}
-.site-brand:hover{text-decoration:none}
-.site-brand-logo{display:block;flex:0 0 56px;width:56px;height:56px;max-width:56px;min-width:56px;border:1px solid var(--brand-gold);border-radius:9px;background:var(--brand-black);object-fit:contain;opacity:1;visibility:visible}
-.site-brand-copy{display:flex;min-width:0;flex-direction:column;gap:2px}
-.site-brand-name{color:#171717;font-size:1.42rem;font-weight:800;letter-spacing:-.035em;line-height:1.15}
+/* Identidade visual 2e Lab Brasil — cores integradas aos temas do site. */
+:root{--brand-black:#080808;--brand-gold:#c9a04a;--brand-silver:#c5c7ca}
+.site-header{width:100%;border-top:4px solid var(--brand-gold);border-bottom:1px solid var(--border);background:var(--bg);color:var(--text)}
+.site-header .wrapper{position:relative;display:flex;min-height:84px;align-items:center;justify-content:space-between;gap:16px}
+.site-brand{display:inline-flex;min-width:0;max-width:calc(100% - 62px);flex:0 1 auto;align-items:center;gap:12px;color:var(--text);text-decoration:none}
+.site-brand:visited,.site-brand:hover{color:var(--text);text-decoration:none}
+.site-brand-logo{display:block;width:58px;height:58px;max-width:58px;min-width:58px;flex:0 0 58px;border:1px solid var(--brand-gold);border-radius:10px;background:var(--brand-black);object-fit:contain;opacity:1;visibility:visible}
+.site-brand-copy{display:flex;min-width:0;flex-direction:column;gap:3px}
+.site-brand-name{color:var(--text);font-size:clamp(1.12rem,2.8vw,1.48rem);font-weight:800;letter-spacing:-.035em;line-height:1.15;overflow-wrap:anywhere}
 .site-brand-2e{color:#a77c2b}
-.site-brand-tagline{color:#5c6065;font-size:.78rem;font-weight:500;letter-spacing:.025em;line-height:1.35}
+.site-brand-tagline{color:var(--muted);font-size:.78rem;font-weight:600;letter-spacing:.015em;line-height:1.35}
+.site-nav{flex:0 0 auto}
+.site-nav label[for="nav-trigger"]{width:46px;height:46px;border-color:var(--border);background:var(--surface)}
+.site-nav .menu-icon svg path{fill:var(--text)}
+.site-nav .trigger{border-top:3px solid var(--brand-gold);background:var(--surface)}
+.site-nav .trigger .page-link{color:var(--text)}
+.site-nav .trigger .page-link:hover,.site-nav .trigger .page-link:focus{color:var(--link);background:var(--bg)}
 .site-header .site-brand-logo,.site-footer .footer-brand img{opacity:1!important;visibility:visible!important}
-.site-nav label[for="nav-trigger"]{border-color:#bfc0c2;background:#f7f7f7}
-.site-nav .menu-icon svg path{fill:#171717}
-.site-nav .trigger{border-top:2px solid var(--brand-gold)}
-.site-nav .trigger .page-link:hover{color:#805d1e;background:#fff}
-.site-nav .nav-trigger:focus+label{outline-color:var(--brand-gold)}
-@media(max-width:600px){.site-header .wrapper{min-height:72px;gap:8px}.site-brand{gap:9px}.site-brand-logo{flex-basis:46px;width:46px;height:46px;max-width:46px;min-width:46px}.site-brand-name{font-size:1.18rem}.site-brand-tagline{font-size:.68rem}}
+.site-footer .footer-brand img{border:1px solid var(--brand-gold);border-radius:8px;background:var(--brand-black);object-fit:contain}
+html[data-theme="dark"] .site-brand-2e{color:#e0b75f}
+html[data-theme="dark"] .site-brand-tagline{color:#c2c8d0}
+html[data-theme="sepia"] .site-brand-2e{color:#805d1e}
+html[data-contrast="high"] .site-brand-name,html[data-contrast="high"] .site-brand-tagline{color:#fff}
+@media(max-width:600px){
+ .site-header .wrapper{min-height:72px;gap:8px}
+ .site-brand{gap:9px;max-width:calc(100% - 54px)}
+ .site-brand-logo{width:48px;height:48px;max-width:48px;min-width:48px;flex-basis:48px;border-radius:8px}
+ .site-brand-name{font-size:1.18rem}
+ .site-brand-tagline{font-size:.69rem}
+ .site-nav label[for="nav-trigger"]{width:44px;height:44px}
+}
+@media(max-width:360px){
+ .site-brand{gap:7px}
+ .site-brand-logo{width:42px;height:42px;max-width:42px;min-width:42px;flex-basis:42px}
+ .site-brand-name{font-size:1.04rem}
+ .site-brand-tagline{font-size:.62rem;letter-spacing:0}
+}
 @media(prefers-reduced-motion:no-preference){.site-brand-logo{transition:border-radius .18s ease}.site-brand:hover .site-brand-logo{border-radius:14px}}
