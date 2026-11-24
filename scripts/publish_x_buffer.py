@@ -100,13 +100,20 @@ def article_hashtags(article):
 
 def build_text(article):
     hashtags = article_hashtags(article)
-    prefix = f'Novo no 2e Lab Brasil: {article["title"]}\n\n'
     suffix = f'\n\nLeia: {article["url"]}' + (f'\n\n{hashtags}' if hashtags else '')
+    header = 'Novo no 2e Lab Brasil: '
+    title = article['title']
+    title_room = 280 - len(header) - len(suffix) - 3
+    if title_room < 24:
+        raise RuntimeError('URL e hashtags ocupam espaço demais para uma publicação válida.')
+    if len(title) > title_room:
+        title = title[:title_room - 1].rstrip() + '…'
+    prefix = header + title + '\n\n'
     room = 280 - len(prefix) - len(suffix)
     description = article['description'][:max(0, room)].rstrip()
     text = prefix + description + suffix
     if len(text) > 280:
-        raise RuntimeError('O texto ultrapassou 280 caracteres mesmo após limitar a descrição.')
+        raise RuntimeError('O texto ultrapassou 280 caracteres após limitar título e descrição.')
     return text
 
 def main():
