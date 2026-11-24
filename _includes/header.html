@@ -1,0 +1,25 @@
+<header class="site-header">
+  <div class="wrapper">
+    <a class="site-brand" href="{{ '/' | relative_url }}" aria-label="{{ site.title | escape }} — página inicial">
+      <img class="site-brand-logo" src="{{ '/assets/images/2e-lab-logo.jpg' | relative_url }}" width="56" height="56" alt="" fetchpriority="high">
+      <span class="site-brand-copy">
+        <span class="site-brand-name"><span class="site-brand-2e">2e</span> Lab Brasil</span>
+        <span class="site-brand-tagline">Ciência · Educação · Inclusão</span>
+      </span>
+    </a>
+    <nav class="site-nav" aria-label="Navegação principal">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger">
+      <label for="nav-trigger" aria-label="Abrir menu de navegação">
+        <span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 18 15" width="18" height="15" focusable="false"><path d="M18,1.5H0v-1h18v1z M18,8H0V7h18v1z M18,14.5H0v-1h18v1z"/></svg></span>
+      </label>
+      <div class="trigger">
+        {% for path in site.header_pages %}
+          {% assign nav_page = site.pages | where: "path", path | first %}
+          {% if nav_page and nav_page.title %}
+            <a class="page-link" href="{{ nav_page.url | relative_url }}">{{ nav_page.title | escape }}</a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </nav>
+  </div>
+</header>
