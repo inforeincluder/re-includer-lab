@@ -48,3 +48,15 @@ A página informa que a versão consultada é uma publicação antecipada, sujei
 - Categoria: `tdah`, existente na taxonomia.
 - Páginas específicas para todas as novas tags criadas nesta proposta; o índice tags.md aponta para páginas existentes.
 - PR, commit, checks e deploy: registrar após confirmação do fluxo de publicação.
+
+
+## Resultado real de integração, build e deploy
+
+- PR: [#12](https://github.com/inforeincluder/re-includer-lab/pull/12).
+- Commit de merge: 9de5f0018181181709116f773434e0c0515a4987.
+- Artigo publicado. URL: https://inforeincluder.github.io/re-includer-lab/tdah/tdah-dificuldades-cotidianas-rotina-familiar-analise-rede/
+- Build, testes sintéticos, verificação de links e acessibilidade básica: [run 45405999545](https://github.com/inforeincluder/re-includer-lab/actions/runs/45405999545), concluído com sucesso.
+- Monitoramento científico: [run 45405999584](https://github.com/inforeincluder/re-includer-lab/actions/runs/45405999584), concluído com sucesso.
+- Deploy GitHub Pages: [run 45406179358](https://github.com/inforeincluder/re-includer-lab/actions/runs/45406179358), concluído com sucesso.
+- A primeira execução de build deste lote falhou porque as novas tags ainda não tinham páginas correspondentes. Foram criadas 16 páginas de tags e o build final passou sem falhas.
+- A execução de build gerou os arquivos HTML dos artigos aprovados. A consulta HTTP externa aos endereços públicos não pôde ser concluída neste ambiente por falha de resolução DNS; a confirmação de publicação se baseia no workflow do GitHub Pages concluído com sucesso.
