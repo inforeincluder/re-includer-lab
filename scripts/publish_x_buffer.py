@@ -47,19 +47,19 @@ def parse_article(raw, filename):
         return None
     fm = front[1]
     def field(name):
-        m = re.search(r"(?m)^" + re.escape(name) + r":\\s*(.+?)\\s*$", fm)
+        m = re.search(r"(?m)^" + re.escape(name) + r":\s*(.+?)\s*$", fm)
         return unquote(m.group(1)) if m else ""
     title = field("title")
     description = field("description")
     status = field("review_status")
     if not title or status != "publicado":
         return None
-    categories_match = re.search(r"(?m)^categories:\\s*\\[([^]]+)\\]", fm)
+    categories_match = re.search(r"(?m)^categories:\s*\\[([^]]+)\\]", fm)
     category = ""
     if categories_match:
         category = categories_match.group(1).split(",")[0].strip().strip('"').strip("'")
     explicit = field("permalink")
-    slug = re.sub(r"^\\d{4}-\\d{2}-\\d{2}-", "", filename[:-3])
+    slug = re.sub(r"^\d{4}-\d{2}-\d{2}-", "", filename[:-3])
     path = explicit.strip("/") if explicit else (f"{category}/{slug}" if category else slug)
     return {
         "title": title,
@@ -69,8 +69,8 @@ def parse_article(raw, filename):
     }
 
 def build_text(article):
-    prefix = f'Novo no 2e Lab Brasil: {article["title"]}\\n\\n'
-    suffix = f'\\n\\nLeia: {article["url"]}\\n\\n{HASHTAGS}'
+    prefix = f'Novo no 2e Lab Brasil: {article["title"]}\n\n'
+    suffix = f'\n\nLeia: {article["url"]}\n\n{HASHTAGS}'
     room = 280 - len(prefix) - len(suffix)
     description = article["description"][:max(0, room)].rstrip()
     text = prefix + description + suffix
