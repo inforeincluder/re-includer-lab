@@ -13,6 +13,8 @@ SITE = "https://inforeincluder.github.io/re-includer-lab"
 API = "https://api.buffer.com"
 TOKEN = os.environ["BUFFER_API_KEY"]
 HANDLE = os.environ.get("X_HANDLE", "2eLabBrasil").lstrip("@")
+TARGET_ARTICLE_URL = f"{SITE}/tecnologia-assistiva/tecnologias-assistivas-universidades-publicas-inclusao/"
+HASHTAGS = "#TecnologiaAssistiva #Acessibilidade #Inclusao"
 
 def request_json(url, payload=None, headers=None):
     data = None if payload is None else json.dumps(payload).encode()
@@ -86,20 +88,8 @@ def hashtag(slug):
     words = [word for word in re.split(r'[^A-Za-z0-9]+', ascii_text) if word]
     return '#' + ''.join(word[:1].upper() + word[1:] for word in words)
 
-def article_hashtags(article):
-    ordered = article.get('categories', []) + article.get('tags', [])
-    result, seen = [], set()
-    for value in ordered:
-        tag = hashtag(value)
-        if tag.lower() not in seen:
-            seen.add(tag.lower())
-            result.append(tag)
-        if len(result) == 3:
-            break
-    return ' '.join(result)
-
 def build_text(article):
-    hashtags = article_hashtags(article)
+    hashtags = HASHTAGS
     suffix = f'\n\nLeia: {article["url"]}' + (f'\n\n{hashtags}' if hashtags else '')
     header = 'Novo no 2e Lab Brasil: '
     title = article['title']
@@ -156,63 +146,45 @@ def main():
       }}
     }}'''
     existing = [edge.get("node", {}) for edge in gql(query).get("posts", {}).get("edges", [])]
-    article = next((a for a in articles if any(a["url"] in p.get("text", "") for p in existing)), None)
-    if article:
-        post = next(p for p in existing if article["url"] in p.get("text", ""))
-        if str(post.get("status", "")).lower() in ("sent", "published"):
-            print("Artigo já publicado no X; nenhuma alteração realizada.")
-            return
-        new_text = build_text(article)
-        mutation = '''mutation {
-          editPost(input: { id: "%s", text: %s }) {
-            ... on PostActionSuccess { post { id text status dueAt } }
-            ... on MutationError { message }
-          }
-        }''' % (post["id"], json.dumps(new_text, ensure_ascii=False))
-        result = gql(mutation).get("editPost", {})
-        if result.get("post"):
-            updated = result["post"]
-            print(json.dumps({
-                "status": "post_agendado_atualizado_com_hashtags",
-                "channel": channel.get("name"),
-                "article": article["url"],
-                "buffer_post_id": updated.get("id"),
-                "post_status": updated.get("status"),
-                "due_at": updated.get("dueAt"),
-                "text": updated.get("text"),
-            }, ensure_ascii=False))
-            return
-        raise RuntimeError("Buffer não confirmou a edição: " + json.dumps(result, ensure_ascii=False))
-
-    article = next((a for a in articles if not any(a["url"] in p.get("text", "") for p in existing)), None)
+    article = next((a for a in articles if a["url"] == TARGET_ARTICLE_URL), None)
     if not article:
-        print("Nenhum artigo novo para divulgar; evitando duplicata.")
-        return
-    text = build_text(article)
+        raise RuntimeError("O artigo-alvo não foi encontrado entre os artigos publicados: " + TARGET_ARTICLE_URL)
+
+    matches = [p for p in existing if article["url"] in p.get("text", "")]
+    if len(matches) != 1:
+        raise RuntimeError(
+            "Esperava encontrar exatamente um post existente para editar; "
+            f"encontrei {len(matches)}. Nenhuma criação será feita."
+        )
+
+    post = matches[0]
+    if str(post.get("status", "")).lower() != "scheduled":
+        raise RuntimeError(
+            "O post existente não está com status scheduled; nenhuma alteração foi feita. "
+            f"Status atual: {post.get('status')}"
+        )
+
+    new_text = build_text(article)
     mutation = '''mutation {
-      createPost(input: {
-        text: %s,
-        channelId: "%s",
-        schedulingType: automatic,
-        mode: addToQueue
-      }) {
-        ... on PostActionSuccess { post { id text dueAt status } }
+      editPost(input: { id: "%s", text: %s }) {
+        ... on PostActionSuccess { post { id text status dueAt } }
         ... on MutationError { message }
       }
-    }''' % (json.dumps(text, ensure_ascii=False), channel["id"])
-    result = gql(mutation).get("createPost", {})
+    }''' % (post["id"], json.dumps(new_text, ensure_ascii=False))
+    result = gql(mutation).get("editPost", {})
     if result.get("post"):
-        post = result["post"]
+        updated = result["post"]
         print(json.dumps({
-            "status": "agendado_no_buffer",
+            "status": "post_existente_atualizado_sem_criar_duplicata",
             "channel": channel.get("name"),
             "article": article["url"],
-            "buffer_post_id": post.get("id"),
-            "due_at": post.get("dueAt"),
-            "text": post.get("text"),
+            "buffer_post_id": updated.get("id"),
+            "post_status": updated.get("status"),
+            "due_at": updated.get("dueAt"),
+            "text": updated.get("text"),
         }, ensure_ascii=False))
-    else:
-        raise RuntimeError("Buffer não confirmou a criação: " + json.dumps(result, ensure_ascii=False))
+        return
+    raise RuntimeError("Buffer não confirmou a edição: " + json.dumps(result, ensure_ascii=False))
 
 if __name__ == "__main__":
     main()
