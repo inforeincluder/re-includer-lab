@@ -54,7 +54,7 @@ def parse_article(raw, filename):
     status = field("review_status")
     if not title or status != "publicado":
         return None
-    categories_match = re.search(r"(?m)^categories:\\s*\\[([^]]+)\\]", fm)
+    categories_match = re.search(r"(?m)^categories:\s*\[([^]]+)\]", fm)
     category = ""
     if categories_match:
         category = categories_match.group(1).split(",")[0].strip().strip("\\"'")
