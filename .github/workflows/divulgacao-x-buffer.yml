@@ -31,5 +31,5 @@ jobs:
       - name: Publicar próximo artigo elegível no Buffer
         env:
           BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
-          X_HANDLE: reincluder3457
+          X_HANDLE: 2eLabBrasil
         run: python scripts/publish_x_buffer.py
