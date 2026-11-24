@@ -51,3 +51,14 @@ A busca oficial do PubMed exibiu o resumo e os resultados centrais. A abertura d
 ## Decisão
 
 Retido. A pauta é relevante, mas o resumo público não fornece elementos suficientes para validar a amostra, o instrumento e os detalhes da intervenção. Não transformar aumento de pontuação em prova de competência clínica.
+
+
+## Resultado real de integração, checks e deploy
+
+- PR de publicação: [#14](https://github.com/inforeincluder/re-includer-lab/pull/14), aprovado pelos checks e mesclado em 24/11/2026.
+- Commit da branch revisada: 8e55aada4d97079a00cddf3d485f38b3a9ccc27a.
+- Commit de merge na main: 988a2c4c3cd634ac904c814080abcb8e0719f8d8.
+- Validação do monitoramento e dos workflows: [run 45408767520](https://github.com/inforeincluder/re-includer-lab/actions/runs/45408767520), concluído com sucesso.
+- Build Jekyll, sintaxe JavaScript, testes sintéticos, verificação de acessibilidade básica, links e recursos: [run 45408768739](https://github.com/inforeincluder/re-includer-lab/actions/runs/45408768739), concluído com sucesso.
+- Deploy GitHub Pages após o merge: [run 45408904142](https://github.com/inforeincluder/re-includer-lab/actions/runs/45408904142), concluído com sucesso.
+- O rascunho permanece em _drafts; não foi criado permalink público para este conteúdo.
