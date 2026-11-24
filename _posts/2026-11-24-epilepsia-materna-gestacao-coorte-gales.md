@@ -30,7 +30,7 @@ Entre as crianças incluídas, 1.725 tinham registro de epilepsia materna e/ou e
 
 O grupo de 519 casos não deve ser interpretado como um grupo de tratamento da epilepsia: o próprio estudo informa que alguns medicamentos também podem ser prescritos para outras condições.
 
-O desfecho principal foi um registro de necessidade de apoio educacional adicional no sistema galês, identificado pela sigla SEN. Também foram analisados registros relacionados a autismo, comunicação, aprendizagem, dificuldades físicas ou médicas, questões emocionais e TDAH.
+O desfecho principal foi um registro de necessidade de apoio educacional adicional no sistema galês, identificado pela sigla SEN. No estudo, SEN designa apoio adicional além do que normalmente seria esperado para uma criança da mesma idade; é uma categoria administrativa local, não uma classificação clínica. Também foram analisados registros relacionados a autismo, comunicação, aprendizagem, dificuldades físicas ou médicas, questões emocionais e TDAH.
 
 ## Principais resultados
 
@@ -48,7 +48,7 @@ A presença de associações não demonstra que a epilepsia ou um medicamento es
 
 Os resultados de vários desfechos também apareceram entre filhos de mães com epilepsia sem prescrição registrada. Isso sugere que a condição materna, sua gravidade e outros fatores podem contribuir para as associações observadas.
 
-O estudo não tinha dados suficientes sobre frequência e gravidade das crises, dose, adesão ao tratamento ou todas as circunstâncias clínicas individuais. Além disso, o registro galês de SEN não é equivalente, por definição, às categorias brasileiras de educação especial, atendimento educacional especializado ou elegibilidade para serviços.
+O estudo não tinha dados suficientes sobre frequência e gravidade das crises, dose, adesão ao tratamento ou todas as circunstâncias clínicas individuais. Os registros de atenção primária cobriam 86% das clínicas gerais do País de Gales, e os autores informam que não houve registro prospectivo do protocolo. Além disso, o registro galês de SEN não é equivalente, por definição, às categorias brasileiras de educação especial, atendimento educacional especializado ou elegibilidade para serviços.
 
 ## Um alerta importante sobre medicamentos na gestação
 
