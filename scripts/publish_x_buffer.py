@@ -3,6 +3,7 @@
 import json
 import os
 import re
+import unicodedata
 import urllib.request
 from datetime import date
 from urllib.error import HTTPError, URLError
@@ -12,7 +13,6 @@ SITE = "https://inforeincluder.github.io/re-includer-lab"
 API = "https://api.buffer.com"
 TOKEN = os.environ["BUFFER_API_KEY"]
 HANDLE = os.environ.get("X_HANDLE", "2eLabBrasil").lstrip("@")
-HASHTAGS = "#TecnologiaAssistiva #Acessibilidade #Inclusao"
 
 def request_json(url, payload=None, headers=None):
     data = None if payload is None else json.dumps(payload).encode()
@@ -54,28 +54,59 @@ def parse_article(raw, filename):
     status = field("review_status")
     if not title or status != "publicado":
         return None
-    categories_match = re.search(r"(?m)^categories:\s*\\[([^]]+)\\]", fm)
-    category = ""
-    if categories_match:
-        category = categories_match.group(1).split(",")[0].strip().strip('"').strip("'")
+    def yaml_list(name):
+        match = re.search(r"(?m)^" + re.escape(name) + r":\s*\[([^\]]*)\]", fm)
+        if not match:
+            return []
+        values = []
+        for token in re.findall(r"""["\']([^"\']+)["\']|([^,]+)""", match.group(1)):
+            value = (token[0] or token[1]).strip()
+            if value:
+                values.append(unquote(value))
+        return values
+
+    categories = yaml_list("categories")
+    tags = yaml_list("tags")
+    category = categories[0] if categories else ""
     explicit = field("permalink")
     slug = re.sub(r"^\d{4}-\d{2}-\d{2}-", "", filename[:-3])
     path = explicit.strip("/") if explicit else (f"{category}/{slug}" if category else slug)
     return {
         "title": title,
         "description": description,
+        "categories": categories,
+        "tags": tags,
         "url": f"{SITE}/{path}/",
         "date": filename[:10],
     }
 
+def hashtag(slug):
+    normalized = unicodedata.normalize('NFKD', slug)
+    ascii_text = ''.join(ch for ch in normalized if not unicodedata.combining(ch))
+    words = [word for word in re.split(r'[^A-Za-z0-9]+', ascii_text) if word]
+    return '#' + ''.join(word[:1].upper() + word[1:] for word in words)
+
+def article_hashtags(article):
+    ordered = article.get('categories', []) + article.get('tags', [])
+    result, seen = [], set()
+    for value in ordered:
+        tag = hashtag(value)
+        if tag.lower() not in seen:
+            seen.add(tag.lower())
+            result.append(tag)
+        if len(result) == 3:
+            break
+    return ' '.join(result)
+
 def build_text(article):
+    hashtags = article_hashtags(article)
     prefix = f'Novo no 2e Lab Brasil: {article["title"]}\n\n'
-    suffix = f'\n\nLeia: {article["url"]}\n\n{HASHTAGS}'
+    suffix = f'\n\nLeia: {article["url"]}' + (f'\n\n{hashtags}' if hashtags else '')
     room = 280 - len(prefix) - len(suffix)
-    description = article["description"][:max(0, room)].rstrip()
+    description = article['description'][:max(0, room)].rstrip()
     text = prefix + description + suffix
     if len(text) > 280:
-        raise RuntimeError("O texto ultrapassou 280 caracteres mesmo após limitar a descrição.")
+        raise RuntimeError('O texto ultrapassou 280 caracteres mesmo após limitar a descrição.')
     return text
 
 def main():
