@@ -4,7 +4,7 @@ title: "Treinamento de gestão de metas para adolescentes com TDAH: o que mostro
 date: 2026-11-24
 description: "Ensaio randomizado com 116 adolescentes não encontrou benefício adicional do treinamento de gestão de metas ao tratamento habitual após 12 semanas."
 categories: [tdah]
-tags: ["tdah", "funcoes-executivas", "adolescencia", "pesquisa"]
+tags: ["tdah", "2e", "familia"]
 authors: "Agnete Dyresen, Jan Stubberud, Krister Westlye Fjermestad, Anne Myge Gulsrud, Anne Benedicte Skirbekk, Ingvild Haugen e Merete Glenne Øie"
 journal: "Research on Child and Adolescent Psychopathology"
 publication_type: "ensaio clínico randomizado multicêntrico pré-registrado"
