@@ -14,8 +14,8 @@ pmid: ""
 source_url: "https://doi.org/10.1038/s44220-026-00755-w"
 source_database: "OpenAlex"
 source_databases: ["OpenAlex"]
-evidence_level: "hipótese — trata-se de um artigo de perspectiva que propõe um novo conceito teórico para futuras investigações, sem apresentar dados de um estudo empírico original."
-editorial_status: "aguardando revisão humana"
+evidence_level: "hipótese — artigo de perspectiva que propõe um conceito teórico; não apresenta dados empíricos originais."
+editorial_status: "RETIDO — texto integral sob assinatura; resumo não permite validar integralmente as evidências e limitações."
 ---
 
 > **Rascunho editorial — não publicado.** Texto preparado com auxílio de IA a partir do resumo bibliográfico. Confira o artigo original antes de aprovar.
@@ -64,4 +64,4 @@ Mark Henry Johnson, Tony Charman, Varun Warrier, Emily Jones (2026-11-18). *Eluc
 
 ---
 
-**Revisão humana necessária:** confirmar a referência, conferir métodos e resultados no texto original, validar a classificação da evidência e revisar a redação antes de mover este arquivo para `_posts/`.
+**Revisão humana necessária:** confirmar a referência, conferir métodos e resultados no texto original, validar a classificação da evidência e revisar a redação antes de mover este arquivo para _posts/.

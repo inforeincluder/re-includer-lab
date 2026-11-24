@@ -14,8 +14,8 @@ pmid: "43057976"
 source_url: "https://pubmed.ncbi.nlm.nih.gov/43057976/"
 source_database: "PubMed"
 source_databases: ["PubMed"]
-evidence_level: "preliminar — o estudo apresenta resultados imediatos baseados apenas em questionários, sem grupo controle ou avaliação de impacto na prática clínica."
-editorial_status: "aguardando revisão humana"
+evidence_level: "preliminar — estudo de grupo único com questionários e pós-teste imediato; não demonstra competência clínica nem retenção do conhecimento."
+editorial_status: "RETIDO — fonte integral inacessível e tamanho da amostra não verificável no resumo público."
 ---
 
 > **Rascunho editorial — não publicado.** Texto preparado com auxílio de IA a partir do resumo bibliográfico. Confira o artigo original antes de aprovar.
@@ -64,4 +64,4 @@ Alshqerat S, Kassab M, Eshah N, Rayan A, Oweidat I, Alsaqer K, ALBashtawy M, Alk
 
 ---
 
-**Revisão humana necessária:** confirmar a referência, conferir métodos e resultados no texto original, validar a classificação da evidência e revisar a redação antes de mover este arquivo para `_posts/`.
+**Revisão humana necessária:** confirmar a referência, conferir métodos e resultados no texto original, validar a classificação da evidência e revisar a redação antes de mover este arquivo para _posts/.

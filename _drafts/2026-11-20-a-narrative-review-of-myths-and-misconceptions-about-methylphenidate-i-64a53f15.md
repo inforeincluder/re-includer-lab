@@ -14,8 +14,8 @@ pmid: "43061900"
 source_url: "https://pubmed.ncbi.nlm.nih.gov/43061900/"
 source_database: "PubMed"
 source_databases: ["PubMed"]
-evidence_level: "preliminar — trata-se de uma revisão narrativa que sintetiza evidências existentes para combater mitos, sem apresentar novos dados experimentais ou clínicos originais."
-editorial_status: "aguardando revisão humana"
+evidence_level: "revisão narrativa; a fonte integral e a sustentação das afirmações clínicas não foram verificadas nesta revisão."
+editorial_status: "RETIDO PARA REVISÃO ESPECIALIZADA — texto integral inacessível; afirmações farmacológicas amplas não verificáveis."
 ---
 
 > **Rascunho editorial — não publicado.** Texto preparado com auxílio de IA a partir do resumo bibliográfico. Confira o artigo original antes de aprovar.
@@ -64,4 +64,4 @@ Patel MR, Hughes JA, Childress AC (2026-11-20). *A Narrative Review of Myths and
 
 ---
 
-**Revisão humana necessária:** confirmar a referência, conferir métodos e resultados no texto original, validar a classificação da evidência e revisar a redação antes de mover este arquivo para `_posts/`.
+**Revisão humana necessária:** confirmar a referência, conferir métodos e resultados no texto original, validar a classificação da evidência e revisar a redação antes de mover este arquivo para _posts/.
