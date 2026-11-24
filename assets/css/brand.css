@@ -1,17 +1,18 @@
 :root{--brand-black:#080808;--brand-gold:#c9a04a;--brand-silver:#bfc0c2}
 .site-header{border-top:4px solid var(--brand-gold);border-bottom:1px solid #d7d7d7;background:#fff}
 .site-header .wrapper{min-height:82px;gap:16px}
-.site-brand{display:inline-flex;min-width:0;align-items:center;gap:12px;color:#111;text-decoration:none}
+.site-brand{display:inline-flex;min-width:0;align-items:center;gap:12px;color:#111;text-decoration:none;flex:0 1 auto}
 .site-brand:hover{text-decoration:none}
-.site-brand-logo{display:block;flex:0 0 56px;width:56px;height:56px;border:1px solid var(--brand-gold);border-radius:9px;background:var(--brand-black);object-fit:cover}
+.site-brand-logo{display:block;flex:0 0 56px;width:56px;height:56px;max-width:56px;min-width:56px;border:1px solid var(--brand-gold);border-radius:9px;background:var(--brand-black);object-fit:contain;opacity:1;visibility:visible}
 .site-brand-copy{display:flex;min-width:0;flex-direction:column;gap:2px}
 .site-brand-name{color:#171717;font-size:1.42rem;font-weight:800;letter-spacing:-.035em;line-height:1.15}
 .site-brand-2e{color:#a77c2b}
 .site-brand-tagline{color:#5c6065;font-size:.78rem;font-weight:500;letter-spacing:.025em;line-height:1.35}
+.site-header .site-brand-logo,.site-footer .footer-brand img{opacity:1!important;visibility:visible!important}
 .site-nav label[for="nav-trigger"]{border-color:#bfc0c2;background:#f7f7f7}
 .site-nav .menu-icon svg path{fill:#171717}
 .site-nav .trigger{border-top:2px solid var(--brand-gold)}
 .site-nav .trigger .page-link:hover{color:#805d1e;background:#fff}
 .site-nav .nav-trigger:focus+label{outline-color:var(--brand-gold)}
-@media(max-width:600px){.site-header .wrapper{min-height:72px;gap:8px}.site-brand{gap:9px}.site-brand-logo{flex-basis:46px;width:46px;height:46px}.site-brand-name{font-size:1.18rem}.site-brand-tagline{font-size:.68rem}}
+@media(max-width:600px){.site-header .wrapper{min-height:72px;gap:8px}.site-brand{gap:9px}.site-brand-logo{flex-basis:46px;width:46px;height:46px;max-width:46px;min-width:46px}.site-brand-name{font-size:1.18rem}.site-brand-tagline{font-size:.68rem}}
 @media(prefers-reduced-motion:no-preference){.site-brand-logo{transition:border-radius .18s ease}.site-brand:hover .site-brand-logo{border-radius:14px}}
