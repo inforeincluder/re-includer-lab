@@ -44,3 +44,11 @@ McGhee Hassrick E et al. *Opening the Door to Autism Detection in Childcare Sett
 - Branch: \`editorial/revisao-2026-11-24\`.
 - PR: pendente de abertura nesta etapa.
 - Commit final, checks e deploy: registrar somente após confirmação real.
+
+
+## Resultado real de integração, build e deploy
+
+- PR: [#11](https://github.com/inforeincluder/re-includer-lab/pull/11).
+- Artigo publicado; PR #11; commit de merge 74565b2082ae0fed1b630103c6b1257fa8c60d78; build e validações PR run 45402257364 (success); monitoramento PR run 45402258163 (success); deploy Pages run 45403807763 (success).
+- URL publicada: https://inforeincluder.github.io/re-includer-lab/educacao-inclusao/autismo-comunicacao-creches-estudo-qualitativo/
+- A execução de build gerou as páginas HTML dos artigos aprovados. A consulta HTTP externa aos endereços públicos não pôde ser concluída neste ambiente por falha de resolução DNS; a confirmação de publicação se baseia no workflow do GitHub Pages concluído com sucesso.

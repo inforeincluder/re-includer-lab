@@ -37,3 +37,10 @@ Não foi possível verificar no texto primário o tamanho da amostra, critérios
 ## Decisão
 
 Manter em \`_drafts/\`. Não publicar alegações de diagnóstico, rastreamento ou precisão clínica. Reavaliar quando o texto integral e os dados metodológicos estiverem disponíveis.
+
+
+## Resultado real de integração, build e deploy
+
+- PR: [#11](https://github.com/inforeincluder/re-includer-lab/pull/11).
+- Rascunho retido; PR #11; commit de merge 74565b2082ae0fed1b630103c6b1257fa8c60d78; build e validações PR run 45402257364 (success); monitoramento PR run 45402258163 (success); deploy Pages run 45403807763 (success).
+- A execução de build gerou as páginas HTML dos artigos aprovados. A consulta HTTP externa aos endereços públicos não pôde ser concluída neste ambiente por falha de resolução DNS; a confirmação de publicação se baseia no workflow do GitHub Pages concluído com sucesso.

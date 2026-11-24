@@ -34,3 +34,15 @@
 ## Decisão
 
 Manter em `_drafts/` com estado **RETIDO**. Não afirmar que o artigo é inexistente ou que os dados são falsos; a falha é de verificação da fonte primária. Reavaliar quando a página oficial da ACS ou o texto original puder ser consultado.
+
+
+## Resultado real de integração, build e deploy
+
+- PR: [#12](https://github.com/inforeincluder/re-includer-lab/pull/12).
+- Commit de merge: 9de5f0018181181709116f773434e0c0515a4987.
+- Rascunho retido; não há URL de publicação.
+- Build, testes sintéticos, verificação de links e acessibilidade básica: [run 45405999545](https://github.com/inforeincluder/re-includer-lab/actions/runs/45405999545), concluído com sucesso.
+- Monitoramento científico: [run 45405999584](https://github.com/inforeincluder/re-includer-lab/actions/runs/45405999584), concluído com sucesso.
+- Deploy GitHub Pages: [run 45406179358](https://github.com/inforeincluder/re-includer-lab/actions/runs/45406179358), concluído com sucesso.
+- A primeira execução de build deste lote falhou porque as novas tags ainda não tinham páginas correspondentes. Foram criadas 16 páginas de tags e o build final passou sem falhas.
+- A execução de build gerou os arquivos HTML dos artigos aprovados. A consulta HTTP externa aos endereços públicos não pôde ser concluída neste ambiente por falha de resolução DNS; a confirmação de publicação se baseia no workflow do GitHub Pages concluído com sucesso.
