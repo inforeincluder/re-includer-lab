@@ -64,3 +64,8 @@ O portal busca atender:
 A diversidade humana não pode ser compreendida adequadamente por uma única condição, diagnóstico ou medida de desempenho.
 
 Investigar as interações entre habilidades, dificuldades, ambiente, desenvolvimento e oportunidades é fundamental para ampliar a compreensão da experiência neurodivergente.
+
+
+## Acompanhe o projeto
+
+Publicamos atualizações, novos artigos e discussões sobre neurodiversidade e dupla excepcionalidade no X: [@2eLabBrasil](https://x.com/2eLabBrasil).
