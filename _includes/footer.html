@@ -20,6 +20,11 @@
       <p><a href="https://x.com/2eLabBrasil" rel="me noopener noreferrer" target="_blank">Acompanhe o 2e Lab Brasil no X (@2eLabBrasil)</a></p>
     </div>
 
+    <div class="footer-brand">
+      <img src="{{ '/assets/images/2e-lab-logo.jpg' | relative_url }}" width="44" height="44" alt="" loading="lazy">
+      <span><strong>2e Lab Brasil</strong><br><span>Ciência · Educação · Inclusão</span></span>
+    </div>
+
     <div class="footer-bottom">
       <p>{{ site.title | escape }} · {{ site.description | escape }}</p>
       <p><a href="{{ '/privacidade/' | relative_url }}">Privacidade</a> · <a href="{{ '/transparencia-comercial/' | relative_url }}">Transparência comercial</a></p>
@@ -27,6 +32,9 @@
   </div>
   <style>
     .footer-navigation, .footer-contact { margin: 0 0 1.5rem; }
+    .footer-brand { display:flex; align-items:center; gap:.75rem; margin:1.5rem 0; color:var(--muted); }
+    .footer-brand img { border:1px solid #c9a04a; border-radius:7px; background:#080808; }
+    .footer-brand strong { color:var(--text); }
     .footer-heading { margin: 0 0 .65rem; font-size: 1rem; font-weight: 700; }
     .footer-navigation ul { display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; list-style: none; margin: 0; padding: 0; }
     .footer-navigation li { margin: 0; }
