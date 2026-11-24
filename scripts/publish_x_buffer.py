@@ -57,7 +57,7 @@ def parse_article(raw, filename):
     categories_match = re.search(r"(?m)^categories:\s*\[([^]]+)\]", fm)
     category = ""
     if categories_match:
-        category = categories_match.group(1).split(",")[0].strip().strip("\\"'")
+        category = categories_match.group(1).split(",")[0].strip().strip('"').strip("'")
     explicit = field("permalink")
     slug = re.sub(r"^\d{4}-\d{2}-\d{2}-", "", filename[:-3])
     path = explicit.strip("/") if explicit else (f"{category}/{slug}" if category else slug)
