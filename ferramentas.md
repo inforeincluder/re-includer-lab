@@ -9,6 +9,10 @@ description: Modelos e exemplos sintéticos para organizar observações, reconh
 
 Esta biblioteca reúne recursos simples para famílias, pessoas neurodivergentes e educadores. As ferramentas organizam informações e apoiam conversas; não fazem diagnóstico nem substituem avaliação profissional.
 
+## Recomendações de equipamentos e recursos digitais
+
+Consulte também nossa [seleção editorial de tablets, teclados, mouses, áudio e acessórios de tecnologia assistiva](/re-includer-lab/recomendacoes-tecnologia-assistiva/). A página apresenta usos possíveis, limitações e cuidados de compatibilidade, além de informar quando há links de afiliado.
+
 ## Navegue pela biblioteca
 
 Use os atalhos abaixo para chegar ao tipo de apoio que procura. Os guias podem ser utilizados separadamente; não é necessário seguir uma ordem.
