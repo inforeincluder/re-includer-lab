@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Como escolher um tablet para leitura, aprendizagem e acessibilidade digital"
-date: 2026-11-25 09:00:00 -0300
+date: 2026-11-24 22:00:00 -0300
 description: "Veja como comparar tamanho de tela, memória, armazenamento, bateria, compatibilidade e recursos antes de escolher um tablet para leitura e aprendizagem."
 categories: [tecnologia-assistiva, educacao-inclusiva]
 tags: ["tablet para estudar", "tablet para leitura", "acessibilidade digital", "tecnologia assistiva", "aprendizagem"]
