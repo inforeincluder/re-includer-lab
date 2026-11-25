@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Headphone ou protetor auditivo? Entenda as diferenças antes de escolher"
-date: 2026-11-25 09:20:00 -0300
+date: 2026-11-24 22:00:00 -0300
 description: "Headphones e protetores auditivos têm finalidades diferentes. Saiba comparar uso, conforto, atenuação de ruído e cuidados de segurança."
 categories: [acessibilidade-digital, tecnologia-assistiva]
 tags: ["headphone", "protetor auditivo", "ruído", "acessibilidade sensorial", "segurança auditiva"]
