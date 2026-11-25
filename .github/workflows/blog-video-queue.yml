@@ -57,7 +57,7 @@ jobs:
                   entry_id = (entry.findtext("atom:id", default=link, namespaces=ns) or link).strip()
                   if entry_id:
                       baseline.append(entry_id)
-              state_path.write_text(json.dumps({"processed": sorted(set(baseline))}, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
+              state_path.write_text(json.dumps({"processed": sorted(set(baseline))}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
               print(f"Histórico inicial registrado: {len(baseline)} artigos. Nenhuma pauta antiga foi criada.")
               raise SystemExit(0)
 
