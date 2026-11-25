@@ -1,0 +1,111 @@
+name: Detectar novos artigos para vídeos
+
+on:
+  schedule:
+    - cron: "0 12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: blog-video-queue
+  cancel-in-progress: false
+
+jobs:
+  detect-new-posts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Verificar feed e criar pautas
+        run: |
+          python - <<'PY'
+          import json
+          import re
+          import urllib.request
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          from datetime import datetime, timezone
+
+          feed_url = "https://inforeincluder.github.io/re-includer-lab/feed.xml"
+          state_path = Path(".github/video-queue-state.json")
+          queue_dir = Path(".github/video-queue")
+          queue_dir.mkdir(parents=True, exist_ok=True)
+
+          state = json.loads(state_path.read_text(encoding="utf-8")) if state_path.exists() else {"processed": []}
+          processed = set(state.get("processed", []))
+
+          request = urllib.request.Request(feed_url, headers={"User-Agent": "2eLabBlogVideoQueue/1.0"})
+          with urllib.request.urlopen(request, timeout=30) as response:
+              xml_data = response.read()
+
+          root = ET.fromstring(xml_data)
+          ns = {"atom": "http://www.w3.org/2005/Atom"}
+          entries = root.findall("atom:entry", ns)
+          created = 0
+
+          for entry in entries:
+              title = (entry.findtext("atom:title", default="Sem título", namespaces=ns) or "Sem título").strip()
+              link_el = entry.find("atom:link", ns)
+              link = link_el.attrib.get("href", "") if link_el is not None else ""
+              entry_id = (entry.findtext("atom:id", default=link, namespaces=ns) or link).strip()
+              summary = (entry.findtext("atom:summary", default="", namespaces=ns) or "").strip()
+              published = (entry.findtext("atom:published", default="", namespaces=ns) or "").strip()
+
+              if not entry_id or entry_id in processed:
+                  continue
+
+              slug = re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-")[:70] or "artigo"
+              filename = queue_dir / f"{slug}.md"
+              suffix = 2
+              while filename.exists():
+                  filename = queue_dir / f"{slug}-{suffix}.md"
+                  suffix += 1
+
+              body = f"""# Pauta de vídeo: {title}
+
+          - Status: Aguardando revisão humana
+          - Artigo: {link}
+          - Publicado no blog: {published or "Data não informada"}
+          - Detectado em: {datetime.now(timezone.utc).isoformat()}
+
+          ## Resumo do feed
+
+          {summary or "O feed não forneceu resumo."}
+
+          ## Próximas etapas
+
+          1. Conferir o artigo original e suas fontes.
+          2. Preparar roteiro audiovisual.
+          3. Revisar afirmações científicas.
+          4. Produzir narração feminina e ilustrações.
+          5. Aprovar manualmente antes de qualquer publicação no YouTube.
+
+          **Este registro não publica nem envia vídeos automaticamente.**
+          """
+              filename.write_text(body, encoding="utf-8")
+              processed.add(entry_id)
+              created += 1
+
+          state_path.write_text(json.dumps({"processed": sorted(processed)}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          print(f"Novas pautas criadas: {created}")
+          PY
+
+      - name: Salvar pautas no repositório
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/video-queue .github/video-queue-state.json
+          if git diff --cached --quiet; then
+            echo "Nenhum artigo novo."
+          else
+            git commit -m "Criar pautas de vídeo para novos artigos"
+            git push
+          fi
