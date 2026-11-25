@@ -39,9 +39,6 @@ jobs:
           queue_dir = Path(".github/video-queue")
           queue_dir.mkdir(parents=True, exist_ok=True)
 
-          state = json.loads(state_path.read_text(encoding="utf-8")) if state_path.exists() else {"processed": []}
-          processed = set(state.get("processed", []))
-
           request = urllib.request.Request(feed_url, headers={"User-Agent": "2eLabBlogVideoQueue/1.0"})
           with urllib.request.urlopen(request, timeout=30) as response:
               xml_data = response.read()
@@ -49,6 +46,23 @@ jobs:
           root = ET.fromstring(xml_data)
           ns = {"atom": "http://www.w3.org/2005/Atom"}
           entries = root.findall("atom:entry", ns)
+
+          # Na primeira execução, registra o conteúdo já existente como histórico.
+          # Assim, somente artigos publicados depois da ativação viram novas pautas.
+          if not state_path.exists():
+              baseline = []
+              for entry in entries:
+                  link_el = entry.find("atom:link", ns)
+                  link = link_el.attrib.get("href", "") if link_el is not None else ""
+                  entry_id = (entry.findtext("atom:id", default=link, namespaces=ns) or link).strip()
+                  if entry_id:
+                      baseline.append(entry_id)
+              state_path.write_text(json.dumps({"processed": sorted(set(baseline))}, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
+              print(f"Histórico inicial registrado: {len(baseline)} artigos. Nenhuma pauta antiga foi criada.")
+              raise SystemExit(0)
+
+          state = json.loads(state_path.read_text(encoding="utf-8"))
+          processed = set(state.get("processed", []))
           created = 0
 
           for entry in entries:
