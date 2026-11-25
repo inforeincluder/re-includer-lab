@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Teclado, mouse e Bluetooth: como montar uma estação digital acessível"
-date: 2026-11-25 09:10:00 -0300
+date: 2026-11-24 22:00:00 -0300
 description: "Entenda como escolher teclado, mouse e adaptador Bluetooth para computador ou tablet, considerando ergonomia, compatibilidade e necessidades de acesso."
 categories: [tecnologia-assistiva, acessibilidade-digital]
 tags: ["teclado bluetooth", "mouse sem fio", "adaptador bluetooth USB", "acessibilidade no computador", "periféricos"]
