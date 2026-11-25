@@ -15,6 +15,7 @@ Aqui você encontra explicações em linguagem clara, análises de assuntos atua
 - [O que é dupla excepcionalidade? Leia o guia de estreia]({{ '/dupla-excepcionalidade/dupla-excepcionalidade-brasil-o-que-as-pesquisas-mostram/' | relative_url }})
 - [Ver todos os artigos publicados]({{ '/artigos/' | relative_url }})
 - [Ferramentas práticas gratuitas](/re-includer-lab/ferramentas/)
+- [Recomendações de tecnologia assistiva: tablets, teclados, áudio e acessórios](/re-includer-lab/recomendacoes-tecnologia-assistiva/)
 - [Fontes e metodologia editorial](/re-includer-lab/fontes-e-metodologia/)
 - [Sobre o 2e Lab Brasil](/re-includer-lab/sobre/)
 - [Como monitoramos a visibilidade do 2e Lab nas IAs](/re-includer-lab/visibilidade-ia/)
