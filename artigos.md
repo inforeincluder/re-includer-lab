@@ -20,10 +20,10 @@ Consulte os conteúdos publicados pelo 2e Lab Brasil. A lista é atualizada auto
     <p>{{ post.excerpt | strip_html | normalize_whitespace | truncate: 220 }}</p>
     {% endif %}
     {% if post.categories and post.categories.size > 0 %}
-    <p class="post-meta">Categorias: {% for category in post.categories %}<a href="{{ '/categorias/' | append: category | append: '/' | relative_url }}">{{ category | replace: "-", " " }}</a>{% unless forloop.last %} · {% endunless %}{% endfor %}</p>
+    <p class="post-meta">Categorias: {{ post.categories | join: ", " | replace: "-", " " }}</p>
     {% endif %}
     {% if post.tags and post.tags.size > 0 %}
-    <p class="post-meta">Tags: {% for tag in post.tags %}<a href="{{ '/tags/' | append: tag | append: '/' | relative_url }}">{{ tag | replace: "-", " " }}</a>{% unless forloop.last %} · {% endunless %}{% endfor %}</p>
+    <p class="post-meta">Temas: {{ post.tags | join: ", " }}</p>
     {% endif %}
   </li>
   {% endfor %}
