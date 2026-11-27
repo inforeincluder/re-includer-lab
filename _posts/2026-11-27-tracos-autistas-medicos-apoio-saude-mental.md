@@ -6,13 +6,12 @@ description: "Estudo britânico encontrou triagem positiva para traços autistas
 permalink: /neurodivergencia-adulta/tracos-autistas-medicos-apoio-saude-mental/
 categories: [neurodivergencia-adulta, trabalho-politicas-publicas]
 tags: [autismo, trabalho, neurodivergencia-adulta, saude-mental, acessibilidade-no-trabalho]
-authors: "L. Abeyratne et al."
+author: "2e Lab Brasil"
 journal: "Occupational Medicine"
 publication_type: "Análise transversal de dados autorrelatados"
 publication_date: "2026-11-14"
 doi: "10.1093/occmed/kqag128"
 source_url: "https://academic.oup.com/occmed/advance-article/doi/10.1093/occmed/kqag128/9055809"
-source_database: "Oxford Academic"
 evidence_level: "Estudo transversal de serviço especializado; triagem por questionário, não avaliação diagnóstica."
 editorial_status: "APROVADO — publicação editorial"
 ---

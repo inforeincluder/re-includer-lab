@@ -6,13 +6,12 @@ description: "Estudo com organoides derivados de células de homens autistas inv
 permalink: /autismo/redes-geneticas-organoides-desenvolvimento-autismo/
 categories: [autismo]
 tags: [autismo, organoides-cerebrais, genetica, epigenetica, neurodesenvolvimento, heterogeneidade]
-authors: "Alexandre Jourdon et al."
+author: "2e Lab Brasil"
 journal: "Nature Communications"
 publication_type: "Estudo experimental in vitro com organoides de prosencéfalo"
 publication_date: "2026-11-14"
 doi: "10.1038/s41467-026-79602-6"
 source_url: "https://doi.org/10.1038/s41467-026-79602-6"
-source_database: "Nature Communications"
 evidence_level: "Estudo experimental in vitro com amostra pequena e exclusivamente masculina; não demonstra mecanismo causal em pessoas nem aplicação clínica."
 editorial_status: "APROVADO — publicação editorial"
 ---
@@ -28,6 +27,10 @@ Os pesquisadores integraram análises epigenômicas e transcriptômicas e utiliz
 Organoides são modelos laboratoriais: não reproduzem toda a organização, as experiências ou a complexidade de um cérebro em desenvolvimento. O estudo também tem uma amostra pequena, composta apenas por homens, e encontrou perfis diferentes entre subgrupos definidos por perímetro cefálico. Portanto, não descreve um padrão genético único para todas as pessoas autistas.
 
 Os resultados ajudam a formular hipóteses sobre heterogeneidade biológica e regulação gênica. Não identificam um teste diagnóstico, não permitem prever características individuais e não demonstram uma causa única para o autismo.
+
+## Leia também
+
+- [Autismo e variabilidade cerebral: o que um estudo de neuroimagem encontrou](/re-includer-lab/autismo/variabilidade-cerebral-autismo-neuroimagem/)
 
 ## Referência
 

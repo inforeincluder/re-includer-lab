@@ -6,13 +6,12 @@ description: "Simulação neurocomputacional testa hipóteses sobre integração
 permalink: /autismo/modelo-computacional-integracao-multissensorial-autismo/
 categories: [autismo, cognicao-funcoes-executivas]
 tags: [autismo, processamento-multissensorial, neurocomputacao, desenvolvimento-cognitivo, pesquisa-cientifica]
-authors: "Melissa Monti, Sophie Molholm, John J. Foxe, Cristiano Cuppini"
+author: "2e Lab Brasil"
 journal: "Frontiers in Human Neuroscience"
 publication_type: "Modelagem neurocomputacional calibrada com dados comportamentais publicados"
 publication_date: "2026-11-19"
 doi: "10.3389/fnhum.2026.1949669"
 source_url: "https://www.frontiersin.org/journals/human-neuroscience/articles/10.3389/fnhum.2026.1949669/full"
-source_database: "Frontiers"
 evidence_level: "Modelo computacional exploratório; reproduz dados comportamentais publicados sob pressupostos simplificadores e não comprova mecanismos biológicos ou benefício de intervenções."
 editorial_status: "APROVADO — publicação editorial"
 ---
@@ -32,6 +31,10 @@ A relação entre etapas de treinamento e idade foi uma simplificação: os auto
 Os autores afirmam que os resultados não demonstram benefício clínico, viabilidade ou conveniência de intervenções multissensoriais para pessoas autistas. A simulação não justifica aumentar a exposição sensorial de uma criança nem desconsiderar suas preferências, necessidades ou limites.
 
 O valor do trabalho está em organizar hipóteses que poderão ser testadas por pesquisas futuras, não em oferecer uma explicação definitiva para o processamento sensorial de cada pessoa.
+
+## Leia também
+
+- [Autismo e variabilidade cerebral: o que um estudo de neuroimagem encontrou](/re-includer-lab/autismo/variabilidade-cerebral-autismo-neuroimagem/)
 
 ## Referência
 

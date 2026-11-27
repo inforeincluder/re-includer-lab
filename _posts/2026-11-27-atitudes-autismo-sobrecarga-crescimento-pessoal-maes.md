@@ -6,13 +6,12 @@ description: "Pesquisa transversal realizada na Polônia encontrou associações
 permalink: /autismo/atitudes-autismo-sobrecarga-crescimento-pessoal-maes/
 categories: [autismo, saude-bem-estar]
 tags: [autismo, familia, cuidadores, sobrecarga-do-cuidador, neurodiversidade, saude-mental]
-authors: "Kinga Ferenc et al."
+author: "2e Lab Brasil"
 journal: "Journal of Autism and Developmental Disorders"
 publication_type: "Estudo transversal com questionários e análise estatística de mediação"
 publication_date: "2026-11-17"
 doi: "10.1007/s10803-026-07608-6"
 source_url: "https://link.springer.com/article/10.1007/s10803-026-07608-6"
-source_database: "Springer Nature"
 evidence_level: "Estudo transversal autorrelatado; associações estatísticas não estabelecem direção causal e a amostra não representa todas as famílias."
 editorial_status: "APROVADO — publicação editorial"
 ---
@@ -36,6 +35,10 @@ O estudo incluiu apenas mães na Polônia; pais e uma pessoa não binária foram
 ## Transparência
 
 Os autores declararam não haver interesses financeiros ou não financeiros relevantes. O estudo recebeu apoio de recursos destinados à manutenção e ao desenvolvimento da capacidade de pesquisa do Instituto de Psicologia da SWPS University, na Polônia.
+
+## Leia também
+
+- [Cuidar de uma criança autista: o que um estudo sobre metáforas revela](/re-includer-lab/autismo/cuidadores-criancas-autistas-percepcoes-metaforicas/)
 
 ## Referência
 

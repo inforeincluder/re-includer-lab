@@ -6,13 +6,12 @@ description: "Estudo retrospectivo com 749 adultos encontrou associação entre 
 permalink: /tdah/perfis-sintomas-desregulacao-emocional-tdah-adultos/
 categories: [tdah, neurodivergencia-adulta]
 tags: [tdah, desregulacao-emocional, adultos, saude-mental, funcionamento-diario]
-authors: "Taini Theuerkorn, Nicole Mauche, Jue Huang, Christian Makiol, Maria Strauß"
+author: "2e Lab Brasil"
 journal: "Frontiers in Psychology"
 publication_type: "Estudo retrospectivo transversal com análise de classes latentes"
 publication_date: "2026-11-23"
 doi: "10.3389/fpsyg.2026.1988484"
 source_url: "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2026.1988484/full"
-source_database: "Frontiers"
 evidence_level: "Estudo observacional retrospectivo de centro único; resultados exploratórios, sem inferência causal ou validação de uma nova categoria diagnóstica."
 editorial_status: "APROVADO — publicação editorial"
 ---
@@ -36,6 +35,11 @@ A amostra veio de um único serviço especializado e excluiu pessoas com algumas
 ## Transparência
 
 Uma das autoras declarou honorários por palestras de MEDICE, Takeda e Janssen Cilag, além de participação em conselhos consultivos da Takeda e da Janssen Cilag. O artigo informa que os demais autores não declararam conflitos comerciais ou financeiros. Os autores também declararam uso de IA generativa para revisar código R e editar a linguagem do manuscrito; afirmam ter revisado as saídas e assumido responsabilidade pelas análises e pelo texto final.
+
+## Leia também
+
+- [TDAH na infância: como dificuldades do dia a dia se relacionam com a rotina familiar](/re-includer-lab/tdah/tdah-dificuldades-cotidianas-rotina-familiar-analise-rede/)
+- [TDAH e envelhecimento cognitivo: o que dois estudos de coorte mostram](/re-includer-lab/tdah/tdah-envelhecimento-cognitivo-estudos-coorte/)
 
 ## Referência
 
