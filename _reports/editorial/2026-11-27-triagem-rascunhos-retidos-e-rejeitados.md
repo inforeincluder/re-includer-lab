@@ -61,4 +61,21 @@
 ## Integração e deploy
 
 - Os cinco artigos aprovados foram preparados em branch separada e enviados a PR.
-- Número do PR, commit de merge, checks e deploy: a registrar após conclusão real do fluxo.
+## Integração e deploy — resultado final
+
+- PR: [#16 — Publica cinco artigos revisados](https://github.com/inforeincluder/re-includer-lab/pull/16), mesclado em 27/11/2026.
+- Branch: `publish/2026-11-27-editorial-batch-01`.
+- Commit da branch após revisão final: `a932eb3b83489d338c12cc745c7029ef7f2c38d9`.
+- Commit de merge na main: `025904ba63a931985bf0ac189ee29159691a97cc`.
+- Checks do PR: [build, sintaxe JavaScript, testes sintéticos, links e acessibilidade básica — sucesso](https://github.com/inforeincluder/re-includer-lab/actions/runs/46004643021); [validação de código e workflows — sucesso](https://github.com/inforeincluder/re-includer-lab/actions/runs/46004642863).
+- Deploy após merge na main: [workflow 46004727414 — concluído com sucesso](https://github.com/inforeincluder/re-includer-lab/actions/runs/46004727414). As etapas de build, testes, verificação de links/recursos e publicação no GitHub Pages passaram.
+- Os cinco artigos foram integrados em `_posts/`; os cinco rascunhos de origem foram removidos no mesmo PR, depois de os arquivos finais estarem prontos.
+- A abertura direta dos cinco permalinks falhou no cliente de consulta por erro interno. Portanto, o deploy está confirmado pelo GitHub Actions, mas a resposta HTTP/renderização independente de cada página não foi confirmada.
+
+### Artigos publicados
+
+- [TDAH em adultos: perfis exploratórios de sintomas e desregulação emocional](/re-includer-lab/tdah/perfis-sintomas-desregulacao-emocional-tdah-adultos/)
+- [Traços autistas em médicos que buscaram apoio em saúde mental](/re-includer-lab/neurodivergencia-adulta/tracos-autistas-medicos-apoio-saude-mental/)
+- [Redes genéticas e organoides no desenvolvimento do autismo](/re-includer-lab/autismo/redes-geneticas-organoides-desenvolvimento-autismo/)
+- [Modelo computacional de integração multissensorial no autismo](/re-includer-lab/autismo/modelo-computacional-integracao-multissensorial-autismo/)
+- [Atitudes sobre autismo, sobrecarga e crescimento pessoal percebido](/re-includer-lab/autismo/atitudes-autismo-sobrecarga-crescimento-pessoal-maes/)
